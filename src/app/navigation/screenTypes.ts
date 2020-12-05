@@ -1,0 +1,28 @@
+export enum APP_SCREEN {
+  UN_AUTHORIZE = 'UN_AUTHORIZE',
+  SPLASH = 'SPLASH',
+  LOGIN = 'LOGIN',
+  REGISTER = 'REGISTER',
+  AUTHORIZE = 'AUTHORIZE',
+  START_UP = 'START_UP',
+  CHOOSE_USER = 'CHOOSE_USER',
+  MORE = 'MORE',
+  REGISTER_DONE = 'REGISTER_DONE',
+  USER_PROFILE = 'USER_PROFILE',
+  HOME = 'HOME',
+  CINEMAS = 'CINEMAS',
+  PROMOTION = 'PROMOTION',
+}
+
+export type RootStackParamList = {
+  [APP_SCREEN.UN_AUTHORIZE]: undefined;
+  [APP_SCREEN.SPLASH]: undefined;
+  [APP_SCREEN.LOGIN]: undefined;
+  [APP_SCREEN.REGISTER]: undefined;
+  [APP_SCREEN.AUTHORIZE]: undefined;
+  [APP_SCREEN.HOME]: undefined;
+  [APP_SCREEN.START_UP]: undefined;
+  [APP_SCREEN.CHOOSE_USER]: undefined;
+  [APP_SCREEN.MORE]: undefined;
+  [APP_SCREEN.REGISTER_DONE]: undefined;
+};

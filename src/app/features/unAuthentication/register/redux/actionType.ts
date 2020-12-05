@@ -1,0 +1,2 @@
+export const REGISTER = 'REGISTER';
+export const GET_DISTRICT_CITY = 'GET_DISTRICT_CITY';
