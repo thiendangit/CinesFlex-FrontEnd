@@ -20,7 +20,7 @@ export const HomeScreen = ({navigation, route}: MoreProps) => {
     const [text, setTitle] = useState("In Theater now");
     const [dataFilmNow, setDataFilmNow] = useState<any>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     const [dataFilmComing, setDataFilmComing] = useState<any>([1, 2, 3]);
-    const [dataFilmSearch, setDataFilmSearch] = useState<any>([1, 2, 3,4]);
+    const [dataFilmSearch, setDataFilmSearch] = useState<any>([1, 2, 3, 4]);
     const [isFocusSearch, setIsFocusSearch] = useState<boolean>(false);
     const [textSearch, setTextSearch] = useState<string>('');
     const scrollRef = useRef<any>();
@@ -30,22 +30,22 @@ export const HomeScreen = ({navigation, route}: MoreProps) => {
         // console.log(event.nativeEvent.contentOffset.x)
     };
 
-    const onChangeTextSearch = (text : string, isFocus : boolean) => {
-        setTimeout(()=>{
+    const onChangeTextSearch = (text: string, isFocus: boolean) => {
+        setTimeout(() => {
             setIsFocusSearch(isFocus);
-        },350);
+        }, 350);
         setTextSearch(text);
         searchRef.current.focus()
     };
 
     const onSubmitSearch = () => {
-      alert('call api search')
+        alert('call api search')
     };
 
     const _renderHeaderView = () => {
         return (
             <Block direction={'row'}>
-                <Text style={styles().headerTitle}/>
+                <Block height={verticalScale(35)}/>
                 <SearchBarAnimation text={textSearch}
                                     placeHolder={'Search film'}
                                     ref={searchRef}
@@ -56,34 +56,34 @@ export const HomeScreen = ({navigation, route}: MoreProps) => {
                 {!isFocusSearch ?
                     <>
                         <Text style={styles().headerTitle}>
-                            {text}
+                            {text.toUpperCase()}
                         </Text>
-                    <SwitchSelector
-                    textStyle={{fontSize: FontSizeDefault.FONT_10}}
-                    textCStyle={{fontSize: FontSizeDefault.FONT_10}}
-                    initial={0}
-                    style={{width: deviceWidth / 3.9, marginTop: scale(5), marginLeft: scale(10)}}
-                    onPress={value => {
-                        if (value === Constants.NOW) {
-                            setTitle('Coming soon');
-                            scrollRef.current.scrollTo({x: deviceWidth * 2, animated: true})
-                        } else {
-                            setTitle('In Theater now');
-                            scrollRef.current.scrollTo({x: 0, animated: true})
-                        }
-                    }}
-                    textColor={ColorsCustom.blackTextPrimary}
-                    selectedColor={ColorsCustom.lightWhite}
-                    buttonColor={ColorsCustom.lime_green}
-                    borderColor={ColorsCustom.lime_green}
-                    hasPadding
-                    options={[
-                        {label: "Now", value: Constants.COMING},
-                        {label: "Coming", value: Constants.NOW}
-                    ]}
-                />
-                </>
-                : null}
+                        <SwitchSelector
+                            textStyle={{fontSize: FontSizeDefault.FONT_10}}
+                            textCStyle={{fontSize: FontSizeDefault.FONT_10}}
+                            initial={0}
+                            style={{width: deviceWidth / 3.9, marginTop: scale(5), marginLeft: scale(10)}}
+                            onPress={value => {
+                                if (value === Constants.NOW) {
+                                    setTitle('Coming soon');
+                                    scrollRef.current.scrollTo({x: deviceWidth * 2, animated: true})
+                                } else {
+                                    setTitle('In Theater now');
+                                    scrollRef.current.scrollTo({x: 0, animated: true})
+                                }
+                            }}
+                            textColor={ColorsCustom.blackTextPrimary}
+                            selectedColor={ColorsCustom.lightWhite}
+                            buttonColor={ColorsCustom.lime_green}
+                            borderColor={ColorsCustom.lime_green}
+                            hasPadding
+                            options={[
+                                {label: "Now", value: Constants.COMING},
+                                {label: "Coming", value: Constants.NOW}
+                            ]}
+                        />
+                    </>
+                    : null}
             </Block>
         )
     };

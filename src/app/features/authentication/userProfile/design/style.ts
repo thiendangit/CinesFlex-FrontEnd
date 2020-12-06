@@ -23,11 +23,12 @@ export const styles = (theme?: AppTheme) =>
             backgroundColor: 'white'
         },
         headerTitle: {
-            marginLeft: scale(10),
+            marginLeft: scale(15),
             marginTop : scale(10),
             height : verticalScale(26),
-            fontSize: FontSizeDefault.FONT_26,
+            fontSize: FontSizeDefault.FONT_22,
             fontWeight: 'bold',
+            width : deviceWidth/2,
             color: ColorsCustom.blue
         },
         header: {

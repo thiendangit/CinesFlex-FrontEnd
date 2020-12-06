@@ -29,8 +29,6 @@ export const AppContainer = () => {
             <>
                 <>
                     <RootNavigation token={token} theme={MyAppTheme[theme] && ColorsCustom}/>
-                    <ProgressDialog ref={dialogHolder}/>
-                    {appMode !== 'prod' && <AppMode {...{appMode}} />}
                 </>
                 <AppDispatch/>
             </>
