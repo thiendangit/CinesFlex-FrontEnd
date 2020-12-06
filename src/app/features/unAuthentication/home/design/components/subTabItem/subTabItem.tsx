@@ -23,15 +23,19 @@ export const renderListFilm = ({item, index, onPressItem}: subTabItemProps) => {
         <Button onPress={() => onPressItem(item)} activeOpacity={1} style={style}>
             <Img style={{
                 height: deviceHeight / 1.6,
-                width:deviceWidth / 2.2,
+                width: deviceWidth / 2.2,
                 borderRadius: scale(20),
             }}
                  containerStyle={{
                      height: deviceHeight / 1.6,
                      width: deviceWidth / 2.2
                  }}
-                 resizeMode={'stretch'}
-                 source={{uri : 'https://upload.wikimedia.org/wikipedia/vi/d/de/Sonic_The_Hedgehog_2020_%28poster%29.jpg'}}
+                 resizeMode={'cover'}
+                 source={{
+                     uri: indexNumber % 2 == 0 ?
+                         'https://phimgi.tv/wp-content/uploads/sat-thu-john-wick-phan-3-chuan-bi-chien-tranh-john-wick-chapter-3-parabellum-9544-2.jpg' :
+                         'https://upload.wikimedia.org/wikipedia/vi/d/de/Sonic_The_Hedgehog_2020_%28poster%29.jpg'
+                 }}
             />
         </Button>
     )
@@ -42,8 +46,8 @@ const styles = (indexNumber?: number) => StyleSheet.create({
         height: deviceHeight / 1.6,
         width: deviceWidth / 2.2,
         borderRadius: scale(20),
-        marginHorizontal: deviceWidth*0.023,
-        marginTop: indexNumber! > 1 ? deviceWidth*0.03 : 0,
+        marginHorizontal: deviceWidth * 0.023,
+        marginTop: indexNumber! > 1 ? deviceWidth * 0.03 : 0,
         top: (indexNumber! % 2 !== 0) ? verticalScale(40) : 0,
         alignItems: 'center',
         justifyContent: 'center',
