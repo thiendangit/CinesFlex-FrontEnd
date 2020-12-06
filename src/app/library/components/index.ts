@@ -31,3 +31,4 @@ export * from './Form/Form';
 export * from './Masonry/Masonry';
 export * from './MyTabBar';
 export * from './IconBack/Icon';
+export * from './SearchRight/SearchRight';

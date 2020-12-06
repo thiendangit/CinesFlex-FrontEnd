@@ -114,7 +114,7 @@ const index = ({state, descriptors, navigation}: tabBarProps) => {
     return (
             <View style={[styles( _ , insetsBottom).container]}>
                 {renderRouter({routes: [state.routes[0], state.routes[1], state.routes[2], state.routes[3]]})}
-                <View style={{height : insetsBottom , width : deviceWidth}}/>
+                {/*<View style={{height : insetsBottom , width : deviceWidth}}/>*/}
             </View>
         );
     }

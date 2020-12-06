@@ -5,9 +5,9 @@ import {
     ScrollView,
     StatusBar,
     ViewStyle,
+    SafeAreaView
 } from 'react-native';
 import {ScreenProps} from './Screen.props';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {Block} from '../Block/Block';
 import equals from 'react-fast-compare';
 import {enhance} from '@common';

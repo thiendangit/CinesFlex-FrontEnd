@@ -8,5 +8,7 @@ export const Constants = {
         BUYER: 'buyer',
         SUPPLIER: 'supplier',
         BUYER_ADMIN : 'buyer-admin'
-    }
+    },
+    COMING : 'COMING',
+    NOW : 'NOW'
 };

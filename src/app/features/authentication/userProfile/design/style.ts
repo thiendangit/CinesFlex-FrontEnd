@@ -11,11 +11,10 @@ export const styles = (theme?: AppTheme) =>
         listWrapStyle: {
             paddingHorizontal: scale(SpacingDefault.medium),
             paddingVertical: scale(10),
-            justifyContent: "space-between"
+            justifyContent: "space-between",
         },
         listContainer: {
             flex: 1,
-            backgroundColor: 'white',
             alignSelf: 'center',
             width : deviceWidth
         },
@@ -24,9 +23,11 @@ export const styles = (theme?: AppTheme) =>
             backgroundColor: 'white'
         },
         headerTitle: {
-            fontSize: FontSizeDefault.FONT_22,
-            fontWeight: "500",
-            color: ColorsCustom.lightWhite
+            marginLeft: scale(10),
+            marginTop : scale(10),
+            fontSize: FontSizeDefault.FONT_26,
+            fontWeight: 'bold',
+            color: ColorsCustom.blue
         },
         header: {
             justifyContent: 'center'

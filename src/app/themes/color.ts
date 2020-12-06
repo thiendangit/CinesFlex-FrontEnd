@@ -90,7 +90,7 @@ export const ColorsCustom : ColorsCustomType = {
     black: "#333",
     red: "#DF3737",
     green: "#2AB5B3",
-    blue: "#38B1E7",
+    blue: "#1112e7",
     yellow: "#FDF12C",
   },
   lightGrey: "#b4b4b4",
@@ -100,7 +100,7 @@ export const ColorsCustom : ColorsCustomType = {
   darkRed: "#8B0000",
   red: "#ff0000",
   green: "#2AB5B3",
-  blue: "#0091ea",
+  blue: "#1112e7",
   lightBlue: "#9ddaff",
   blue1: "rgba(30, 165, 233, 1)",
   blue2: "rgba(3, 207, 254, 1)",
@@ -109,7 +109,7 @@ export const ColorsCustom : ColorsCustomType = {
   light_red : 'rgb(246,108,105)',
   lime_green : "#3ebf62",
   lightWhite : 'white',
-  grey : 'grey'
+  grey : 'grey',
 };
 
 

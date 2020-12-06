@@ -72,7 +72,9 @@ const SwitchComponent = ({
   }, [value])
   return (
     <TouchableWithoutFeedback onPress={_onToggle}>
-      <Animated.View style={[styles.track, { backgroundColor }]}>
+      <Animated.View style={[styles.track, {
+        // backgroundColor
+      }]}>
         <Animated.View style={[styles.thumb, { transform: [{ translateX }] }]} />
       </Animated.View>
     </TouchableWithoutFeedback>

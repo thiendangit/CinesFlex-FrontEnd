@@ -136,11 +136,6 @@ const NavigationTab: React.FC<IProps> = (props: IProps) => {
 
         return (
             <View style={{flex: 1, backgroundColor: 'white'}}>
-                {/*<View style={[{height: statusBarHeight, backgroundColor: color}]}>*/}
-                {/*    <StatusBar translucent*/}
-                {/*               barStyle="light-content"/>*/}
-                {/*</View>*/}
-                {/*<SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>*/}
                     <Tab.Navigator
                         tabBarPosition='bottom'
                         initialRouteName="Home"
@@ -167,7 +162,6 @@ const NavigationTab: React.FC<IProps> = (props: IProps) => {
                             name="UserProfile" component={AuthNavigator}/>
                     </Tab.Navigator>
                     {showSpinner ? <SpinnerCustom fullStretch size={scale(40)} color={color}/> : null}
-                {/*</SafeAreaView>*/}
             </View>
         );
     }
