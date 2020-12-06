@@ -84,22 +84,23 @@ const index = ({state, descriptors, navigation}: tabBarProps) => {
                                         onLongPress={onLongPress}
                                     >
                                         <View style={styles().imageContainer}>
-                                            {isFocused ?
-                                                <View style={[
-                                                    styles().indicator,
-                                                    {backgroundColor: color}
-                                                ]}>
-                                                </View>
-                                                : null}
+                                            {/*{isFocused ?*/}
+                                            {/*    <View style={[*/}
+                                            {/*        styles().indicator,*/}
+                                            {/*        {backgroundColor: color}*/}
+                                            {/*    ]}>*/}
+                                            {/*    </View>*/}
+                                            {/*    : null}*/}
                                             <Img
                                                 source={handleImageRoute(route.name)}
                                                 resizeMode={'contain'}
+                                                tintColor={isFocused ? ColorsCustom.lime_green : ColorsCustom.blackTextPrimary}
                                                 style={[styles().icon]}/>
-                                            <Text
-                                                numberOfLines={2}
-                                                style={[isFocused ? {color: color} : {color: ColorsCustom.grey}, {top: verticalScale(2)}]}>
-                                                {label}
-                                            </Text>
+                                            {/*<Text*/}
+                                            {/*    numberOfLines={2}*/}
+                                            {/*    style={[isFocused ? {color: color} : {color: ColorsCustom.grey}, {top: verticalScale(2)}]}>*/}
+                                            {/*    {label}*/}
+                                            {/*</Text>*/}
                                         </View>
                                     </TouchableOpacity>
                                 );
@@ -161,8 +162,8 @@ export const styles = (theme?: AppTheme, insetsBottom? : number) =>
         width: scale(12),
     },
     icon: {
-        height: verticalScale(25),
-        width: scale(25),
+        height: verticalScale(30),
+        width: scale(30),
     }
 });
 
