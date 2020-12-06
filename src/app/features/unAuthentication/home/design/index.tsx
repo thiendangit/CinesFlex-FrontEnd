@@ -12,6 +12,7 @@ import {Constants, scale, verticalScale} from "@common";
 import {deviceWidth} from "@utils";
 import {FontSizeDefault} from "@theme/fontSize";
 import {_renderListFilm} from './components';
+import SearchBarAnimation from "@library/components/SeachBarAnimation";
 
 type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
 
@@ -19,19 +20,45 @@ export const HomeScreen = ({navigation, route}: MoreProps) => {
     const [text, setTitle] = useState("In Theater now");
     const [dataFilmNow, setDataFilmNow] = useState<any>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     const [dataFilmComing, setDataFilmComing] = useState<any>([1, 2, 3]);
+    const [dataFilmSearch, setDataFilmSearch] = useState<any>([1, 2, 3,4]);
+    const [isFocusSearch, setIsFocusSearch] = useState<boolean>(false);
+    const [textSearch, setTextSearch] = useState<string>('');
     const scrollRef = useRef<any>();
+    const searchRef = useRef<any>();
 
     const onScroll = (event: any) => {
         // console.log(event.nativeEvent.contentOffset.x)
     };
 
+    const onChangeTextSearch = (text : string, isFocus : boolean) => {
+        setTimeout(()=>{
+            setIsFocusSearch(isFocus);
+        },350);
+        setTextSearch(text);
+        searchRef.current.focus()
+    };
+
+    const onSubmitSearch = () => {
+      alert('call api search')
+    };
+
     const _renderHeaderView = () => {
         return (
             <Block direction={'row'}>
-                <Text style={styles().headerTitle}>
-                    {text}
-                </Text>
-                <SwitchSelector
+                <Text style={styles().headerTitle}/>
+                <SearchBarAnimation text={textSearch}
+                                    placeHolder={'Search film'}
+                                    ref={searchRef}
+                                    isFocus={false}
+                                    onChangeTextSearch={onChangeTextSearch}
+                                    onSubmit={onSubmitSearch}
+                />
+                {!isFocusSearch ?
+                    <>
+                        <Text style={styles().headerTitle}>
+                            {text}
+                        </Text>
+                    <SwitchSelector
                     textStyle={{fontSize: FontSizeDefault.FONT_10}}
                     textCStyle={{fontSize: FontSizeDefault.FONT_10}}
                     initial={0}
@@ -55,11 +82,8 @@ export const HomeScreen = ({navigation, route}: MoreProps) => {
                         {label: "Coming", value: Constants.NOW}
                     ]}
                 />
-                <SearchRight style={{tintColor: 'white'}} containerStyle={{
-                    position: 'absolute',
-                    right: 0,
-                    top: scale(0)
-                }}/>
+                </>
+                : null}
             </Block>
         )
     };
@@ -126,11 +150,35 @@ export const HomeScreen = ({navigation, route}: MoreProps) => {
         )
     }
 
+    const contentViewForSearch = () => {
+        return (
+            <Block
+                block
+                marginTop={scale(10)}
+            >
+                <Block block>
+                    <ListView style={styles().listContainer}
+                              data={dataFilmSearch}
+                              showsVerticalScrollIndicator={false}
+                              renderItem={_renderItem}
+                              keyExtractor={(item, index) => index.toString()}
+                              contentContainerStyle={{marginTop: verticalScale(10)}}
+                              ListFooterComponent={_footerView}
+                              ListFooterComponentStyle={{
+                                  marginTop: verticalScale(40)
+                              }}
+                              numColumns={2}
+                    />
+                </Block>
+            </Block>
+        )
+    };
+
     return (
         <Screen style={{flex: 1}} statusColor={ColorsCustom.lightWhite}>
             <Block style={styles().container} block>
                 {_renderHeaderView()}
-                {contentView()}
+                {!isFocusSearch ? contentView() : contentViewForSearch()}
             </Block>
         </Screen>
     );

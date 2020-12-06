@@ -25,6 +25,7 @@ export const styles = (theme?: AppTheme) =>
         headerTitle: {
             marginLeft: scale(10),
             marginTop : scale(10),
+            height : verticalScale(26),
             fontSize: FontSizeDefault.FONT_26,
             fontWeight: 'bold',
             color: ColorsCustom.blue
