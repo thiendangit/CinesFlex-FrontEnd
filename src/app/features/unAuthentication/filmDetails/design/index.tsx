@@ -22,11 +22,15 @@ interface leftTabOption {
     title: string
 }
 
+let LEFT_BAR_HEIGHT = deviceHeight / 2;
+let LEFT_BAR_WIDTH = deviceWidth / 6;
+
 export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
 
     const [dataSourceCords, setDataSourceCords] = useState<any>([]);
     const [barAnim] = useState(new Animated.Value(0));
     const [currentTab, setCurrentTab] = useState(0);
+    const [isLike, setIsLike] = useState(false);
 
     const scrollRef = useRef();
 
@@ -54,16 +58,14 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
             >
                 <Block style={{}}
                        marginTop={deviceHeight / 3}
-                       width={deviceWidth / 5}
-                       height={deviceHeight / 2}
-                       justifyContent={'center'}>
+                       width={LEFT_BAR_WIDTH}
+                       height={LEFT_BAR_HEIGHT}>
                     <Animated.View style={{
-                        top: scale((60 + 70 / 1.18)),
+                        top: scale(66),
                         position: 'absolute',
-                        right: scale(1),
                         backgroundColor: ColorsCustom.lime_green,
                         height: scale(22),
-                        width: scale(70),
+                        width: scale(68),
                         borderRadius: scale(22 / 2),
                         transform: [{
                             translateY: barAnim.interpolate({
@@ -130,9 +132,12 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
                              }}
                         />
                         <Icon
+                            onPress={() => {
+                                setIsLike(!isLike)
+                            }}
                             icon={'heart'}
                             style={{
-                                tintColor: ColorsCustom.lightWhite,
+                                tintColor: isLike ? ColorsCustom.red : ColorsCustom.lightWhite,
                                 position: 'absolute',
                                 bottom: scale(20),
                                 right: scale(30),
@@ -144,9 +149,9 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
                                 position: 'absolute',
                                 top: scale(30),
                                 right: scale(30),
-                                color : ColorsCustom.lightWhite,
-                                fontSize : FontSizeDefault.FONT_24,
-                                fontWeight : 'bold'
+                                color: ColorsCustom.lightWhite,
+                                fontSize: FontSizeDefault.FONT_24,
+                                fontWeight: 'bold'
                             }}>
                             9.0
                         </Text>
