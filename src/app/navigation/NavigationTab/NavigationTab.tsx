@@ -17,7 +17,14 @@ import {AppState} from "@app_redux/type";
 import {actionsLogin} from "@features/unAuthentication/login/redux/reducer";
 import {ApiConstants} from "@networking";
 import {UserProfileScreen} from "@features/authentication";
-import {CinemasScreen, HomeScreen, LoginScreen, PromotionScreen, RegisterScreen} from "@features/unAuthentication";
+import {
+    CinemasScreen,
+    FilmDetailsScreen,
+    HomeScreen,
+    LoginScreen,
+    PromotionScreen,
+    RegisterScreen
+} from "@features/unAuthentication";
 import {APP_SCREEN} from "@navigation/screenTypes";
 
 const {StatusBarManager} = NativeModules;
@@ -84,6 +91,7 @@ const HomeNavigator = ({navigation, route}: any) => {
     return (
         <HomeStack.Navigator>
             <Stack.Screen name={APP_SCREEN.HOME} component={HomeScreen} options={homeOptions}/>
+            <Stack.Screen name={APP_SCREEN.FILM_DETAILS} component={FilmDetailsScreen} options={homeOptions}/>
         </HomeStack.Navigator>
     )
 };

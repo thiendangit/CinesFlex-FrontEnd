@@ -13,6 +13,7 @@ import {deviceWidth} from "@utils";
 import {FontSizeDefault} from "@theme/fontSize";
 import {_renderListFilm} from './components';
 import SearchBarAnimation from "@library/components/SeachBarAnimation";
+import {NavigationService} from "@navigation/navigationService";
 
 type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
 
@@ -89,7 +90,7 @@ export const HomeScreen = ({navigation, route}: MoreProps) => {
     };
 
     function onPressItem(item: any) {
-        // NavigationService.navigate(APP_SCREEN.HOME);
+        NavigationService.navigate(APP_SCREEN.FILM_DETAILS);
         // alert(item)
     }
 

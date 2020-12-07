@@ -12,6 +12,7 @@ export enum APP_SCREEN {
   HOME = 'HOME',
   CINEMAS = 'CINEMAS',
   PROMOTION = 'PROMOTION',
+  FILM_DETAILS = 'FILM_DETAILS'
 }
 
 export type RootStackParamList = {
@@ -25,4 +26,5 @@ export type RootStackParamList = {
   [APP_SCREEN.CHOOSE_USER]: undefined;
   [APP_SCREEN.MORE]: undefined;
   [APP_SCREEN.REGISTER_DONE]: undefined;
+  [APP_SCREEN.FILM_DETAILS]: undefined;
 };

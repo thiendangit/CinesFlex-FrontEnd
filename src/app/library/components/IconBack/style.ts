@@ -9,8 +9,8 @@ export const styles = (statusBarHeight?: number) => StyleSheet.create({
         left: verticalScale(15),
     },
     icon: {
-        height: scale(15),
-        width: scale(15),
+        width : scale(18),
+        height : scale(18),
         tintColor: ColorsCustom.lightWhite
     }
 });

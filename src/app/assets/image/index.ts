@@ -18,6 +18,8 @@ export const images = {
     promotion: require("./tabBar_icons/promotion.png"),
     user: require("./tabBar_icons/user.png"),
     checkDone: require("./icons/checkDone.png"),
+    cart: require("./icons/icon-cart.png"),
+    age_limit: require("./icons/age_limit.png"),
 };
 
 export type ImageTypes = keyof typeof images;

@@ -9,6 +9,7 @@ import {SpacingDefault} from "@theme/spacing";
 import {deviceHeight, deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
 import {SvgUri} from "react-native-svg";
+import {FontSizeDefault} from "@theme/fontSize";
 
 interface subTabItemProps {
     item: tabItem,
@@ -37,6 +38,9 @@ export const renderListFilm = ({item, index, onPressItem}: subTabItemProps) => {
                          'https://upload.wikimedia.org/wikipedia/vi/d/de/Sonic_The_Hedgehog_2020_%28poster%29.jpg'
                  }}
             />
+            <Text style={styles().textRate}>
+                {9.7}
+            </Text>
         </Button>
     )
 };
@@ -74,6 +78,14 @@ const styles = (indexNumber?: number) => StyleSheet.create({
     menuName: {
         marginTop: verticalScale(5),
         color: ColorsCustom.grey
+    },
+    textRate : {
+        color : ColorsCustom.lightWhite,
+        fontSize : FontSizeDefault.FONT_18,
+        position : 'absolute',
+        top : scale(10),
+        right : scale(10),
+        fontWeight : 'bold'
     }
 });
 
