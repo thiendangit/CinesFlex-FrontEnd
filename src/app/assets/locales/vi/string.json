@@ -53,7 +53,8 @@
     "confirmPassword" : "ConfirmPassword",
     "next" : "Next",
     "congratulation" : "Congratulation",
-    "success" : "Success"
+    "success" : "Success",
+    "ContinueBuy" : "Continue buy"
   },
   "dialog": {
     "error": "Lỗi",

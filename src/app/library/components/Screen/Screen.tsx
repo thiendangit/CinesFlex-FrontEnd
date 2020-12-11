@@ -76,11 +76,10 @@ function ScreenWithoutScrolling(props: ScreenProps) {
                 <SafeAreaView style={[preset.outer0, {backgroundColor: statusColor}]}/>
             )}
 
-            {/*<Wrapper*/}
-            {/*    edges={props.forceInset ?? undefined}*/}
-            {/*    style={[preset.inner, style, backgroundStyle]}>*/}
+            <Block
+                style={[preset.inner, style, backgroundStyle]}>
                 {props.children}
-            {/*</Wrapper>*/}
+            </Block>
             {customInsetBottom === true && (
                 <SafeAreaView
                     style={[preset.outer0, {backgroundColor: bottomIPXColor}]}
@@ -101,6 +100,7 @@ function ScreenWithScrolling(props: ScreenProps) {
         customInsetBottom = false,
         bottomIPXColor = '#ffffff',
         style = {},
+        bounces
     } = props;
     const backgroundStyle = props.backgroundColor
         ? {backgroundColor: props.backgroundColor}
@@ -126,6 +126,7 @@ function ScreenWithScrolling(props: ScreenProps) {
             )}
             {/*<Wrapper edges={props.forceInset ?? undefined} style={[preset.outer]}>*/}
             <ScrollView
+                bounces={bounces}
                 showsVerticalScrollIndicator={showVertical}
                 showsHorizontalScrollIndicator={showHorizontal}
                 keyboardShouldPersistTaps="handled"

@@ -32,3 +32,5 @@ export * from './Masonry/Masonry';
 export * from './MyTabBar';
 export * from './IconBack/Icon';
 export * from './SearchRight/SearchRight';
+export * from './ModalBox/ModalBox';
+export * from './ButtonPlusMinus/ButtonPlusMinus';

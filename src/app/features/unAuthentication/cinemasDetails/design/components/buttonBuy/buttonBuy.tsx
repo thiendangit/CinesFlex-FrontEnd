@@ -1,6 +1,6 @@
 import React, {memo} from "react";
 import {Block, Button, Img, Text} from "@components";
-import {ButtonProps, ImageSourcePropType, StyleSheet, TouchableOpacity} from "react-native";
+import {ImageSourcePropType, StyleProp, StyleSheet} from "react-native";
 import {enhance, handleImage, scale, verticalScale} from "@common";
 import {ColorsCustom} from "@theme/color";
 import {SpacingDefault} from "@theme/spacing";
@@ -13,8 +13,8 @@ import {stylesView} from "@library/components/Button/Button.presets";
 interface subTabItemProps {
     text: string,
     image: ImageSourcePropType
-    onPressBuy: (item: any) => void,
-    style : ButtonProps
+    onPressBuy?: (item: any) => void,
+    style? : StyleProp<any>
 }
 
 
@@ -30,6 +30,7 @@ export const ButtonBuy = ({text, image, onPressBuy, style}: subTabItemProps) => 
             onPress={onPressBuy}
             style={buttonStyle}>
             <Img style={{
+                marginHorizontal: scale(5),
                 height: scale(20),
                 width: scale(20),
             }}
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     buttonStyleDefault: {
         flexDirection: 'row',
         height: scale(deviceWidth / 6),
-        width: deviceWidth / 3,
+        minWidth: deviceWidth / 3,
         backgroundColor: ColorsCustom.blue,
         borderRadius: 0,
         borderTopLeftRadius: deviceWidth / 2 / 6

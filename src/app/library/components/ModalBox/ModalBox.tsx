@@ -1,131 +1,76 @@
 import React, {
-  useState,
-  forwardRef,
-  useImperativeHandle,
-  useCallback,
-  memo,
-  useMemo,
+    useState,
+    forwardRef,
+    useImperativeHandle,
+    useCallback,
+    memo,
+    useMemo,
 } from 'react';
-import {ActionSheetProps, OptionData} from './ActionSheet.props';
-import {Block} from '../Block/Block';
-import {Button} from '../Button/Button';
-import {Text} from '../Text/Text';
-import {styles} from './ActionSheet.presets';
+import {ModalBoxProps} from './ModalBox.props';
+import {Block, Icon, IconBack} from '@components';
+import {styles} from './ModalBox.presets';
 import {useTranslation} from 'react-i18next';
-import {enhance} from '@common';
+import {enhance, scale} from '@common';
 import equals from 'react-fast-compare';
 import Modal from 'react-native-modal';
-import {Divider} from '../Divider/Divider';
+import {icons} from "@assets/icon";
+import {ColorsCustom} from "@theme/color";
 
-const ActionSheetComponent = forwardRef((props: ActionSheetProps, ref) => {
-  const [t] = useTranslation();
-  const {
-    onPressCancel,
-    textCancelStyle,
-    rootStyle,
-    wrapCancelStyle,
-    textOptionStyle,
-    wrapOptionStyle,
-    title,
-    onPressOption,
-    onBackDropPress,
-    textCancel = t('dialog:cancel'),
-    backDropColor = 'rgba(0,0,0,.5)',
-    closeOnBackDrop = true,
-    option = [],
-  } = props;
-  const [actionVisible, setActionVisible] = useState(false);
-  useImperativeHandle(
-    ref,
-    () => ({
-      show: () => {
-        setActionVisible(true);
-      },
-      hide: () => {
-        setActionVisible(false);
-      },
-    }),
-    [],
-  );
-  const _onPress = useCallback(
-    (item: OptionData, index: number) => {
-      return (e: any) => {
-        setActionVisible(false);
-        onPressOption && onPressOption(item, index);
-      };
-    },
-    [onPressOption],
-  );
-  const _onCancel = useCallback(() => {
-    onPressCancel && onPressCancel();
-    setActionVisible(false);
-  }, [onPressCancel]);
+const ModalBoxComponent = forwardRef((props: ModalBoxProps, ref) => {
+    const [t] = useTranslation();
+    const {
+        rootStyle,
+        onBackDropPress,
+        backDropColor = 'rgba(0,0,0,.5)',
+        closeOnBackDrop = true,
+        children
+    } = props;
+    const [modalVisible, setModalVisible] = useState(false);
+    const _hideModal = useCallback(() => {
+        setModalVisible(false);
+    }, []);
+    useImperativeHandle(
+        ref,
+        () => ({
+            show: () => {
+                setModalVisible(true);
+            },
+            hide: () => {
+                _hideModal();
+            },
+        }),
+        [],
+    );
 
-  const _onBackDropPress = useCallback(() => {
-    typeof onBackDropPress === 'function' && onBackDropPress();
-    closeOnBackDrop === true && setActionVisible(false);
-  }, [onBackDropPress]);
+    const _onBackDropPress = useCallback(() => {
+        typeof onBackDropPress === 'function' && onBackDropPress();
+        closeOnBackDrop && setModalVisible(false);
+    }, [onBackDropPress]);
 
-  const textOption = useMemo(() => enhance([textOptionStyle]), [
-    textOptionStyle,
-  ]);
-  const textCancelS = useMemo(
-    () => enhance([styles.textCancel, textCancelStyle]),
-    [textCancelStyle],
-  );
-  const wrapOption = useMemo(
-    () => enhance([styles.wrapOption, wrapOptionStyle]),
-    [wrapOptionStyle],
-  );
-  const wrapCancel = useMemo(
-    () => enhance([styles.wrapCancel, wrapCancelStyle]),
-    [wrapCancelStyle],
-  );
-  const root = useMemo(() => enhance([styles.wrap, rootStyle]), [rootStyle]);
-  return (
-    <Modal
-      style={[styles.modal]}
-      useNativeDriver={true}
-      backdropOpacity={1}
-      onBackdropPress={_onBackDropPress}
-      onBackButtonPress={_onCancel}
-      isVisible={actionVisible}
-      backdropColor={backDropColor}>
-      <Block style={[root]}>
-        <Block style={wrapOption}>
-          {title &&
-            (React.isValidElement(title) ? (
-              title
-            ) : (
-              <>
-                <Block style={[styles.wrapTitle]}>
-                  <Text style={[styles.title]} text={title + ''} />
-                </Block>
-                <Divider />
-              </>
-            ))}
-          {option.map((item: OptionData, index: number) => {
-            return (
-              <Button
-                style={[styles.option]}
-                onPress={_onPress(item, index)}
-                key={item.text}>
-                <Text style={textOption} text={item.text} />
-              </Button>
-            );
-          })}
-        </Block>
-        <Block style={wrapCancel}>
-          <Button onPress={_onCancel} style={[styles.buttonCancel]}>
-            <Text style={textCancelS} text={textCancel} />
-          </Button>
-        </Block>
-      </Block>
-    </Modal>
-  );
+    const root = useMemo(() => enhance([styles.wrap, rootStyle]), [rootStyle]);
+    return (
+        <Modal
+            style={[styles.modal]}
+            useNativeDriver={true}
+            backdropOpacity={1}
+            onBackdropPress={_onBackDropPress}
+            isVisible={modalVisible}
+            backdropColor={backDropColor}>
+            <Block style={[root]}>
+                {children}
+                <Icon containerStyle={styles.iconBackContainer}
+                      style={styles.iconBack}
+                      icon={'close'}/>
+            </Block>
+        </Modal>
+    );
 });
-export const ActionSheet = memo(ActionSheetComponent, equals);
-export interface ActionSheetRef {
-  show(): void;
-  hide(): void;
+
+
+export const ModalBox = memo(ModalBoxComponent, equals);
+
+export interface ModalBoxRef {
+    show(): void;
+
+    hide(): void;
 }

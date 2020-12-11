@@ -63,7 +63,7 @@ const ActionSheetComponent = forwardRef((props: ActionSheetProps, ref) => {
 
   const _onBackDropPress = useCallback(() => {
     typeof onBackDropPress === 'function' && onBackDropPress();
-    closeOnBackDrop === true && setActionVisible(false);
+    closeOnBackDrop && setActionVisible(false);
   }, [onBackDropPress]);
 
   const textOption = useMemo(() => enhance([textOptionStyle]), [

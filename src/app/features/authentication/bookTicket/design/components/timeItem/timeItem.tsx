@@ -1,5 +1,5 @@
 import React, {memo} from "react";
-import {Block, Button,Text} from "@components";
+import {Block, Button, Text} from "@components";
 import {StyleSheet} from "react-native";
 import {scale, verticalScale} from "@common";
 import {images} from "@assets/image";
@@ -8,34 +8,38 @@ import {ColorsCustom} from "@theme/color";
 import {SpacingDefault} from "@theme/spacing";
 import {deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
+import {FontSizeDefault} from "@theme/fontSize";
 
 interface subTabItemProps {
-    item : tabItem,
-    index : string,
-    onPressItem : (item : tabItem) => void
+    item: any,
+    index: string,
+    onPressItem: (item: tabItem) => void
 }
 
-export const TimeItem = ({item, index, onPressItem} : subTabItemProps) => {
+export const TimeItem = ({item, index, onPressItem}: subTabItemProps) => {
     return (
-        <Block>
-            <Button style={styles.container}>
-
-            </Button>
+        <Block style={styles.container}>
+            <Text style={styles.dayText}>
+                17:30
+            </Text>
+            <Text style={styles.dayOfWeed}>
+                $5.42 • 2D
+            </Text>
         </Block>
     )
 };
 
 const styles = StyleSheet.create({
     container: {
-        height: deviceWidth / 3.7,
-        width: deviceWidth / 5,
-        borderRadius: scale(10),
+        height: deviceWidth / 6,
+        width: deviceWidth / 3.5,
+        borderRadius: scale(20),
         marginVertical: scale(5),
-        marginHorizontal : scale(10),
+        marginHorizontal: scale(10),
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: ColorsCustom.product.ViewBorder,
         justifyContent: 'space-between',
-        paddingVertical: scale(SpacingDefault.mediumPlush),
+        paddingVertical: scale(SpacingDefault.small),
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -46,14 +50,12 @@ const styles = StyleSheet.create({
 
         elevation: 5,
     },
-    imageContainer: {
-        bottom : verticalScale(2),
-        height: scale(28),
-        width: scale(28),
+    dayText: {
+        fontSize: FontSizeDefault.FONT_22,
+        fontWeight: 'bold'
     },
-    menuName: {
-        marginTop: verticalScale(5),
-        color: ColorsCustom.grey
+    dayOfWeed: {
+        color: ColorsCustom.grey,
     }
 });
 

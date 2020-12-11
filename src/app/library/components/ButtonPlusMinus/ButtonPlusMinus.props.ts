@@ -4,9 +4,9 @@ import {
   TouchableOpacityProps,
   StyleProp,
 } from 'react-native';
-import {ButtonPresetNames} from './Button.presets';
+import {ButtonPresetNames} from './ButtonPlusMinus.presets';
 
-export interface ButtonProps extends TouchableOpacityProps {
+export interface ButtonPlusMinusProps extends TouchableOpacityProps {
   /**
    * Text which is looked up via i18n.
    * @default undefined
@@ -42,4 +42,8 @@ export interface ButtonProps extends TouchableOpacityProps {
    * @default undefined
    */
   children?: React.ReactNode;
+
+  onPressPlus? : () => void
+
+  onPressMinus? : () => void
 }

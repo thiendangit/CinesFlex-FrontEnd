@@ -1,15 +1,13 @@
-import React from "react";
-import {images, ImageTypes} from '@assets/image'
+import React, {memo} from "react";
+import {images} from '@assets/image'
 import {styles} from './style'
-import {Block, Button, Form, Img, Screen, Text, Wallpaper} from "@components";
+import {Block, Button, Img, Text} from "@components";
 import {useTranslation} from 'react-i18next';
-import {StyleProp} from "react-native";
 import {ColorsCustom} from "@theme/color";
-import {NavigationService, navigationRef} from "@navigation/navigationService";
-import {APP_SCREEN} from "@navigation/screenTypes";
-import {Constants, dispatch, verticalScale} from "@common";
-import {onSetAppProfile} from "@app_redux/reducer";
+import {NavigationService} from "@navigation/navigationService";
+import {Constants, verticalScale} from "@common";
 import {useSelector} from "react-redux";
+import isEqual from "react-fast-compare";
 
 export interface Props {
     route: {
@@ -19,22 +17,20 @@ export interface Props {
     },
 }
 
-export const registerDoneScreen: React.FC<Props> = (props): React.ReactElement => {
+const BookTicketResultScreen: React.FC<Props> = (props): React.ReactElement => {
     const [t] = useTranslation();
-    const userType = useSelector(
-        (state: any) => state.app?.profile.user_type
-    );
+
     let text = props.route.params?.text ?? '';
 
     const onPressButtonHome = () => {
-        NavigationService.pop(2)
+        NavigationService.popToTop()
     };
 
     return (
         <Block style={styles.container}>
             <Img style={[styles.imageContainer]}
                  source={images.checkDone}
-                 tintColor={userType === Constants.ROLE.SUPPLIER ? ColorsCustom.lime_green : ColorsCustom.light_red}
+                 tintColor={ColorsCustom.blue}
                  resizeMode={"contain"}/>
             <Text style={styles.nameSupplierBuyer}>
                 {t('common:success')}
@@ -47,11 +43,13 @@ export const registerDoneScreen: React.FC<Props> = (props): React.ReactElement =
             </Text>
             <Button
                 onPress={onPressButtonHome}
-                style={[styles.buttonLogin, {backgroundColor: userType === Constants.ROLE.SUPPLIER ? ColorsCustom.lime_green : ColorsCustom.light_red}]}>
+                style={[styles.buttonLogin, {backgroundColor: ColorsCustom.blue}]}>
                 <Text style={styles.textButton}>
-                    {t('common:Home')}
+                    {t('common:ContinueBuy')}
                 </Text>
             </Button>
         </Block>
     )
 };
+
+export default memo(BookTicketResultScreen, isEqual);

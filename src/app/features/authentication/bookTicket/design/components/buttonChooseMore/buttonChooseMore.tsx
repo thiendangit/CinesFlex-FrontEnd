@@ -1,41 +1,45 @@
 import React, {memo} from "react";
-import {Block, Button, Text} from "@components";
-import {StyleSheet} from "react-native";
+import {Block, Button, Icon, Img, Text} from "@components";
+import {ImageProps, StyleSheet} from "react-native";
 import {scale, verticalScale} from "@common";
-import {images} from "@assets/image";
 import {tabItem} from "@config/type";
 import {ColorsCustom} from "@theme/color";
 import {SpacingDefault} from "@theme/spacing";
 import {deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
 import {FontSizeDefault} from "@theme/fontSize";
+import {icons} from "@assets/icon";
+import {images} from "@assets/image";
 
 interface ticketItemProps {
-    numberTicket: number,
-    onPressItem: (item: tabItem) => void
+    image: ImageProps,
+    onPressItem: () => void,
+    numberItem: number
 }
 
-export const TicketItem = ({numberTicket, onPressItem}: ticketItemProps) => {
+export const ButtonChooseMore = ({image, onPressItem, numberItem}: ticketItemProps) => {
     return (
-        <Block style={styles.container}>
-            <Text style={styles.dayText}>
-                {numberTicket} Ticket
-            </Text>
-        </Block>
+        <Button style={styles.container} onPress={onPressItem}>
+            <Block style={styles.buttonContainer}>
+                <Text style={styles.imagesContainer}>
+                    {numberItem === 0 ? "O" : numberItem}
+                </Text>
+            </Block>
+            <Img source={image} style={styles.imageStyle}/>
+        </Button>
     )
 };
 
 const styles = StyleSheet.create({
     container: {
-        height: deviceWidth / 8,
-        width: deviceWidth / 3.5,
+        height: deviceWidth / 4,
+        width: deviceWidth / 4,
         borderRadius: scale(20),
         marginVertical: scale(5),
         marginHorizontal: scale(10),
         alignItems: 'center',
         backgroundColor: ColorsCustom.product.ViewBorder,
         justifyContent: 'center',
-        paddingVertical: scale(SpacingDefault.small),
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -52,8 +56,27 @@ const styles = StyleSheet.create({
     },
     dayOfWeed: {
         color: ColorsCustom.grey,
+    },
+    imagesContainer: {
+        color: ColorsCustom.lightWhite,
+        fontSize: FontSizeDefault.FONT_20
+    },
+    buttonContainer: {
+        position: 'absolute',
+        right: scale(-10),
+        top: scale(-15 / 2),
+        backgroundColor: ColorsCustom.darkOrange,
+        height: scale(25),
+        width: scale(25),
+        borderRadius: scale(30 / 2),
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    imageStyle: {
+        height: deviceWidth / 6,
+        width: deviceWidth / 6
     }
 });
 
-export const _ticketItem = memo(TicketItem, isEqual);
+export const _buttonChooseMore = memo(ButtonChooseMore, isEqual);
 

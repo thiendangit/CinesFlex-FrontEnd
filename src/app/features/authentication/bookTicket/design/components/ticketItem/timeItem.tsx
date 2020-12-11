@@ -10,20 +10,16 @@ import {deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
 import {FontSizeDefault} from "@theme/fontSize";
 
-interface subTabItemProps {
-    item: tabItem,
-    index: string,
+interface ticketItemProps {
+    numberTicket: number,
     onPressItem: (item: tabItem) => void
 }
 
-export const TimeItem = ({item, index, onPressItem}: subTabItemProps) => {
+export const TicketItem = ({numberTicket, onPressItem}: ticketItemProps) => {
     return (
         <Block style={styles.container}>
             <Text style={styles.dayText}>
-                17:30
-            </Text>
-            <Text style={styles.dayOfWeed}>
-                $5.42 • 2D
+                {numberTicket} Ticket
             </Text>
         </Block>
     )
@@ -31,14 +27,14 @@ export const TimeItem = ({item, index, onPressItem}: subTabItemProps) => {
 
 const styles = StyleSheet.create({
     container: {
-        height: deviceWidth / 6,
+        height: deviceWidth / 8,
         width: deviceWidth / 3.5,
         borderRadius: scale(20),
         marginVertical: scale(5),
         marginHorizontal: scale(10),
         alignItems: 'center',
         backgroundColor: ColorsCustom.product.ViewBorder,
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         paddingVertical: scale(SpacingDefault.small),
         shadowColor: "#000",
         shadowOffset: {
@@ -51,7 +47,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     dayText: {
-        fontSize: FontSizeDefault.FONT_22,
+        fontSize: FontSizeDefault.FONT_14,
         fontWeight: 'bold'
     },
     dayOfWeed: {
@@ -59,5 +55,5 @@ const styles = StyleSheet.create({
     }
 });
 
-export const timeItem = memo(TimeItem, isEqual);
+export const _ticketItem = memo(TicketItem, isEqual);
 

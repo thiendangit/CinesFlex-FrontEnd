@@ -85,4 +85,9 @@ export interface ScreenProps {
    * @default undefined
    */
   forceInset?: Edge[];
+  /**
+   * Using bounce
+   * @default true
+   */
+  bounces? : boolean
 }

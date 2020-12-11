@@ -16,8 +16,9 @@ import {ColorsCustom} from "@theme/color";
 import {AppState} from "@app_redux/type";
 import {actionsLogin} from "@features/unAuthentication/login/redux/reducer";
 import {ApiConstants} from "@networking";
-import {UserProfileScreen} from "@features/authentication";
+import {BookTicketScreen, UserProfileScreen} from "@features/authentication";
 import {
+    CinemasDetailsScreen,
     CinemasScreen,
     FilmDetailsScreen,
     HomeScreen,
@@ -26,6 +27,7 @@ import {
     RegisterScreen
 } from "@features/unAuthentication";
 import {APP_SCREEN} from "@navigation/screenTypes";
+import BookTicketResultScreen from "@features/authentication/bookTicketResult/design";
 
 const {StatusBarManager} = NativeModules;
 
@@ -92,6 +94,10 @@ const HomeNavigator = ({navigation, route}: any) => {
         <HomeStack.Navigator>
             <Stack.Screen name={APP_SCREEN.HOME} component={HomeScreen} options={homeOptions}/>
             <Stack.Screen name={APP_SCREEN.FILM_DETAILS} component={FilmDetailsScreen} options={homeOptions}/>
+            <Stack.Screen name={APP_SCREEN.CINEMAS} component={CinemasScreen} options={homeOptions}/>
+            <Stack.Screen name={APP_SCREEN.CINEMAS_DETAILS} component={CinemasDetailsScreen} options={homeOptions}/>
+            <Stack.Screen name={APP_SCREEN.BOOK_TICKET} component={BookTicketScreen} options={homeOptions}/>
+            <Stack.Screen name={APP_SCREEN.BOOK_TICKET_RESULT} component={BookTicketResultScreen} options={homeOptions}/>
         </HomeStack.Navigator>
     )
 };
@@ -99,6 +105,7 @@ const HomeNavigator = ({navigation, route}: any) => {
 const CinemasNavigator = () => (
     <CinemasStack.Navigator>
         <Stack.Screen name={APP_SCREEN.CINEMAS} component={CinemasScreen} options={homeOptions}/>
+        <Stack.Screen name={APP_SCREEN.CINEMAS_DETAILS} component={CinemasDetailsScreen} options={homeOptions}/>
     </CinemasStack.Navigator>
 );
 

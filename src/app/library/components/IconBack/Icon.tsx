@@ -30,11 +30,11 @@ const IconComponent = (props: IconProps) => {
 
   return (
     <TouchableOpacity
-        style={containerStyle && containerStyle || styles(statusBarHeight).iconContainer}
+        style={[styles(statusBarHeight).iconContainer,(containerStyle && containerStyle)]}
         onPress={onPress}
         hitSlop={HitSlopDefault.hitSlop_10}>
       <Image style={style && style || styles().icon} source={icons[icon ?? 'back']} />
     </TouchableOpacity>
   );
 };
-export const IconBack = React.memo(IconComponent, equals);
+export const  IconBack = React.memo(IconComponent, equals);

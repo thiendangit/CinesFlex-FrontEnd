@@ -48,7 +48,7 @@ export const ColorsCustom : ColorsCustomType = {
     TabText: "#333",
     BuyNowButton: "#3FC1BE",
     OutOfStockButton: "#a44",
-    ViewBorder: "#bcbebb",
+    ViewBorder: "rgb(241,241,241)",
     price_shipping: "#9d9f9c",
     Text: "#333",
     TextLight: "darkgray",

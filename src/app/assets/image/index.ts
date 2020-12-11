@@ -20,6 +20,12 @@ export const images = {
     checkDone: require("./icons/checkDone.png"),
     cart: require("./icons/icon-cart.png"),
     age_limit: require("./icons/age_limit.png"),
+    bg_cinemas: require("./source/bg_cinemas.png"),
+    temple: require("./icons/temple.png"),
+    building: require("./icons/building.png"),
+    line: require("./source/line.png"),
+    corn: require("./moreItem/corn.png"),
+    beverage: require("./moreItem/beverage.png"),
 };
 
 export type ImageTypes = keyof typeof images;

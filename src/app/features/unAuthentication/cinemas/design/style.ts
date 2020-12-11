@@ -1,61 +1,53 @@
 import {StyleSheet} from 'react-native';
 import {AppTheme} from '@config/type';
-import {scale, verticalScale} from "@common";
-import {SpacingDefault} from "@theme/spacing";
+import {deviceHeight, deviceWidth} from "@utils";
+import {moderateScale, scale, verticalScale} from "@common";
+import fonts from "react-native-paper/lib/typescript/src/styles/fonts";
 import {FontSizeDefault} from "@theme/fontSize";
-import {ColorsCustom} from "@theme/color";
-import {deviceWidth} from "@utils";
 
-export const styles = (theme?: AppTheme) =>
-    StyleSheet.create({
-        listWrapStyle: {
-            paddingHorizontal: scale(SpacingDefault.medium),
-            paddingVertical: scale(10),
-            justifyContent: "space-between"
-        },
-        listContainer: {
-            flex: 1,
-            backgroundColor: 'white',
-            alignSelf: 'center',
-            width : deviceWidth
-        },
-        container: {
-            flex: 1,
-            backgroundColor: 'white'
-        },
-        headerTitle: {
-            fontSize: FontSizeDefault.FONT_22,
-            fontWeight: "500",
-            color: ColorsCustom.lightWhite
-        },
-        header: {
-            justifyContent: 'center'
-        },
-        textLogout : {
-            marginLeft : verticalScale(5),
-            fontWeight: '600',
-            fontSize : FontSizeDefault.FONT_16
-        },
-        buttonLogout : {
-            alignSelf: 'center',
-            width: deviceWidth - scale(40),
-            marginHorizontal: scale(10),
-            backgroundColor: 'white',
-            flexDirection : 'row',
-            paddingVertical: scale(SpacingDefault.medium),
-            shadowColor: "#000",
-            shadowOffset: {
-                width: 0,
-                height: 2,
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
+export const styles = StyleSheet.create({
+    text: {
+        color: 'white',
+        fontWeight : 'bold',
+        fontSize: FontSizeDefault.FONT_30,
+        marginTop : verticalScale(30),
+        marginLeft : scale(20)
+    },
+    container: {
+        flex: 1,
+    },
+    imageContainer: {
+        marginTop: moderateScale(100),
+        width: scale(deviceWidth * 0.7),
+        height: scale(deviceHeight * 0.2),
+    },
 
-            elevation: 5,
-        },
-        imageContainer: {
-            bottom : verticalScale(2),
-            height: scale(28),
-            width: scale(28),
-        },
-    });
+    imageSupplier_Buyer: {
+        width: scale(deviceWidth * 0.13),
+        height: scale(deviceWidth * 0.13),
+        // backgroundColor: 'red'
+    },
+
+    buttonContainer: {
+        flexDirection : 'row',
+        justifyContent : 'space-between',
+        width : deviceWidth,
+        flex : 1,
+        paddingHorizontal : scale(10),
+        alignItems: 'center',
+    },
+    buttonSupplier_Buyer : {
+        backgroundColor : 'white',
+        borderWidth : 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width : scale(deviceWidth * 0.37),
+        height : scale(deviceWidth * 0.37),
+        borderRadius : scale(deviceWidth * 0.3)/10
+    },
+    nameSupplierBuyer : {
+        marginTop : moderateScale(10),
+        fontSize : FontSizeDefault.FONT_20,
+        fontWeight: '600',
+    }
+});

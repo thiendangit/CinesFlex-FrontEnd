@@ -1,1 +1,1 @@
-export * from './subTabItem/subTabItem';
+export * from './cinemasListItem/cinemasListItem';

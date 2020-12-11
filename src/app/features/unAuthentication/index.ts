@@ -6,6 +6,7 @@ import {HomeScreen} from './home/design';
 import {CinemasScreen} from './cinemas/design';
 import {PromotionScreen} from './promotion/design';
 import {FilmDetailsScreen} from './filmDetails/design';
+import {CinemasDetailsScreen} from './cinemasDetails/design';
 
 export {
     LoginScreen,
@@ -16,4 +17,5 @@ export {
     CinemasScreen,
     PromotionScreen,
     FilmDetailsScreen,
+    CinemasDetailsScreen
 }

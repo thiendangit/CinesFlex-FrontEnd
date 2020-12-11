@@ -1,50 +1,45 @@
 import React, {memo} from "react";
-import {Button, Img, Text} from "@components";
-import {StyleSheet, View} from "react-native";
-import {handleImage, scale, verticalScale} from "@common";
+import {Block, Button,Text} from "@components";
+import {StyleSheet} from "react-native";
+import {scale, verticalScale} from "@common";
 import {images} from "@assets/image";
-import {AppTab, tabItem} from "@config/type";
+import {tabItem} from "@config/type";
 import {ColorsCustom} from "@theme/color";
 import {SpacingDefault} from "@theme/spacing";
 import {deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
-import {SvgUri} from "react-native-svg";
+import {FontSizeDefault} from "@theme/fontSize";
 
 interface subTabItemProps {
-    item : tabItem,
+    item : any,
     index : string,
     onPressItem : (item : tabItem) => void
 }
 
 export const DayItem = ({item, index, onPressItem} : subTabItemProps) => {
     return (
-        <View>
-            {
-                item.name !== "Logout" && item.url !== "logout" &&
-                <Button onPress={() => onPressItem(item)} activeOpacity={1} style={styles.container}>
-                    {item.icon ? <SvgUri
-                        width="30"
-                        height="30"
-                        uri={handleImage(item.icon)}
-                    /> : <Img style={styles.imageContainer}/>}
-                    <Text numberOfLines={2} style={styles.menuName}>
-                        {item.name}
-                    </Text>
-                </Button> || null
-            }
-        </View>
+        <Block>
+            <Button style={styles.container}>
+                <Text style={styles.dayOfWeed}>
+                    Tue
+                </Text>
+                <Text style={styles.dayText}>
+                    18
+                </Text>
+            </Button>
+        </Block>
     )
 };
 
 const styles = StyleSheet.create({
     container: {
         height: deviceWidth / 3.7,
-        width: deviceWidth / 3.7,
-        borderRadius: scale(10),
-        marginHorizontal: scale(10),
-        marginTop: scale(15),
+        width: deviceWidth / 5,
+        borderRadius: scale(20),
+        marginVertical: scale(5),
+        marginHorizontal : scale(10),
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: ColorsCustom.product.ViewBorder,
         justifyContent: 'space-between',
         paddingVertical: scale(SpacingDefault.mediumPlush),
         shadowColor: "#000",
@@ -57,14 +52,14 @@ const styles = StyleSheet.create({
 
         elevation: 5,
     },
-    imageContainer: {
-        bottom : verticalScale(2),
-        height: scale(28),
-        width: scale(28),
+    dayText : {
+        marginTop : scale(5),
+        fontSize : FontSizeDefault.FONT_24,
+        fontWeight : 'bold'
     },
-    menuName: {
-        marginTop: verticalScale(5),
-        color: ColorsCustom.grey
+    dayOfWeed : {
+        color : ColorsCustom.grey,
+        marginBottom : scale(5)
     }
 });
 

@@ -7,6 +7,12 @@ export const styles = (statusBarHeight?: number) => StyleSheet.create({
         position: 'absolute',
         top : statusBarHeight && statusBarHeight + scale(isIphoneX() ? 2 : 5) || 0,
         left: verticalScale(15),
+        backgroundColor : ColorsCustom.product.ViewBorder,
+        height: scale(25),
+        width: scale(25),
+        alignItems : 'center',
+        justifyContent : 'center',
+        borderRadius : scale(5)
     },
     icon: {
         width : scale(18),

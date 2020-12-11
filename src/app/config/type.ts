@@ -250,3 +250,17 @@ export interface AppTab {
     subTabs: any
 }
 
+export interface ChairItem {
+    name: string,
+    parent: string,
+    is_available: boolean
+}
+
+
+export interface ChairItemChoose {
+    name: string,
+    parent: string,
+    is_available: boolean,
+    is_selected: boolean,
+}
+

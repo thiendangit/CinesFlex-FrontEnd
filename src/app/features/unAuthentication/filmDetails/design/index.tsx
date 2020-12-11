@@ -7,13 +7,14 @@ import {Block, Button, Icon, IconBack, Img, Text} from "@components"
 import {styles} from "@features/unAuthentication/filmDetails/design/style";
 import {ColorsCustom} from "@theme/color";
 import {NavigationService} from "@navigation/navigationService";
-import {handleImage, scale} from "@common";
+import {handleImage, scale, verticalScale} from "@common";
 import {deviceHeight, deviceWidth} from "@utils";
 import {StatusBar, Animated, TouchableOpacity, ScrollView} from "react-native";
 import {FontSizeDefault} from "@theme/fontSize";
 import {images} from "@assets/image";
 import {useValue} from "react-native-reanimated";
 import {icons} from "@assets/icon";
+import {_ButtonBuy} from "@features/unAuthentication/cinemasDetails/design/components/buttonBuy/buttonBuy";
 
 
 type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
@@ -32,10 +33,14 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
     const [currentTab, setCurrentTab] = useState(0);
     const [isLike, setIsLike] = useState(false);
 
-    const scrollRef = useRef();
+    const scrollRef = useRef<any>();
 
     const onPressBack = () => {
         NavigationService.goBack()
+    };
+
+    const onPressBuy = () => {
+        NavigationService.navigate(APP_SCREEN.CINEMAS)
     };
 
     let leftTabOption: leftTabOption[] = [
@@ -95,7 +100,7 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
                                         }).start(() => {
                                             barAnim.setValue(index);
                                         });
-                                        scrollRef.current?.scrollTo({
+                                        scrollRef.current.scrollTo({
                                             x: 0,
                                             y: dataSourceCords[index],
                                             animated: true,
@@ -283,38 +288,12 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
                                 18+
                             </Text>
                         </Block>
-                        <Button
-                            style={{
-                                flexDirection: 'row',
-                                height: scale(deviceWidth / 6),
-                                width: deviceWidth / 3,
-                                backgroundColor: ColorsCustom.blue,
-                                borderRadius: 0,
-                                borderTopLeftRadius: deviceWidth / 2 / 6
-                            }}>
-                            <Img style={{
-                                height: scale(20),
-                                width: scale(20),
-                            }}
-                                 tintColor={ColorsCustom.lightWhite}
-                                 source={handleImage(images.cart)}/>
-                            <Text color={ColorsCustom.lightWhite} style={{
-                                fontSize: FontSizeDefault.FONT_24,
-                                marginLeft: scale(10)
-                            }}>
-                                BUY
-                            </Text>
-                        </Button>
+                        <_ButtonBuy text={'BOOK'} image={images.cart} onPressBuy={onPressBuy}/>
                     </Block>
                 </Animated.ScrollView>
 
             </Block>
-            <IconBack style={{
-                marginTop: scale(20),
-                tintColor: ColorsCustom.blackTextPrimary,
-                width: scale(18),
-                height: scale(18)
-            }} onPress={onPressBack}/>
+            <IconBack  containerStyle={{marginTop: verticalScale(20)}} onPress={onPressBack}/>
         </Block>
     );
 };
