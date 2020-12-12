@@ -59,6 +59,7 @@ const ModalBoxComponent = forwardRef((props: ModalBoxProps, ref) => {
             <Block style={[root]}>
                 {children}
                 <Icon containerStyle={styles.iconBackContainer}
+                      onPress={() => _hideModal()}
                       style={styles.iconBack}
                       icon={'close'}/>
             </Block>

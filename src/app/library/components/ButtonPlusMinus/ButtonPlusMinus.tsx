@@ -25,6 +25,7 @@ const ButtonPlusMinusComponent = (props: ButtonPlusMinusProps) => {
         children,
         onPressMinus,
         onPressPlus,
+        quality,
         ...rest
     } = props;
 
@@ -40,7 +41,7 @@ const ButtonPlusMinusComponent = (props: ButtonPlusMinusProps) => {
     return (
         <Block style={viewStyle} {...rest}>
             <Block block direction={'row'}>
-                <Button style={[styles.button, styles.minusButton]}>
+                <Button style={[styles.button, styles.minusButton]} onPress={onPressMinus}>
                     <Img source={icons.minus} tintColor={ColorsCustom.lightWhite} style={styles.icon}/>
                 </Button>
                 <Block paddingHorizontal={scale(20)}
@@ -49,10 +50,10 @@ const ButtonPlusMinusComponent = (props: ButtonPlusMinusProps) => {
                        alignItems={'center'}
                        justifyContent={'center'}>
                     <Text style={styles.number}>
-                        3
+                        {quality}
                     </Text>
                 </Block>
-                <Button style={[styles.button, styles.plusButton]}>
+                <Button style={[styles.button, styles.plusButton]} onPress = {onPressPlus}>
                     <Img source={icons.plus} style={styles.icon}/>
                 </Button>
             </Block>

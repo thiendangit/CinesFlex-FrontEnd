@@ -7,8 +7,13 @@ import {_cinemasListItem} from "./components";
 import {NavigationService} from "@navigation/navigationService";
 import {APP_SCREEN} from "@navigation/screenTypes";
 
-export const CinemasDetailsScreen = () => {
-    const [t] = useTranslation();
+interface CinemasDetailsProps {
+    
+}
+
+export const CinemasDetailsScreen = (props : CinemasDetailsProps) => {
+    
+    
 
     const _onGoBack = () => {
         NavigationService.goBack()

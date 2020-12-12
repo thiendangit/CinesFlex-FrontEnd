@@ -6,46 +6,50 @@ import {ColorsCustom} from "@theme/color";
 import {deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
 import {FontSizeDefault} from "@theme/fontSize";
+import {ProductItem} from "@config/type";
+import {formatMoney} from "@common";
 
-interface subTabItemProps {
-    item: any,
+interface MoreItemProps {
+    item: ProductItem,
     index: string,
-    onPressItem: () => any
+    onPressMinus: () => any
+    onPressPlus: () => any
 }
 
-export const MoreItem = ({item, index, onPressItem}: subTabItemProps) => {
+export const MoreItem = (props: MoreItemProps) => {
 
 
     const onPressPlus = () => {
-
+        props.onPressPlus()
     };
 
     const onPressMinus = () => {
-
+        props.onPressMinus()
     };
 
     return (
         <Block block>
-            <Button style={[styles.container]} onPress={onPressItem}>
+            <Button style={[styles.container]} activeOpacity={1}>
                 <Img style={styles.imageProduct}
-                     source={handleImage({uri: 'https://i.ebayimg.com/images/g/1ZoAAOSwMYRahbEl/s-l400.jpg'})}/>
+                     source={handleImage({uri: props.item.image})}/>
                 <Block style={{}} flex={1}>
                     <Block flex={0.2} direction={'row'} style={{}}>
-                        <Block flex={1} style={{marginLeft: scale(5)}} alignItems={'center'}>
+                        <Block flex={1} style={{marginLeft: scale(10)}} alignItems={'center'}>
                             <Text style={styles.productName} numberOfLines={2}>
-                                Corn Bubble Tea
+                                {props.item.name}
                             </Text>
                             <Text style={styles.productDetails}>
-                                Corn mlem mlem
+                                {props.item.description}
                             </Text>
                         </Block>
-                        <Block flex={0.6} alignItems={'center'}>
+                        <Block flex={0.7} alignItems={'center'}>
                             <Text style={styles.productPrice}>
-                                $35.00
+                                {formatMoney(props.item.price)}
                             </Text>
                         </Block>
                     </Block>
-                    <ButtonPlusMinus style={{alignSelf: 'flex-end'}} onPressPlus={onPressPlus}
+                    <ButtonPlusMinus style={{alignSelf: 'flex-end'}} quality={props.item?.quality ?? 2}
+                                     onPressPlus={onPressPlus}
                                      onPressMinus={onPressMinus}/>
                 </Block>
             </Button>
@@ -98,7 +102,7 @@ const styles = StyleSheet.create({
         marginTop: scale(5)
     },
     productPrice: {
-        fontSize: FontSizeDefault.FONT_16,
+        fontSize: FontSizeDefault.FONT_15,
         fontWeight: '800'
     }
 });

@@ -88,9 +88,4 @@ export const styles = (theme?: AppTheme) =>
 
             elevation: 5,
         },
-        modalChooseItem: {
-            height: deviceHeight / 1.3,
-            backgroundColor: ColorsCustom.green,
-            borderRadius: scale(30)
-        }
     });

@@ -264,3 +264,12 @@ export interface ChairItemChoose {
     is_selected: boolean,
 }
 
+export interface ProductItem {
+    id: string,
+    name: string,
+    price: string,
+    description: string
+    image: string,
+    quality?: number
+}
+

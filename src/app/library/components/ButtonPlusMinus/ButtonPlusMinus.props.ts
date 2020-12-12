@@ -1,8 +1,8 @@
 import {
-  ViewStyle,
-  TextStyle,
-  TouchableOpacityProps,
-  StyleProp,
+    ViewStyle,
+    TextStyle,
+    TouchableOpacityProps,
+    StyleProp,
 } from 'react-native';
 import {ButtonPresetNames} from './ButtonPlusMinus.presets';
 
@@ -43,7 +43,13 @@ export interface ButtonPlusMinusProps extends TouchableOpacityProps {
    */
   children?: React.ReactNode;
 
-  onPressPlus? : () => void
+  onPressPlus?: () => void
 
-  onPressMinus? : () => void
+  onPressMinus?: () => void,
+
+  /**
+   * current quality of item
+   * @default 0
+   */
+  quality: number
 }

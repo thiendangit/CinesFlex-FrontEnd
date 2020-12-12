@@ -6,36 +6,33 @@ import {RootStackParamList, APP_SCREEN} from '@navigation/screenTypes';
 import {
     Block,
     Button,
-    Header,
+    Header, Icon,
     IconBack,
     Img,
     ListView,
-    ModalAppMode,
     ModalBox,
     ModalBoxRef,
     Screen,
     Text
 } from "@components"
-import {Alert, Animated, ScrollView} from "react-native";
-import {dispatch, scale, useSelector, verticalScale} from "@common";
+import {ScrollView} from "react-native";
+import {formatMoney, scale, useSelector, verticalScale} from "@common";
 import {styles} from "@features/authentication/userProfile/design/style";
 import {ColorsCustom} from "@theme/color";
-import {ChairItem, ChairItemChoose, tabItem} from "@config/type";
-import {onLogout} from "@app_redux/reducer";
+import {ChairItemChoose, ProductItem} from "@config/type";
 import {AppState} from "@app_redux/type";
-import {dayItem as _dayItem} from '../design/components'
+import {_modalWithListProduct, dayItem as _dayItem} from '../design/components'
 import {timeItem as _timeItem} from '../design/components'
 import {moreItem as _moreItem} from '../design/components'
 import {NavigationService} from "@navigation/navigationService";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {images} from "@assets/image";
-import {deviceHeight, deviceWidth} from "@utils";
-import {chairs} from "@features/authentication/bookTicket/design/dataSample/data";
+import {deviceWidth} from "@utils";
+import {chairs, dataBevSample, dataCornSample} from "@features/authentication/bookTicket/design/dataSample/data";
 import {_ButtonBuy} from "@features/unAuthentication/cinemasDetails/design/components/buttonBuy/buttonBuy";
 import {_ticketItem} from "@features/authentication/bookTicket/design/components/ticketItem/timeItem";
 import {_buttonChooseMore} from "@features/authentication/bookTicket/design/components/buttonChooseMore/buttonChooseMore";
-import {icons} from "@assets/icon";
-import {AppMode} from "@library/components/AppMode/AppMode";
+import {FontSizeDefault} from "@theme/fontSize";
+import {Input} from "@features/unAuthentication/login/design/components/Input";
 
 type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
 
@@ -48,6 +45,8 @@ export const BookTicketScreen = ({navigation, route}: MoreProps) => {
     const [dataChair, setDataChair] = useState<any>(chairs);
     const modalCorn = useRef<ModalBoxRef>();
     const modalBeverages = useRef<ModalBoxRef>();
+    const [dataCorn, setDataCorn] = useState(dataCornSample);
+    const [dataBeverage, setDataBeverage] = useState(dataBevSample);
 
     // useEffect(()=>{
     //     if(!token){
@@ -60,7 +59,20 @@ export const BookTicketScreen = ({navigation, route}: MoreProps) => {
         for (let i in dataCopy) {
             dataCopy[i].is_selected = false
         }
-        setDataChair(dataCopy)
+
+        let dataCornCopy: ProductItem[] = Object.assign([], dataCorn);
+        for (let j in dataCornCopy) {
+            dataCornCopy[j].quality = 0
+        }
+
+        let dataBeverageCopy: ProductItem[] = Object.assign([], dataBeverage);
+        for (let k in dataBeverageCopy) {
+            dataBeverageCopy[k].quality = 0
+        }
+
+        setDataChair(dataCopy);
+        setDataCorn(dataCornCopy);
+        setDataBeverage(dataBeverageCopy)
     }, []);
 
     const _onGoBack = () => {
@@ -68,19 +80,8 @@ export const BookTicketScreen = ({navigation, route}: MoreProps) => {
     };
 
 
-    const _renderHeaderView = () => {
-        return (
-            <Block>
-                <Header headerText={'UserProfile'}
-                        titleStyle={styles().headerTitle}
-                        style={[
-                            styles().header,
-                            {
-                                backgroundColor: ColorsCustom.lime_green
-                            }]
-                        }/>
-            </Block>
-        )
+    const onPressApplyCode = () => {
+        alert('Apply Code!!')
     };
 
     const onPressBuy = () => {
@@ -99,16 +100,80 @@ export const BookTicketScreen = ({navigation, route}: MoreProps) => {
         modalCorn.current?.show()
     };
 
-    const onPressCornItem = () => {
-        alert('onPressCornItem')
+    const handleQualityProduct = (dataSources: ProductItem[]): number => {
+        let quality = 0;
+        dataSources
+            .filter((item) => parseInt(String(item.quality ?? '0')) > 0)
+            .map((item) => {
+                quality = quality + parseInt(String(item.quality ?? '0'))
+            });
+        return quality;
     };
 
-    const onPressBeveragesItem = () => {
-        alert('onPressBeveragesItem')
+    /*return quality of the ticket*/
+    const handleQualityTicket = (dataSources: ChairItemChoose[]): number => {
+        let quality = 0;
+        dataSources
+            .filter((item) => (item.is_selected ?? false))
+            .map((item) => {
+                quality = quality + 1
+            });
+        return quality;
     };
 
-    const _renderMoreItem = ({item, index}: any, onPress: () => void) => {
-        return <_moreItem index={item} item={index} onPressItem={onPress}/>
+    /*return total price have to pay*/
+    const handlePriceTicket = (dataSources: ChairItemChoose[], dataCorns: ProductItem[], dataBeverage: ProductItem[]): number => {
+        let totalPrice = 0;
+        //total price of ticket
+        dataSources
+            .filter((item) => (item.is_selected ?? false))
+            .map((item) => {
+                totalPrice = totalPrice + 50000
+            });
+        //total price of corn
+        dataCorns
+            .filter((item) => parseInt(String(item.quality ?? '0')) > 0)
+            .map((item) => {
+                totalPrice = totalPrice + parseInt(String(parseInt(String(item.quality ?? '0')) * parseInt(item.price)))
+            });
+        //total price of beverage
+        dataBeverage
+            .filter((item) => parseInt(String(item.quality ?? '0')) > 0)
+            .map((item) => {
+                totalPrice = totalPrice + parseInt(String(parseInt(String(item.quality ?? '0')) * parseInt(item.price)))
+            });
+        // return
+        return totalPrice;
+    };
+
+    const plusMinusProduct = (dataSources: ProductItem[], itemForPlus: ProductItem, isPlus = true): ProductItem[] => {
+        let dataCornCopy: ProductItem[] = Object.assign([], dataSources);
+        dataCornCopy.map((obj, index) => {
+            if (obj.id === itemForPlus.id && (!isPlus ? (itemForPlus.quality ?? 0) > 0 : (itemForPlus.quality ?? 0) >= 0)) {
+                dataCornCopy[index].quality = isPlus ? (dataSources[index].quality ?? 0) + 1 : (dataSources[index].quality ?? 0) - 1
+            }
+        });
+        return dataCornCopy
+    };
+
+    const onPressPlusCornItem = (item: ProductItem) => {
+        let result: ProductItem[] = plusMinusProduct(dataCorn, item);
+        setDataCorn(result);
+    };
+
+    const onPressMinusCornItem = (item: ProductItem) => {
+        let result: ProductItem[] = plusMinusProduct(dataCorn, item, false);
+        setDataCorn(result);
+    };
+
+    const onPressPlusBeveragesItem = (item: ProductItem) => {
+        let result: ProductItem[] = plusMinusProduct(dataBeverage, item);
+        setDataBeverage(result);
+    };
+
+    const onPressMinusBeveragesItem = (item: ProductItem) => {
+        let result: ProductItem[] = plusMinusProduct(dataBeverage, item, false);
+        setDataBeverage(result);
     };
 
     const _renderChairItem = (dataChair: ChairItemChoose[]) => {
@@ -126,13 +191,17 @@ export const BookTicketScreen = ({navigation, route}: MoreProps) => {
                     {filterByLine.map(item => {
                         return (
                             <Button onPress={() => {
-                                let dataCopy: ChairItemChoose[] = Object.assign([], dataChair);
-                                for (let i in dataCopy) {
-                                    if (dataCopy[i].name === item.name) {
-                                        dataCopy[i].is_selected = !dataCopy[i].is_selected
+                                if (!item.is_available) {
+                                    let dataCopy: ChairItemChoose[] = Object.assign([], dataChair);
+                                    for (let i in dataCopy) {
+                                        if (dataCopy[i].name === item.name) {
+                                            dataCopy[i].is_selected = !dataCopy[i].is_selected
+                                        }
                                     }
+                                    setDataChair(dataCopy)
+                                }else {
+                                    alert('this chair is reserved')
                                 }
-                                setDataChair(dataCopy)
                             }}
                                     style={[styles().chairContainer, {
                                         backgroundColor: item.is_available ? ColorsCustom.product.TextLight : item.is_selected ? ColorsCustom.darkOrange : 'white',
@@ -202,96 +271,39 @@ export const BookTicketScreen = ({navigation, route}: MoreProps) => {
                     {_renderChairItem(dataChair)}
                 </Block>
                 <Block direction={'row'} justifyContent={'center'} marginTop={scale(20)}>
-                    <_buttonChooseMore onPressItem={onPressButtonCorn} image={images.corn} numberItem={0}/>
-                    <_buttonChooseMore onPressItem={onPressButtonBeverages} image={images.beverage} numberItem={0}/>
+                    <_buttonChooseMore onPressItem={onPressButtonCorn} image={images.corn}
+                                       key={1}
+                                       numberItem={handleQualityProduct(dataCorn)}/>
+                    <_buttonChooseMore onPressItem={onPressButtonBeverages} image={images.beverage}
+                                       key={2}
+                                       numberItem={handleQualityProduct(dataBeverage)}/>
                 </Block>
-                <Block direction={'row'} marginLeft={scale(20)} alignItems={'center'}
+                <Block justifyContent={'center'} alignItems={'center'} marginTop={scale(15)} direction={'row'}>
+                    <Input label={'Promotion Code'} name={'text'}
+                           typeInput={'outline'}
+                           activeTintBorderColor={ColorsCustom.blue}
+                           containerStyle={{width: deviceWidth - scale(50), height: scale(scale(30))}}/>
+                    <Icon icon={'send'} style={{height: scale(15), width: scale(15)}}
+                          onPress={onPressApplyCode}
+                          containerStyle={{marginLeft: scale(10)}}/>
+                </Block>
+                <Block direction={'row'} marginLeft={scale(10)} alignItems={'center'}
                        justifyContent={'space-between'} marginTop={scale(20)}
                 >
                     <Block>
-                        <_ticketItem numberTicket={2} onPressItem={onPressTicket}/>
+                        <_ticketItem numberTicket={handleQualityTicket(dataChair)} onPressItem={onPressTicket}/>
                     </Block>
-                    <_ButtonBuy text={`BUY 10.00$`} image={images.cart} onPressBuy={onPressBuy}/>
+                    <_ButtonBuy totalPrice={handlePriceTicket(dataChair, dataCorn, dataBeverage)}
+                                text={'BUY'}
+                                image={images.cart}
+                                onPressBuy={onPressBuy}/>
                 </Block>
-                <ModalBox ref={modalCorn} key={0}>
-                    <Block style={styles().modalChooseItem}>
-                        <Block block style={{
-                            borderBottomLeftRadius: scale(60),
-                            borderBottomRightRadius: scale(60),
-                            borderTopLeftRadius: scale(20),
-                            borderTopRightRadius: scale(20),
-                            alignItems: 'center',
-                            backgroundColor: 'white'
-                        }}>
-                            <ListView
-                                data={[1, 2, 3, 4]}
-                                renderItem={({item, index}: any) => _renderMoreItem({item, index}, onPressCornItem)}
-                                keyExtractor={((item, index) => index.toString())}
-                                style={{
-                                    borderBottomLeftRadius: scale(60),
-                                    borderBottomRightRadius: scale(60),
-                                    borderTopLeftRadius: scale(20),
-                                    borderTopRightRadius: scale(20),
-                                    backgroundColor: 'white'
-                                }}
-                                ListFooterComponent={() => {
-                                    return (
-                                        <Block height={scale(20)}/>
-                                    )
-                                }}
-                                showsVerticalScrollIndicator={false}
-                                contentContainerStyle={{marginTop: scale(10)}}/>
-                        </Block>
-                        <Block height={scale(60)} style={{backgroundColor: ColorsCustom.green}} borderRadius={60}>
-                            <Button>
-                                <Text>
-                                    abc
-                                </Text>
-                            </Button>
-                        </Block>
-                    </Block>
-                </ModalBox>
-                <ModalBox ref={modalBeverages} key={1}>
-                    <Block style={styles().modalChooseItem}>
-                        <Block block style={{
-                            borderBottomLeftRadius: scale(60),
-                            borderBottomRightRadius: scale(60),
-                            borderTopLeftRadius: scale(20),
-                            borderTopRightRadius: scale(20),
-                            alignItems: 'center',
-                            backgroundColor: 'white'
-                        }}>
-                            <ListView
-                                data={[1, 2, 3, 4]}
-                                keyExtractor={((item, index) => index.toString())}
-                                renderItem={({item, index}: any) => _renderMoreItem({
-                                    item,
-                                    index
-                                }, onPressBeveragesItem)}
-                                style={{
-                                    borderBottomLeftRadius: scale(60),
-                                    borderBottomRightRadius: scale(60),
-                                    borderTopLeftRadius: scale(20),
-                                    borderTopRightRadius: scale(20),
-                                    backgroundColor: 'white'
-                                }}
-                                ListFooterComponent={() => {
-                                    return (
-                                        <Block height={scale(20)}/>
-                                    )
-                                }}
-                                showsVerticalScrollIndicator={false}
-                                contentContainerStyle={{marginTop: scale(10)}}/>
-                        </Block>
-                        <Block height={scale(60)} style={{backgroundColor: ColorsCustom.green}} borderRadius={60}>
-                            <Button>
-                                <Text>
-                                    abc
-                                </Text>
-                            </Button>
-                        </Block>
-                    </Block>
-                </ModalBox>
+                <_modalWithListProduct ref={modalCorn} onPressPlus={onPressPlusCornItem}
+                                       onPressMinus={onPressMinusCornItem}
+                                       dataSource={dataCorn}/>
+                <_modalWithListProduct ref={modalBeverages} onPressPlus={onPressPlusBeveragesItem}
+                                       onPressMinus={onPressMinusBeveragesItem}
+                                       dataSource={dataBeverage}/>
             </Screen>
             <IconBack onPress={_onGoBack}/>
         </Block>

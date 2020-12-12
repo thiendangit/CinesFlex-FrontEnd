@@ -20,7 +20,8 @@ interface InputProps {
     containerStyle?: StyleProp<ViewStyle>
     rightChildren?: ()=>any,
     secureTextEntry?: boolean
-    keyboardType? : KeyboardType
+    keyboardType? : KeyboardType,
+    typeInput? : "flat" | "outline"
 }
 
 const InputComponent = forwardRef<any, InputProps>(
@@ -29,7 +30,7 @@ const InputComponent = forwardRef<any, InputProps>(
          disabledLabelColor, activeTintBorderColor, activeTintLabelColor,
          unActiveTintBorderColor, unActiveTintLabelColor, disabledBorderColor,
          containerStyle, rightChildren,secureTextEntry,
-         keyboardType,...rest
+         typeInput, keyboardType,...rest
      }, ref) => {
         return (
             <Block>
@@ -46,7 +47,7 @@ const InputComponent = forwardRef<any, InputProps>(
                     unActiveTintBorderColor={unActiveTintBorderColor && unActiveTintBorderColor || ColorsCustom.lightGrey}
                     unActiveTintLabelColor={unActiveTintLabelColor && unActiveTintLabelColor || ColorsCustom.lightGrey}
                     disabledBorderColor={disabledBorderColor && disabledBorderColor || ColorsCustom.lightGrey}
-                    typeInput={'flat'}
+                    typeInput={typeInput ?? 'flat'}
                     containerStyle={containerStyle}
                     rightChildren = {rightChildren}
                     keyboardType = {keyboardType}

@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import {Block, Button, Img, Text} from "@components";
-import {ImageSourcePropType, StyleProp, StyleSheet} from "react-native";
-import {enhance, handleImage, scale, verticalScale} from "@common";
+import {ImageSourcePropType, StyleProp, StyleSheet, ViewStyle} from "react-native";
+import {enhance, formatMoney, handleImage, scale, verticalScale} from "@common";
 import {ColorsCustom} from "@theme/color";
 import {SpacingDefault} from "@theme/spacing";
 import {deviceWidth} from "@utils";
@@ -11,24 +11,39 @@ import {images} from "@assets/image";
 import {stylesView} from "@library/components/Button/Button.presets";
 
 interface subTabItemProps {
-    text: string,
-    image: ImageSourcePropType
-    onPressBuy?: (item: any) => void,
-    style? : StyleProp<any>
+    totalPrice?: number,
+    text?: string,
+    image?: ImageSourcePropType
+    onPressBuy?: () => void,
+    style?: StyleProp<ViewStyle>;
 }
 
 
-export const ButtonBuy = ({text, image, onPressBuy, style}: subTabItemProps) => {
+export const ButtonBuy = ({totalPrice, text, image, onPressBuy, style}: subTabItemProps) => {
 
     const buttonStyle = React.useMemo(
         () => enhance([styles.buttonStyleDefault, style]),
         [style],
     );
 
+    const onPressBuyButton = () => {
+        if (!totalPrice) {
+            if (onPressBuy) {
+                onPressBuy()
+            }
+        } else {
+            if (totalPrice > 0) {
+                if (onPressBuy) {
+                    onPressBuy()
+                }
+            }
+        }
+    };
+
     return (
         <Button
-            onPress={onPressBuy}
-            style={buttonStyle}>
+            onPress={onPressBuyButton}
+            style={[buttonStyle, (totalPrice != null ? (totalPrice > 0) ? null : {backgroundColor: ColorsCustom.lightGrey} : null)]}>
             <Img style={{
                 marginHorizontal: scale(5),
                 height: scale(20),
@@ -37,10 +52,10 @@ export const ButtonBuy = ({text, image, onPressBuy, style}: subTabItemProps) => 
                  tintColor={ColorsCustom.lightWhite}
                  source={handleImage(image)}/>
             <Text color={ColorsCustom.lightWhite} style={{
-                fontSize: FontSizeDefault.FONT_24,
+                fontSize: FontSizeDefault.FONT_22,
                 marginLeft: scale(10)
             }}>
-                {text}
+                {text} {totalPrice && formatMoney(totalPrice)}
             </Text>
         </Button>
     )

@@ -1,4 +1,4 @@
-import {ChairItem} from "@config/type";
+import {ChairItem, ProductItem} from "@config/type";
 
 export const chairs: ChairItem[] = [
     {
@@ -151,4 +151,80 @@ export const chairs: ChairItem[] = [
         parent: "E",
         is_available: true
     },
+];
+
+export const dataCornSample: ProductItem[] = [
+    {
+        id: '1',
+        name: 'Corn loai 1',
+        price: '135000',
+        description: 'Corn nay ngon vcl luon',
+        image: 'https://vn-live-01.slatic.net/p/efbee8fcfdd416b066b4437a57b09f10.jpg'
+    },
+    {
+        id: '2',
+        name: 'Corn loai 2',
+        price: '120000',
+        description: 'Corn nay la corn xin xo',
+        image: 'https://vn-live-01.slatic.net/p/efbee8fcfdd416b066b4437a57b09f10.jpg'
+    },
+    {
+        id: '3',
+        name: 'Corn loai 3',
+        price: '110000',
+        description: 'Corn nay la corn xin lam nha',
+        image: 'https://vn-live-01.slatic.net/p/efbee8fcfdd416b066b4437a57b09f10.jpg'
+    },
+    {
+        id: '4',
+        name: 'Corn loai 4',
+        price: '160000',
+        description: 'Corn nay la corn xin xo',
+        image: 'https://vn-live-01.slatic.net/p/efbee8fcfdd416b066b4437a57b09f10.jpg'
+    },
+    {
+        id: '5',
+        name: 'Corn loai 5',
+        price: '165000',
+        description: 'Corn nay la corn',
+        image: 'https://vn-live-01.slatic.net/p/efbee8fcfdd416b066b4437a57b09f10.jpg'
+    }
+];
+
+export const dataBevSample: ProductItem[] = [
+    {
+        id: '10',
+        name: 'Corn loai 2',
+        price: '135000',
+        description: 'Corn nay ngon vcl luon',
+        image: 'https://product.hstatic.net/1000166699/product/16568750047262_1__a06cae5281e14da68881f7c87b67116e.jpg'
+    },
+    {
+        id: '11',
+        name: 'Corn loai 3',
+        price: '120000',
+        description: 'Corn nay la corn xin xo',
+        image: 'https://product.hstatic.net/1000166699/product/16568750047262_1__a06cae5281e14da68881f7c87b67116e.jpg'
+    },
+    {
+        id: '12',
+        name: 'Corn loai 4',
+        price: '110000',
+        description: 'Corn nay la corn xin lam nha',
+        image: 'https://product.hstatic.net/1000166699/product/16568750047262_1__a06cae5281e14da68881f7c87b67116e.jpg'
+    },
+    {
+        id: '13',
+        name: 'Corn loai 5',
+        price: '160000',
+        description: 'Corn nay la corn xin xo',
+        image: 'https://product.hstatic.net/1000166699/product/16568750047262_1__a06cae5281e14da68881f7c87b67116e.jpg'
+    },
+    {
+        id: '14',
+        name: 'Corn loai 6',
+        price: '165000',
+        description: 'Corn nay la corn',
+        image: 'https://product.hstatic.net/1000166699/product/16568750047262_1__a06cae5281e14da68881f7c87b67116e.jpg'
+    }
 ];
