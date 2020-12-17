@@ -10,6 +10,3 @@ export const APP_MODE = {
   PROD: 'prod',
   STAGING: 'staging',
 };
-export const KEY_COOKIE = 'oda_session';
-export const KEY_USER_ID = 'user_id';
-export const ONESIGNAL_APPID = '76d4c277-ca6e-43c0-a695-577169d04b00';

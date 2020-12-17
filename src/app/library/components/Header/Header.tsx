@@ -13,6 +13,7 @@ import {SpacingDefault} from '@theme/spacing';
 import {useState} from "react";
 import {useEffect} from "react";
 import {ColorsCustom} from "@theme/color";
+import {FontSizeDefault} from "@theme/fontSize";
 
 const {StatusBarManager} = NativeModules;
 
@@ -30,6 +31,9 @@ const styles = () => {
                 },
                 TITLE: {
                     textAlign: 'center',
+                    color : ColorsCustom.blackTextPrimary,
+                    fontWeight : 'bold',
+                    fontSize : FontSizeDefault.FONT_24
                 },
                 TITLE_MIDDLE: {
                     flex: 1,
@@ -85,7 +89,7 @@ const HeaderComponent: React.FunctionComponent<HeaderProps> = props => {
     }, []);
     return (
         <Block>
-            <View style={[{height: statusBarHeight, backgroundColor: ColorsCustom.lime_green}]}>
+            <View style={[{height: statusBarHeight}]}>
                 <StatusBar translucent
                            barStyle="light-content"/>
             </View>

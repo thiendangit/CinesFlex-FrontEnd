@@ -106,7 +106,7 @@ export const ColorsCustom : ColorsCustomType = {
   blue2: "rgba(3, 207, 254, 1)",
   starRating: "#FDF12C",
   backgroundFlashSales: ["rgba(6, 188, 198, 1)", "rgbsa(244, 244, 246, 0.9)"],
-  light_red : 'rgb(246,108,105)',
+  light_red : 'rgb(255,106,103)',
   lime_green : "#3ebf62",
   lightWhite : 'white',
   grey : 'grey',

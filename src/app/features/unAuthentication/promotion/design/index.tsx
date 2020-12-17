@@ -4,8 +4,8 @@ import {StackScreenProps} from '@react-navigation/stack';
 import isEqual from 'react-fast-compare';
 import {RootStackParamList, APP_SCREEN} from '@navigation/screenTypes';
 import {Block, Header} from "@components"
-import {styles} from "@features/authentication/userProfile/design/style";
 import {ColorsCustom} from "@theme/color";
+import {styles} from "@features/unAuthentication/promotion/design/style";
 type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
 
 export const PromotionScreen = ({navigation, route}: MoreProps) => {

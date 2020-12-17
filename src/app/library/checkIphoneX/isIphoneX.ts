@@ -12,3 +12,4 @@ export function isIphoneX() {
     (dimen.height === 812 || dimen.width === 812)
   );
 }
+

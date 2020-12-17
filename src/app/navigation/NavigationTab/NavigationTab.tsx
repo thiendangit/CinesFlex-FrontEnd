@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {SafeAreaView, View, NativeModules, StatusBar, Platform} from 'react-native'
+import {View, NativeModules, Platform} from 'react-native'
 import {createStackNavigator} from '@react-navigation/stack';
 import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
@@ -7,16 +7,17 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import MyTabBar from '@library/components/MyTabBar';
 import {memo} from "react";
 import isEqual from "react-fast-compare";
-import {Constants, dispatch, scale} from "@common";
-import {onSetAppTab} from "@app_redux/reducer";
-import {AppTab, tabItem} from "@config/type";
+import {Constants, scale} from "@common";
 import {getUrlByTypeUser} from "@library/utils/getURLByTypeUser/getURLByTypeUser";
 import SpinnerCustom from "@library/components/SpinnerCustom";
 import {ColorsCustom} from "@theme/color";
 import {AppState} from "@app_redux/type";
-import {actionsLogin} from "@features/unAuthentication/login/redux/reducer";
-import {ApiConstants} from "@networking";
-import {BookTicketScreen, UserProfileScreen} from "@features/authentication";
+import {
+    BookTicketResultScreen,
+    BookTicketScreen, CurrentSeeListScreen, FavoriteListScreen,
+    OrderHistoryScreen,
+    UserProfileScreen
+} from "@features/authentication";
 import {
     CinemasDetailsScreen,
     CinemasScreen,
@@ -27,7 +28,6 @@ import {
     RegisterScreen
 } from "@features/unAuthentication";
 import {APP_SCREEN} from "@navigation/screenTypes";
-import BookTicketResultScreen from "@features/authentication/bookTicketResult/design";
 
 const {StatusBarManager} = NativeModules;
 
@@ -57,38 +57,6 @@ interface IState {
     app: AppState
 }
 
-const AuthNavigator = () => {
-
-    const token = useSelector(
-        (state: { app: AppState }) => state?.app?.token
-    );
-
-    return (
-        <AuthStack.Navigator>
-            {token && <Stack.Screen
-                name={APP_SCREEN.USER_PROFILE}
-                component={UserProfileScreen}
-                options={homeOptions}
-            />}
-            <Stack.Screen
-                name={APP_SCREEN.LOGIN}
-                component={LoginScreen}
-                options={homeOptions}
-            />
-            <Stack.Screen
-                name={APP_SCREEN.REGISTER}
-                component={RegisterScreen}
-                options={homeOptions}
-            />
-            <Stack.Screen
-                name="ForgotPasswordScreen"
-                component={LoginScreen}
-                options={homeOptions}
-            />
-        </AuthStack.Navigator>
-    );
-};
-
 const HomeNavigator = ({navigation, route}: any) => {
     return (
         <HomeStack.Navigator>
@@ -115,6 +83,52 @@ const PromotionNavigator = () => (
     </PromotionStack.Navigator>
 );
 
+const AuthNavigator = () => {
+
+    const token = useSelector(
+        (state: { app: AppState }) => state?.app?.token
+    );
+
+    return (
+        <AuthStack.Navigator>
+            {<Stack.Screen
+                name={APP_SCREEN.USER_PROFILE}
+                component={UserProfileScreen}
+                options={homeOptions}
+            />}
+            <Stack.Screen
+                name={APP_SCREEN.LOGIN}
+                component={LoginScreen}
+                options={homeOptions}
+            />
+            <Stack.Screen
+                name={APP_SCREEN.REGISTER}
+                component={RegisterScreen}
+                options={homeOptions}
+            />
+            <Stack.Screen
+                name={APP_SCREEN.FORGOT_PASSWORD}
+                component={LoginScreen}
+                options={homeOptions}
+            />
+            <Stack.Screen
+                name={APP_SCREEN.ORDER_HISTORY}
+                component={OrderHistoryScreen}
+                options={homeOptions}
+            />
+            <Stack.Screen
+                name={APP_SCREEN.FAVORITE_LIST}
+                component={FavoriteListScreen}
+                options={homeOptions}
+            />
+            <Stack.Screen
+                name={APP_SCREEN.CURRENT_SEE}
+                component={CurrentSeeListScreen}
+                options={homeOptions}
+            />
+        </AuthStack.Navigator>
+    );
+};
 
 const NavigationTab: React.FC<IProps> = (props: IProps) => {
         const userType = useSelector(

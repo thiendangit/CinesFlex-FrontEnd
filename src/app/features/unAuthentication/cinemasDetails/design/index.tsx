@@ -8,12 +8,10 @@ import {NavigationService} from "@navigation/navigationService";
 import {APP_SCREEN} from "@navigation/screenTypes";
 
 interface CinemasDetailsProps {
-    
+
 }
 
 export const CinemasDetailsScreen = (props : CinemasDetailsProps) => {
-    
-    
 
     const _onGoBack = () => {
         NavigationService.goBack()
@@ -38,6 +36,7 @@ export const CinemasDetailsScreen = (props : CinemasDetailsProps) => {
                               </Text>
                           )
                       }}
+                      showsVerticalScrollIndicator={false}
                       renderItem={_renderItem}
                       keyExtractor={(item, index) => index.toString()}
                       contentContainerStyle={{

@@ -17,7 +17,6 @@ import {
 } from "@components"
 import {ScrollView} from "react-native";
 import {formatMoney, scale, useSelector, verticalScale} from "@common";
-import {styles} from "@features/authentication/userProfile/design/style";
 import {ColorsCustom} from "@theme/color";
 import {ChairItemChoose, ProductItem} from "@config/type";
 import {AppState} from "@app_redux/type";
@@ -33,6 +32,7 @@ import {_ticketItem} from "@features/authentication/bookTicket/design/components
 import {_buttonChooseMore} from "@features/authentication/bookTicket/design/components/buttonChooseMore/buttonChooseMore";
 import {FontSizeDefault} from "@theme/fontSize";
 import {Input} from "@features/unAuthentication/login/design/components/Input";
+import {styles} from "@features/authentication/bookTicket/design/style";
 
 type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
 

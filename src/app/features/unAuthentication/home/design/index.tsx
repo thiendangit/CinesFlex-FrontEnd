@@ -4,7 +4,6 @@ import {StackScreenProps} from '@react-navigation/stack';
 import isEqual from 'react-fast-compare';
 import {RootStackParamList, APP_SCREEN} from '@navigation/screenTypes';
 import {Block, Button, ListView, Screen, SearchRight, Text} from "@components"
-import {styles} from "@features/authentication/userProfile/design/style";
 import {ColorsCustom} from "@theme/color";
 import {Animated} from "react-native";
 import SwitchSelector from "react-native-switch-selector";
@@ -14,6 +13,7 @@ import {FontSizeDefault} from "@theme/fontSize";
 import {_renderListFilm} from './components';
 import SearchBarAnimation from "@library/components/SeachBarAnimation";
 import {NavigationService} from "@navigation/navigationService";
+import {styles} from "@features/unAuthentication/home/design/style";
 
 type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
 

@@ -16,7 +16,7 @@ export const styles = (theme?: AppTheme) =>
         listContainer: {
             flex: 1,
             alignSelf: 'center',
-            width : deviceWidth
+            width: deviceWidth
         },
         container: {
             flex: 1,
@@ -24,27 +24,27 @@ export const styles = (theme?: AppTheme) =>
         },
         headerTitle: {
             marginLeft: scale(15),
-            marginTop : scale(10),
-            height : verticalScale(26),
+            marginTop: scale(10),
+            height: verticalScale(26),
             fontSize: FontSizeDefault.FONT_22,
             fontWeight: 'bold',
-            width : deviceWidth/2,
+            width: deviceWidth / 2,
             color: ColorsCustom.blue
         },
         header: {
             justifyContent: 'center'
         },
-        textLogout : {
-            marginLeft : verticalScale(5),
+        textLogout: {
+            marginLeft: verticalScale(5),
             fontWeight: '600',
-            fontSize : FontSizeDefault.FONT_16
+            fontSize: FontSizeDefault.FONT_16
         },
-        buttonLogout : {
+        buttonLogout: {
             alignSelf: 'center',
             width: deviceWidth - scale(40),
             marginHorizontal: scale(10),
             backgroundColor: 'white',
-            flexDirection : 'row',
+            flexDirection: 'row',
             paddingVertical: scale(SpacingDefault.medium),
             shadowColor: "#000",
             shadowOffset: {
@@ -57,8 +57,35 @@ export const styles = (theme?: AppTheme) =>
             elevation: 5,
         },
         imageContainer: {
-            bottom : verticalScale(2),
+            bottom: verticalScale(2),
             height: scale(28),
             width: scale(28),
+        },
+        nameFilm: {
+            fontSize: FontSizeDefault.FONT_21,
+            width: deviceWidth / 1.2,
+            color: ColorsCustom.blue,
+            textAlign: 'center',
+            fontWeight: 'bold'
+        },
+        sectionSelection: {
+            color: ColorsCustom.lightGrey
+        },
+        chairContainer: {
+            margin: scale(10),
+            height: deviceWidth / 11,
+            width: deviceWidth / 11,
+            borderRadius: scale(10),
+            alignItems: 'center',
+            backgroundColor: ColorsCustom.product.ViewBorder,
+            shadowColor: "#000",
+            shadowOffset: {
+                width: 0,
+                height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+
+            elevation: 5,
         },
     });
