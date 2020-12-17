@@ -24,6 +24,7 @@ export const styles = (theme?: AppTheme) =>
             backgroundColor: 'white'
         },
         headerTitle: {
+            width : deviceWidth/1.95,
             fontSize: FontSizeDefault.FONT_22,
             fontWeight: "bold",
             color: ColorsCustom.blue,
