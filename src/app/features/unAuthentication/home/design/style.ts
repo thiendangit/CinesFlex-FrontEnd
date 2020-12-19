@@ -4,7 +4,7 @@ import {scale, verticalScale} from "@common";
 import {SpacingDefault} from "@theme/spacing";
 import {FontSizeDefault} from "@theme/fontSize";
 import {ColorsCustom} from "@theme/color";
-import {deviceWidth} from "@utils";
+import {deviceHeight, deviceWidth} from "@utils";
 
 export const styles = (theme?: AppTheme) =>
     StyleSheet.create({
@@ -17,14 +17,14 @@ export const styles = (theme?: AppTheme) =>
             flex: 1,
             backgroundColor: 'white',
             alignSelf: 'center',
-            width: deviceWidth
+            width: deviceWidth,
         },
         container: {
             flex: 1,
             backgroundColor: 'white'
         },
         headerTitle: {
-            width : deviceWidth/1.95,
+            width: deviceWidth / 1.95,
             fontSize: FontSizeDefault.FONT_22,
             fontWeight: "bold",
             color: ColorsCustom.blue,
@@ -61,4 +61,17 @@ export const styles = (theme?: AppTheme) =>
             height: scale(28),
             width: scale(28),
         },
+        buttonChangeLayout: {
+            backgroundColor: ColorsCustom.lightGrey,
+            position: 'absolute',
+            right: scale(10),
+            bottom: scale(10),
+            height: scale(50),
+            width: scale(50),
+            borderRadius: scale(50 / 2)
+        },
+        imageChangeLayout: {
+            height: 30,
+            width: 30
+        }
     });

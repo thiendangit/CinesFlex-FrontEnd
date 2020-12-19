@@ -291,7 +291,6 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
                         <_ButtonBuy text={'BOOK'} image={images.cart} onPressBuy={onPressBuy}/>
                     </Block>
                 </Animated.ScrollView>
-
             </Block>
             <IconBack  containerStyle={{marginTop: verticalScale(20)}} onPress={onPressBack}/>
         </Block>

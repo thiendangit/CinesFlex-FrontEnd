@@ -236,7 +236,8 @@ export type AppTheme = Theme & { colors: Partial<Colors> };
 export enum SLICE_NAME {
     APP = 'APP',
     LOGIN = 'LOGIN',
-    REGISTER = 'REGISTER'
+    REGISTER = 'REGISTER',
+    HOME = 'HOME'
 }
 
 export interface tabItem {

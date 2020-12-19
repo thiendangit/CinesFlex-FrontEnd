@@ -29,6 +29,8 @@ export const images = {
     mail: require("./icons/icon-mail.png"),
     phone: require("./icons/phone-call.png"),
     bg_promotion: require("./source/bg_promotion.png"),
+    list: require("./icons/icon-list.png"),
+    grid: require("./icons/icon-grid.png"),
 };
 
 export type ImageTypes = keyof typeof images;
