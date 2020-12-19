@@ -9,6 +9,7 @@ import {NavigationService, navigationRef} from "@navigation/navigationService";
 import {APP_SCREEN} from "@navigation/screenTypes";
 import {Constants, dispatch, verticalScale} from "@common";
 import {onSetAppProfile} from "@app_redux/reducer";
+import {deviceHeight, deviceWidth} from "@utils";
 
 export const CinemasScreen = () => {
     const [t] = useTranslation();
@@ -19,7 +20,7 @@ export const CinemasScreen = () => {
 
     const buttonSupplierBuyer = (text: string, source: ImageTypes, borderColor: StyleProp<any>, onPress: (text: string) => void) => {
         return (
-            <Button style={[styles.buttonSupplier_Buyer, {borderColor}]} onPress={() => onPress(text)}>
+            <Button key={text} style={[styles.buttonSupplier_Buyer, {borderColor}]} onPress={() => onPress(text)}>
                 <Img style={styles.imageSupplier_Buyer}
                      source={source}
                      resizeMode={"contain"}/>
@@ -37,11 +38,18 @@ export const CinemasScreen = () => {
 
     return (
         <Block style={styles.container}>
-            <Wallpaper backgroundImage={images.bg_cinemas}/>
+            {/*<Wallpaper backgroundImage={images.bg_cinemas}/>*/}
             <Screen style={{}}>
                 <Text style={styles.text}>
                     REGION LIST
                 </Text>
+                <Img style={{
+                    height: deviceHeight / 2.2,
+                    width: deviceWidth
+                }}
+                     resizeMode={'contain'}
+                     source={images.bg_cinemas_festival}
+                />
                 <Block style={styles.buttonContainer}>
                     {buttonSupplierBuyer("HÀ NỘI", images.temple, ColorsCustom.lime_green, onPressButtonSupplierBuyer)}
                     {buttonSupplierBuyer("TPHCM", images.building, ColorsCustom.light_red, onPressButtonSupplierBuyer)}

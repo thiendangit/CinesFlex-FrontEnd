@@ -4,17 +4,19 @@ import {deviceHeight, deviceWidth} from "@utils";
 import {moderateScale, scale, verticalScale} from "@common";
 import fonts from "react-native-paper/lib/typescript/src/styles/fonts";
 import {FontSizeDefault} from "@theme/fontSize";
+import {ColorsCustom} from "@theme/color";
 
 export const styles = StyleSheet.create({
     text: {
-        color: 'white',
-        fontWeight : 'bold',
+        color: ColorsCustom.blackTextPrimary,
+        fontWeight: 'bold',
         fontSize: FontSizeDefault.FONT_30,
-        marginTop : verticalScale(30),
-        marginLeft : scale(20)
+        marginTop: verticalScale(30),
+        marginLeft: scale(20)
     },
     container: {
         flex: 1,
+        backgroundColor: ColorsCustom.lightWhite
     },
     imageContainer: {
         marginTop: moderateScale(100),
@@ -23,31 +25,31 @@ export const styles = StyleSheet.create({
     },
 
     imageSupplier_Buyer: {
-        width: scale(deviceWidth * 0.13),
-        height: scale(deviceWidth * 0.13),
+        width: scale(35),
+        height: scale(35),
+        marginRight: scale(10)
         // backgroundColor: 'red'
     },
 
     buttonContainer: {
-        flexDirection : 'row',
-        justifyContent : 'space-between',
-        width : deviceWidth,
-        flex : 1,
-        paddingHorizontal : scale(10),
+        width: deviceWidth,
+        flex: 1,
+        paddingHorizontal: scale(10),
         alignItems: 'center',
     },
-    buttonSupplier_Buyer : {
-        backgroundColor : 'white',
-        borderWidth : 1,
+    buttonSupplier_Buyer: {
+        backgroundColor: 'white',
+        marginTop: scale(30),
+        borderWidth: 1,
         alignItems: 'center',
-        justifyContent: 'center',
-        width : scale(deviceWidth * 0.37),
-        height : scale(deviceWidth * 0.37),
-        borderRadius : scale(deviceWidth * 0.3)/10
+        flexDirection: 'row',
+        width: scale(deviceWidth / 1.5),
+        height: scale(50),
+        borderRadius: scale(deviceWidth * 0.3) / 10
     },
-    nameSupplierBuyer : {
-        marginTop : moderateScale(10),
-        fontSize : FontSizeDefault.FONT_20,
+    nameSupplierBuyer: {
+        marginTop: moderateScale(10),
+        fontSize: FontSizeDefault.FONT_20,
         fontWeight: '600',
     }
 });

@@ -29,6 +29,7 @@ export const images = {
     mail: require("./icons/icon-mail.png"),
     phone: require("./icons/phone-call.png"),
     bg_promotion: require("./source/bg_promotion.png"),
+    bg_cinemas_festival: require("./source/bg_cinemas_festival.png"),
     list: require("./icons/icon-list.png"),
     grid: require("./icons/icon-grid.png"),
 };
