@@ -21,6 +21,7 @@ export enum APP_SCREEN {
     FAVORITE_LIST = 'FAVORITE_LIST',
     CURRENT_SEE = 'CURRENT_SEE',
     LOGOUT = 'LOGOUT',
+    PROMOTION_DETAILS = 'PROMOTION_DETAILS'
 }
 
 export type RootStackParamList = {
@@ -38,4 +39,5 @@ export type RootStackParamList = {
     [APP_SCREEN.BOOK_TICKET]: undefined;
     [APP_SCREEN.CINEMAS_DETAILS]: undefined;
     [APP_SCREEN.BOOK_TICKET_RESULT]: undefined;
+    [APP_SCREEN.PROMOTION_DETAILS]: undefined;
 };

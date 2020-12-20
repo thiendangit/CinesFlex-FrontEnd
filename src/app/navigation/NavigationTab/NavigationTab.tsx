@@ -23,7 +23,7 @@ import {
     CinemasScreen,
     FilmDetailsScreen,
     HomeScreen,
-    LoginScreen,
+    LoginScreen, PromotionDetailsScreen,
     PromotionScreen,
     RegisterScreen
 } from "@features/unAuthentication";
@@ -80,6 +80,7 @@ const CinemasNavigator = () => (
 const PromotionNavigator = () => (
     <PromotionStack.Navigator>
         <Stack.Screen name={APP_SCREEN.PROMOTION} component={PromotionScreen} options={homeOptions}/>
+        <Stack.Screen name={APP_SCREEN.PROMOTION_DETAILS} component={PromotionDetailsScreen} options={homeOptions}/>
     </PromotionStack.Navigator>
 );
 
@@ -91,7 +92,7 @@ const AuthNavigator = () => {
 
     return (
         <AuthStack.Navigator>
-            {<Stack.Screen
+            {token && <Stack.Screen
                 name={APP_SCREEN.USER_PROFILE}
                 component={UserProfileScreen}
                 options={homeOptions}

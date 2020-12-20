@@ -3,34 +3,42 @@ import React, {memo, useRef, useState} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import isEqual from 'react-fast-compare';
 import {RootStackParamList, APP_SCREEN} from '@navigation/screenTypes';
-import {Block, Header, Img, Screen, Wallpaper} from "@components"
+import {Block, Button, Header, Img, Screen, Wallpaper} from "@components"
 import {ColorsCustom} from "@theme/color";
 import {styles} from "@features/unAuthentication/promotion/design/style";
 import {images} from "@assets/image";
 import {deviceHeight, deviceWidth} from "@utils";
 import {handleImage, scale} from "@common";
-import {Animated, FlatList, Platform, ScrollView, StyleSheet} from "react-native";
+import {Animated, FlatList, Platform, ScrollView, StyleSheet, TouchableOpacity} from "react-native";
 import LinearGradient from 'react-native-linear-gradient';
+import {NavigationService} from "@navigation/navigationService";
 
 
 type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
+export interface PromotionItemProps {
+    image : string
+}
 
 const BACKGROUND_HEIGHT = deviceHeight / 1.6;
 const LIST_ITEM_HEIGHT = deviceHeight - (BACKGROUND_HEIGHT / 1.3);
-const ITEM_SIZE = Platform.OS === 'ios' ? deviceWidth * 0.72 : deviceWidth * 0.74;
+const ITEM_SIZE = Platform.OS === 'ios' ? deviceWidth * 0.85 : deviceWidth * 0.85;
 const SPACING = scale(10);
-const BACKDROP_HEIGHT = deviceHeight * 0.65;
+const BACKDROP_HEIGHT = deviceHeight * 0.7;
 
 export const PromotionScreen = ({navigation, route}: MoreProps) => {
 
     const scrollHorizontalX = useRef<any>(new Animated.Value(0)).current;
-    let data = [{image: 'https://www.elle.vn/wp-content/uploads/2019/12/17/382575/phim-han-quoc-hay-nam-2019.jpg'}, {
+    let data : PromotionItemProps[] = [{image: 'https://www.elle.vn/wp-content/uploads/2019/12/17/382575/phim-han-quoc-hay-nam-2019.jpg'}, {
         image: 'https://upload.wikimedia.org/wikipedia/vi/thumb/0/0e/Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg/250px-Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg'
     }, {image: 'https://www.elle.vn/wp-content/uploads/2019/12/17/382575/phim-han-quoc-hay-nam-2019.jpg'},
         {
             image: 'https://upload.wikimedia.org/wikipedia/vi/thumb/0/0e/Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg/250px-Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg'
         }];
-    const [dataSource, setDataSource] = useState(data);
+    const [dataSource, setDataSource] = useState<PromotionItemProps[]>(data);
+
+    const handleOnPressBanner = (item : PromotionItemProps) => {
+        NavigationService.navigate(APP_SCREEN.PROMOTION_DETAILS,{item})
+    };
 
     const Backdrop = ({item, scrollX}: any) => {
         return (
@@ -156,7 +164,11 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
                             });
 
                             return (
-                                <Block width={ITEM_SIZE} key={index.toString()}>
+                                <Button
+                                    onPress={()=>handleOnPressBanner(item)}
+                                    activeOpacity={1}
+                                    style={{width: ITEM_SIZE}}
+                                    key={index.toString()}>
                                     <Animated.View
                                         style={{
                                             marginHorizontal: SPACING,
@@ -179,7 +191,7 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
                                             })}
                                         />
                                     </Animated.View>
-                                </Block>
+                                </Button>
                             )
                         })
                     }

@@ -7,6 +7,7 @@ import {CinemasScreen} from './cinemas/design';
 import {PromotionScreen} from './promotion/design';
 import {FilmDetailsScreen} from './filmDetails/design';
 import {CinemasDetailsScreen} from './cinemasDetails/design';
+import {PromotionDetailsScreen} from './promotionDetails/design';
 
 export {
     LoginScreen,
@@ -17,5 +18,6 @@ export {
     CinemasScreen,
     PromotionScreen,
     FilmDetailsScreen,
-    CinemasDetailsScreen
+    CinemasDetailsScreen,
+    PromotionDetailsScreen
 }
