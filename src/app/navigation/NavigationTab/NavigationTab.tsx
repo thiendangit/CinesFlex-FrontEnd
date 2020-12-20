@@ -8,7 +8,6 @@ import MyTabBar from '@library/components/MyTabBar';
 import {memo} from "react";
 import isEqual from "react-fast-compare";
 import {Constants, scale} from "@common";
-import {getUrlByTypeUser} from "@library/utils/getURLByTypeUser/getURLByTypeUser";
 import SpinnerCustom from "@library/components/SpinnerCustom";
 import {ColorsCustom} from "@theme/color";
 import {AppState} from "@app_redux/type";
@@ -142,13 +141,7 @@ const NavigationTab: React.FC<IProps> = (props: IProps) => {
             (state: IState) => state?.app?.loading
         );
 
-        let typeURL = getUrlByTypeUser(userType);
-
-        const URL_DOMAIN = useSelector(
-            (state: IState) => state?.app?.appUrl
-        );
-
-        let color = userType === Constants.ROLE.SUPPLIER ? ColorsCustom.lime_green : ColorsCustom.light_red;
+        let color = ColorsCustom.lime_green;
 
         useEffect(() => {
             if (loading) {

@@ -3,14 +3,13 @@ import isEqual from 'react-fast-compare';
 import {Block, Button, IconBack, Img, ModalAppMode, ModalAppModeRef, Screen, Text} from '@components';
 import {onSetAppProfile, onSetAppTab, onSetToken} from '@store/app_redux/reducer';
 import {FormLogin, FormValueLogin} from './components';
-import {Constants, dispatch} from '@common';
+import {dispatch} from '@common';
 import {APP_SCREEN, RootStackParamList} from '@navigation/screenTypes';
 import {useTranslation} from "react-i18next";
 import {ColorsCustom} from "@theme/color";
 import {images} from "@assets/image";
 import {styles} from "@features/unAuthentication/login/design/style";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {getUrlByTypeUser} from "@library/utils/getURLByTypeUser/getURLByTypeUser";
 import {ApiConstants, DEV_MODE_API} from "@networking";
 import {AppTab} from "@config/type";
 import {actionsLogin} from "@features/unAuthentication/login/redux/reducer";
@@ -42,8 +41,7 @@ export const LoginScreen: React.FC<Props> = (props): React.ReactElement => {
         let password = data.password.toLowerCase();
         let body = JSON.stringify({
             email,
-            password,
-            type: roleParam === Constants.ROLE.SUPPLIER && Constants.ROLE.SUPPLIER || Constants.ROLE.BUYER
+            password
         });
         dispatch(actionsLogin.onLoginStart());
         dispatch(actionsLogin.onLogin(`${URL_DOMAIN}${ApiConstants.LOGIN}`, body, async (result) => {
@@ -51,16 +49,14 @@ export const LoginScreen: React.FC<Props> = (props): React.ReactElement => {
                 dispatch(onSetToken('s'));
                 dispatch(onSetAppProfile(result.data?.auth));
                 const userType = result.data.auth.user_type;
-                let typeURL = getUrlByTypeUser(userType);
-                await fetch(`${URL_DOMAIN}/after-login?email=${email}&password=${password}&type=
-                            ${userType === Constants.ROLE.SUPPLIER ? userType : Constants.ROLE.BUYER}`, {
+                await fetch(``, {
                     method: 'GET',
                     headers: new Headers({
                         'Content-Type': 'application/json'
                     }),
                 }).then(async r => {
                     let _;
-                    dispatch(actionsLogin.onAfterLogin(`${URL_DOMAIN}/${typeURL}${ApiConstants.GET_MENU_BAR}`, _, (result) => {
+                    dispatch(actionsLogin.onAfterLogin(``, _, (result) => {
                         dispatch(actionsLogin.onLoginEnd());
                         if (result.data.success) {
                             let tab: AppTab = result.data.data;
@@ -100,7 +96,7 @@ export const LoginScreen: React.FC<Props> = (props): React.ReactElement => {
                 <Screen backgroundColor={'transparent'} style={{flex: 1, justifyContent: 'flex-start'}} draw={true}>
                     <FormLogin onSubmit={_onSubmit}
                                onForgotPassword={_onForgotPassword}
-                               activeTintBorderColor={roleParam === Constants.ROLE.SUPPLIER ? ColorsCustom.lime_green : ColorsCustom.light_red}/>
+                               activeTintBorderColor={ColorsCustom.lime_green}/>
                 </Screen>
             </KeyboardAwareScrollView>
             <Block style={styles().footerView}>

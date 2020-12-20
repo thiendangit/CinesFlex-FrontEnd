@@ -4,3 +4,4 @@ import { onLoadTheme , onLoadApp} from '@app_redux/reducer';
 export function* appSaga() {
   yield takeLatest(onLoadTheme.type, Saga.onLoadAppModeAndTheme);
 }
+

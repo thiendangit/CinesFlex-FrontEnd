@@ -1,6 +1,6 @@
 import { ResponseBase } from '@config/type';
 import { AxiosError, AxiosResponse } from 'axios';
-import { translate } from '../utils';
+import { translate } from '@utils';
 import {
   RESULT_CODE_PUSH_OUT,
   ERROR_NETWORK_CODE,
