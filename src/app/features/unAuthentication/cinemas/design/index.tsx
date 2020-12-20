@@ -11,7 +11,7 @@ import {Constants, dispatch, verticalScale} from "@common";
 import {onSetAppProfile} from "@app_redux/reducer";
 import {deviceHeight, deviceWidth} from "@utils";
 
-export const CinemasScreen = () => {
+export const CinemasScreen = (  ) => {
     const [t] = useTranslation();
 
     const _onGoBack = () => {
