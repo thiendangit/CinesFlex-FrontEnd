@@ -1,4 +1,4 @@
-import React, {memo, useRef} from 'react';
+import React, {memo, useRef, useState} from 'react';
 // @ts-ignore
 import {StackScreenProps} from '@react-navigation/stack';
 import isEqual from 'react-fast-compare';
@@ -9,18 +9,89 @@ import {styles} from "@features/unAuthentication/promotion/design/style";
 import {images} from "@assets/image";
 import {deviceHeight, deviceWidth} from "@utils";
 import {handleImage, scale} from "@common";
-import {Animated, Platform, ScrollView, StyleSheet} from "react-native";
+import {Animated, FlatList, Platform, ScrollView, StyleSheet} from "react-native";
+import LinearGradient from 'react-native-linear-gradient';
+
 
 type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
 
 const BACKGROUND_HEIGHT = deviceHeight / 1.6;
 const LIST_ITEM_HEIGHT = deviceHeight - (BACKGROUND_HEIGHT / 1.3);
-const LIST_ITEM_WIDTH = deviceWidth * 0.8;
+const ITEM_SIZE = Platform.OS === 'ios' ? deviceWidth * 0.72 : deviceWidth * 0.74;
 const SPACING = scale(10);
+const BACKDROP_HEIGHT = deviceHeight * 0.65;
 
 export const PromotionScreen = ({navigation, route}: MoreProps) => {
 
     const scrollHorizontalX = useRef<any>(new Animated.Value(0)).current;
+    let data = [{image: 'https://www.elle.vn/wp-content/uploads/2019/12/17/382575/phim-han-quoc-hay-nam-2019.jpg'}, {
+        image: 'https://upload.wikimedia.org/wikipedia/vi/thumb/0/0e/Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg/250px-Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg'
+    }, {image: 'https://www.elle.vn/wp-content/uploads/2019/12/17/382575/phim-han-quoc-hay-nam-2019.jpg'},
+        {
+            image: 'https://upload.wikimedia.org/wikipedia/vi/thumb/0/0e/Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg/250px-Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg'
+        }];
+    const [dataSource, setDataSource] = useState(data);
+
+    const Backdrop = ({item, scrollX}: any) => {
+        return (
+            <Block style={{height: BACKDROP_HEIGHT, width: deviceWidth, position: 'absolute'}}>
+                <FlatList
+                    data={item}
+                    bounces={false}
+                    keyExtractor={(item) => item.key + '-backdrop'}
+                    removeClippedSubviews={false}
+                    // horizontal
+                    contentContainerStyle={{width: deviceWidth, height: BACKDROP_HEIGHT}}
+                    renderItem={({item, index}) => {
+                        if (!item.image) {
+                            return null;
+                        }
+                        const inputRange = [
+                            (index - 1) * ITEM_SIZE,
+                            index * ITEM_SIZE,
+                            (index + 1) * ITEM_SIZE,
+                        ];
+                        const translateX = scrollX.interpolate({
+                            inputRange: inputRange,
+                            outputRange: [-deviceWidth, 0, deviceWidth],
+                            extrapolate: 'clamp'
+                        });
+                        return (
+                            <Animated.View
+                                removeClippedSubviews={false}
+                                style={{
+                                    position: 'absolute',
+                                    width: deviceWidth,
+                                    transform: [{translateX: translateX}],
+                                    height: deviceHeight,
+                                    overflow: 'hidden',
+                                }}
+                            >
+                                <Img
+                                    resizeMode={'cover'}
+                                    source={{uri: item.image}}
+                                    style={{
+                                        width: deviceWidth,
+                                        height: BACKDROP_HEIGHT,
+                                        position: 'absolute',
+                                    }}
+                                />
+                            </Animated.View>
+                        );
+                    }}
+                />
+                <LinearGradient
+                    colors={['rgba(0, 0, 0, 0)', 'white']}
+                    style={{
+                        height: BACKDROP_HEIGHT,
+                        width: deviceWidth,
+                        position: 'absolute',
+                        bottom: 0,
+                    }}
+                />
+            </Block>
+        );
+    };
 
     const _renderHeaderView = () => {
         return (
@@ -40,10 +111,8 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
     return (
         <Block style={styles().container}>
             {/*{_renderHeaderView()}*/}
-            <Img source={images.bg_promotion} style={{
-                height: BACKGROUND_HEIGHT,
-                borderRadius: scale(20)
-            }}/>
+            <Backdrop
+                item={dataSource} scrollX={scrollHorizontalX}/>
             <Screen>
                 <Animated.ScrollView
                     pagingEnabled={true}
@@ -55,24 +124,25 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
                         {useNativeDriver: true}
                     )}
                     scrollEventThrottle={1.6}
+                    bounces={false}
                     showsHorizontalScrollIndicator={false}
                     decelerationRate={Platform.OS === 'ios' ? 0 : 0.98}
                     renderToHardwareTextureAndroid
                     contentContainerStyle={{alignItems: 'center'}}
-                    snapToInterval={LIST_ITEM_WIDTH}
+                    snapToInterval={ITEM_SIZE}
                     style={{
                         flex: 1,
                         position: 'absolute',
                         bottom: scale(20),
                         height: LIST_ITEM_HEIGHT + 50,
                     }}>
-                    <Block width={(deviceWidth - LIST_ITEM_WIDTH) / 2}/>
+                    <Block width={(deviceWidth - ITEM_SIZE) / 2}/>
                     {
-                        [1, 2, 3, 4].map((item, index) => {
+                        dataSource.map((item, index) => {
                             const inputRange = [
-                                (index - 1) * LIST_ITEM_WIDTH,
-                                index * LIST_ITEM_WIDTH,
-                                (index + 1) * LIST_ITEM_WIDTH,
+                                (index - 1) * ITEM_SIZE,
+                                index * ITEM_SIZE,
+                                (index + 1) * ITEM_SIZE,
                             ];
                             const scaleY = scrollHorizontalX.interpolate({
                                 inputRange,
@@ -81,11 +151,12 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
 
                             const translateY = scrollHorizontalX.interpolate({
                                 inputRange,
-                                outputRange: [0, -20, 0]
+                                outputRange: [0, -20, 0],
+                                extrapolate: 'clamp',
                             });
 
                             return (
-                                <Block width={LIST_ITEM_WIDTH} key={index.toString()}>
+                                <Block width={ITEM_SIZE} key={index.toString()}>
                                     <Animated.View
                                         style={{
                                             marginHorizontal: SPACING,
@@ -100,11 +171,11 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
                                         <Img
                                             style={{
                                                 height: LIST_ITEM_HEIGHT,
-                                                width: LIST_ITEM_WIDTH - SPACING * 2,
+                                                width: ITEM_SIZE - SPACING * 2,
                                             }}
-                                            resizeMode={'stretch'}
+                                            resizeMode={'cover'}
                                             source={handleImage({
-                                                uri: 'https://www.elle.vn/wp-content/uploads/2019/12/17/382575/phim-han-quoc-hay-nam-2019.jpg'
+                                                uri: item.image
                                             })}
                                         />
                                     </Animated.View>
@@ -112,6 +183,7 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
                             )
                         })
                     }
+                    <Block width={(deviceWidth - ITEM_SIZE) / 2}/>
                 </Animated.ScrollView>
             </Screen>
         </Block>

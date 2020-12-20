@@ -21,6 +21,7 @@ export const styles = (theme?: AppTheme) =>
         },
         container: {
             flex: 1,
+            backgroundColor : 'white'
         },
         headerTitle: {
             fontSize: FontSizeDefault.FONT_22,
