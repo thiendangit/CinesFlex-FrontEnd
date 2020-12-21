@@ -8,7 +8,7 @@ import {Constants} from "@common";
 const initialAppState: AppState = {
     internetState: true,
     profile: {
-        user_type : Constants.ROLE.SUPPLIER,
+        user_type : 'b',
     },
     token: null,
     /**

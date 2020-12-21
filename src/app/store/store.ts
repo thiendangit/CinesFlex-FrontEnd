@@ -15,7 +15,7 @@ middleware.push(sagaMiddleware);
 const config = {
     key: 'root',
     storage: AsyncStorage,
-    blacklist: [""],
+    blacklist: ["toast"],
     debug: true, //to get useful logging
 };
 

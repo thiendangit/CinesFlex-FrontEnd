@@ -64,7 +64,8 @@ const HomeNavigator = ({navigation, route}: any) => {
             <Stack.Screen name={APP_SCREEN.CINEMAS} component={CinemasScreen} options={homeOptions}/>
             <Stack.Screen name={APP_SCREEN.CINEMAS_DETAILS} component={CinemasDetailsScreen} options={homeOptions}/>
             <Stack.Screen name={APP_SCREEN.BOOK_TICKET} component={BookTicketScreen} options={homeOptions}/>
-            <Stack.Screen name={APP_SCREEN.BOOK_TICKET_RESULT} component={BookTicketResultScreen} options={homeOptions}/>
+            <Stack.Screen name={APP_SCREEN.BOOK_TICKET_RESULT} component={BookTicketResultScreen}
+                          options={homeOptions}/>
         </HomeStack.Navigator>
     )
 };
@@ -91,7 +92,7 @@ const AuthNavigator = () => {
 
     return (
         <AuthStack.Navigator>
-            {token && <Stack.Screen
+            {<Stack.Screen
                 name={APP_SCREEN.USER_PROFILE}
                 component={UserProfileScreen}
                 options={homeOptions}
@@ -159,32 +160,32 @@ const NavigationTab: React.FC<IProps> = (props: IProps) => {
 
         return (
             <View style={{flex: 1, backgroundColor: 'white'}}>
-                    <Tab.Navigator
-                        tabBarPosition='bottom'
-                        initialRouteName="Home"
-                        tabBar={(props: any) => <MyTabBar {...props}/>}
-                    >
-                        <Tab.Screen
-                            options={{
-                                tabBarLabel: 'home',
-                            }} name="Home" component={HomeNavigator}/>
-                        <Tab.Screen
-                            options={{
-                                tabBarLabel: 'Cinemas',
-                            }}
-                            name="Cinemas" component={CinemasNavigator}/>
-                        <Tab.Screen
-                            options={{
-                                tabBarLabel: 'Promotion',
-                            }}
-                            name="Promotion" component={PromotionNavigator}/>
-                        <Tab.Screen
-                            options={{
-                                tabBarLabel: 'UserProfile',
-                            }}
-                            name="UserProfile" component={AuthNavigator}/>
-                    </Tab.Navigator>
-                    {showSpinner ? <SpinnerCustom fullStretch size={scale(40)} color={color}/> : null}
+                <Tab.Navigator
+                    tabBarPosition='bottom'
+                    initialRouteName="Home"
+                    tabBar={(props: any) => <MyTabBar {...props}/>}
+                >
+                    <Tab.Screen
+                        options={{
+                            tabBarLabel: 'home',
+                        }} name="Home" component={HomeNavigator}/>
+                    <Tab.Screen
+                        options={{
+                            tabBarLabel: 'Cinemas',
+                        }}
+                        name="Cinemas" component={CinemasNavigator}/>
+                    <Tab.Screen
+                        options={{
+                            tabBarLabel: 'Promotion',
+                        }}
+                        name="Promotion" component={PromotionNavigator}/>
+                    <Tab.Screen
+                        options={{
+                            tabBarLabel: 'UserProfile',
+                        }}
+                        name="UserProfile" component={AuthNavigator}/>
+                </Tab.Navigator>
+                {showSpinner ? <SpinnerCustom fullStretch size={scale(40)} color={color}/> : null}
             </View>
         );
     }
