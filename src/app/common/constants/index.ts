@@ -11,5 +11,10 @@ export const Constants = {
     },
     COMING: 'COMING',
     NOW: 'NOW',
-    Toast: "toast"
+    Toast: "toast",
+    PAYMENT_ONLINE: 'Payment online',
+    PAYMENT_ON_CASH: 'Payment at Cinemas',
+    EmitCode: {
+        Toast: "toast",
+    }
 };

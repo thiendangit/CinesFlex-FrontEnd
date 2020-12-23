@@ -34,3 +34,4 @@ export * from './IconBack/Icon';
 export * from './SearchRight/SearchRight';
 export * from './ModalBox/ModalBox';
 export * from './ButtonPlusMinus/ButtonPlusMinus';
+export * from './CardAnimation/CardAnimation';

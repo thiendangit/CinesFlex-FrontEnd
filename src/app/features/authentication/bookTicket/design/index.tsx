@@ -86,12 +86,16 @@ export const BookTicketScreen = ({navigation, route}: MoreProps) => {
     };
 
     const onPressBuy = () => {
-        modalPayment.current?.show();
-        // NavigationService.navigate(APP_SCREEN.BOOK_TICKET_RESULT, {text: "Book ticket success! Please take your phone with book code for take a ticket"})
+        if (handlePriceTicket(dataChair, dataCorn, dataBeverage) > 0) {
+            modalPayment.current?.show();
+        } else {
+            alert('Please choose your order')
+        }
     };
 
     const onPressPayment = () => {
-
+        alert('call api payment')
+        // NavigationService.navigate(APP_SCREEN.BOOK_TICKET_RESULT, {text: "Book ticket success! Please take your phone with book code for take a ticket"})
     };
 
     const onPressTicket = () => {

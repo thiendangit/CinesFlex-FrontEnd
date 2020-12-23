@@ -1,13 +1,15 @@
 import React, {forwardRef, memo, useRef, useState} from "react";
-import {Block, Button, IconBack, Img, ListView, ModalBox, Text} from "@components";
+import {Block, Button, CardAnimation, IconBack, Img, ListView, ModalBox, Text} from "@components";
 import {ScrollView, StyleSheet} from "react-native";
-import {formatMoney, handleImage, scale, verticalScale} from "@common";
+import {Constants, formatMoney, handleImage, scale, toast, verticalScale} from "@common";
 import {ColorsCustom} from "@theme/color";
 import {deviceHeight, deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
 import {ProductItem} from "@config/type";
 import {FontSizeDefault} from "@theme/fontSize";
 import {images, ImageTypes} from "@assets/image";
+import LinearGradient from "react-native-linear-gradient";
+import {cards, CardType} from "@library/components/CardAnimation/Card";
 
 interface ModalWithListProductProps {
     totalPrice: number,
@@ -27,19 +29,35 @@ interface OptionPayment {
 }
 
 const MODAL_WIDTH = deviceWidth / 1.1;
+let option_Payment: OptionPayment[] = [
+    {
+        id: 1,
+        name: Constants.PAYMENT_ON_CASH,
+        image: images.cash,
+        is_Selected: false
+    }, {
+        id: 2,
+        name: Constants.PAYMENT_ONLINE,
+        image: images.visa,
+        is_Selected: false
+    }
+];
 
 const ModalPayment = forwardRef<any, ModalWithListProductProps>(
     ({totalPrice, onPressPayment, ...rest},
      ref) => {
 
         const scrollRef = useRef<any>();
+        const [dataCards, setDataCards] = useState(cards);
+        const [option_PaymentState, setOption_PaymentState] = useState<OptionPayment[]>(option_Payment);
+        const [isActivePayment, setIsActivePayment] = useState<boolean>(false);
 
         const onPressCompletePayment = () => {
             onPressPayment()
         };
 
         const _onGoBack = () => {
-            scrollRef.current.scrollTo({x: 0, animated: true})
+            scrollRef.current.scrollTo({x: 0, animated: true});
         };
 
         const handleOnPressPaymentMethod = (option: OptionPayment, index: number) => {
@@ -50,31 +68,41 @@ const ModalPayment = forwardRef<any, ModalWithListProductProps>(
                 });
                 obj[index].is_Selected = true;
                 setOption_PaymentState(obj);
-                if (option.name === "Payment online") {
+                if (option.name === Constants.PAYMENT_ONLINE) {
                     scrollRef.current.scrollTo({x: deviceWidth * index, animated: true})
                 }
             } else {
-                if (option.name === "Payment online") {
+                if (option.name === Constants.PAYMENT_ONLINE) {
                     scrollRef.current.scrollTo({x: deviceWidth * index, animated: true})
                 }
             }
+            setIsActivePayment(false);
+            handleActiveButtonPayment()
         };
 
-        const option_Payment: OptionPayment[] = [
-            {
-                id: 1,
-                name: 'Payment on Cinemas',
-                image: images.cash,
-                is_Selected: false
-            }, {
-                id: 2,
-                name: 'Payment online',
-                image: images.visa,
-                is_Selected: false
-            }
-        ];
+        const onPressCard = (option: CardType, index: number) => {
+            let obj: CardType[] = Object.assign([], dataCards);
+            obj.map((item: CardType) => {
+                item.isSelected = false
+            });
+            obj[index].isSelected = !dataCards[index].isSelected;
+            setDataCards(obj);
+            handleActiveButtonPayment()
+        };
 
-        const [option_PaymentState, setOption_PaymentState] = useState(option_Payment);
+        const handleActiveButtonPayment = (): boolean => {
+            option_PaymentState.map((item) => {
+                if (item.name === Constants.PAYMENT_ON_CASH && item.is_Selected) {
+                    setIsActivePayment(true)
+                }
+            });
+            dataCards.map((item) => {
+                if (item.isSelected) {
+                    setIsActivePayment(true)
+                }
+            });
+            return false
+        };
 
         return (
             <ModalBox ref={ref} key={0}>
@@ -127,17 +155,28 @@ const ModalPayment = forwardRef<any, ModalWithListProductProps>(
                                 </Block>
                             </Block>
                             <Block block width={MODAL_WIDTH - scale(18)}>
-                                <Block flex={1} alignItems={'center'}
-                                       style={{width: deviceWidth}}
-                                       direction={'row'}>
+                                <Block
+                                    block
+                                    justifyContent={'center'}
+                                    style={{marginLeft: scale(30)}}>
                                     {/*card*/}
-
+                                    <CardAnimation cards={dataCards} onPressCard={onPressCard}/>
+                                    <LinearGradient
+                                        colors={['rgba(203,203,203,0)', 'white']}
+                                        style={{
+                                            height: deviceHeight * 0.05,
+                                            width: deviceWidth,
+                                            position: 'absolute',
+                                            bottom: 0,
+                                        }}
+                                    />
                                 </Block>
-                                <IconBack onPress={_onGoBack} containerStyle={{top: verticalScale(10)}}/>
+                                <IconBack onPress={_onGoBack}
+                                          containerStyle={{top: verticalScale(30 + (MODAL_WIDTH / 2) / 2), left: 0}}/>
                             </Block>
                         </ScrollView>
                         <Block flex={0.5}>
-                            <Block block margin={scale(20)} marginTop={5}>
+                            <Block block margin={scale(20)} marginTop={verticalScale(10)}>
                                 <Text fontSize={"FONT_24"} fontWeight={'bold'}>
                                     Total Price
                                 </Text>
@@ -155,12 +194,14 @@ const ModalPayment = forwardRef<any, ModalWithListProductProps>(
                         </Block>
                         <Block>
                             <Button
-                                onPress={onPressCompletePayment}
+                                onPress={isActivePayment ? onPressCompletePayment : () => {
+                                    alert('please choose payment method!')
+                                }}
                                 style={{
                                     alignSelf: 'center',
                                     height: verticalScale(50),
                                     width: MODAL_WIDTH,
-                                    backgroundColor: ColorsCustom.darkYellow,
+                                    backgroundColor: isActivePayment ? ColorsCustom.darkYellow : ColorsCustom.lightGrey,
                                     borderRadius: scale(30),
                                     top: verticalScale(10)
                                 }}>

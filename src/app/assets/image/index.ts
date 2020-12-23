@@ -34,6 +34,10 @@ export const images = {
     grid: require("./icons/icon-grid.png"),
     visa: require("./payment_icons/visa.png"),
     cash: require("./payment_icons/cash.png"),
+    card1: require("./cards/card1.png"),
+    card2: require("./cards/card2.png"),
+    card3: require("./cards/card3.png"),
+    card4: require("./cards/card4.png"),
 };
 
 export type ImageTypes = keyof typeof images;

@@ -55,6 +55,7 @@ const ModalBoxComponent = forwardRef((props: ModalBoxProps, ref) => {
             backdropOpacity={1}
             onBackdropPress={_onBackDropPress}
             isVisible={modalVisible}
+            hideModalContentWhileAnimating={true}
             backdropColor={backDropColor}>
             <Block style={[root]}>
                 {children}
