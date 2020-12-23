@@ -1,7 +1,7 @@
 import React, {forwardRef, memo} from "react";
 import {Block, Button, ButtonPlusMinus, Img, ListView, ModalBox, ModalBoxRef, Text} from "@components";
 import {StyleSheet} from "react-native";
-import {handleImage, scale} from "@common";
+import {formatMoney, handleImage, scale} from "@common";
 import {ColorsCustom} from "@theme/color";
 import {deviceHeight, deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
@@ -39,11 +39,11 @@ const ModalWithListProduct = forwardRef<any, ModalWithListProductProps>(
 
         const handlePriceCorn = (data: ProductItem[]) => {
             let total = 0;
-            data
-                .filter((item) => parseInt(String(item.quality ?? '0')) > 0)
+            data.filter((item) => parseInt(String(item.quality ?? '0')) > 0)
                 .map((item) => {
-                    total = total + parseInt(String(parseInt(String(item.quality ?? '0')) * parseInt(item.price)))
+                    total = total + parseInt(String((item.quality ?? 0) * parseInt(item.price)))
                 });
+            return formatMoney(total)
         };
 
         return (
@@ -78,19 +78,20 @@ const ModalWithListProduct = forwardRef<any, ModalWithListProductProps>(
                             contentContainerStyle={{marginTop: scale(10)}}/>
                     </Block>
                     <Block height={scale(60)} style={{backgroundColor: ColorsCustom.green}} borderRadius={60}>
-                        <Block block alignItems={'center'} justifyContent={'center'}>
+                        <Block block alignItems={'center'} justifyContent={'center'} direction={'row'}>
                             <Text style={{
                                 fontSize: FontSizeDefault.FONT_18,
                                 fontWeight: 'bold'
                             }}>
                                 Tổng cộng :
-                                <Text style={{
-                                    fontSize: FontSizeDefault.FONT_18,
-                                    fontWeight: 'bold',
-                                    color: ColorsCustom.lightWhite
-                                }}>
-                                    {handlePriceCorn(dataSource)}
-                                </Text>
+                            </Text>
+                            <Text style={{
+                                fontSize: FontSizeDefault.FONT_18,
+                                fontWeight: 'bold',
+                                color: ColorsCustom.lightWhite,
+                                marginLeft: scale(5)
+                            }}>
+                                {handlePriceCorn(dataSource)}
                             </Text>
                         </Block>
                     </Block>

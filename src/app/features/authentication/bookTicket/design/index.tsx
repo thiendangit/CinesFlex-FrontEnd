@@ -20,7 +20,7 @@ import {formatMoney, scale, useSelector, verticalScale} from "@common";
 import {ColorsCustom} from "@theme/color";
 import {ChairItemChoose, ProductItem} from "@config/type";
 import {AppState} from "@app_redux/type";
-import {_modalWithListProduct, dayItem as _dayItem} from '../design/components'
+import {_modalWithListProduct, dayItem as _dayItem, _modalPayment} from '../design/components'
 import {timeItem as _timeItem} from '../design/components'
 import {moreItem as _moreItem} from '../design/components'
 import {NavigationService} from "@navigation/navigationService";
@@ -45,6 +45,7 @@ export const BookTicketScreen = ({navigation, route}: MoreProps) => {
     const [dataChair, setDataChair] = useState<any>(chairs);
     const modalCorn = useRef<ModalBoxRef>();
     const modalBeverages = useRef<ModalBoxRef>();
+    const modalPayment = useRef<ModalBoxRef>();
     const [dataCorn, setDataCorn] = useState(dataCornSample);
     const [dataBeverage, setDataBeverage] = useState(dataBevSample);
 
@@ -85,7 +86,12 @@ export const BookTicketScreen = ({navigation, route}: MoreProps) => {
     };
 
     const onPressBuy = () => {
-        NavigationService.navigate(APP_SCREEN.BOOK_TICKET_RESULT, {text: "Book ticket success! Please take your phone with book code for take a ticket"})
+        modalPayment.current?.show();
+        // NavigationService.navigate(APP_SCREEN.BOOK_TICKET_RESULT, {text: "Book ticket success! Please take your phone with book code for take a ticket"})
+    };
+
+    const onPressPayment = () => {
+
     };
 
     const onPressTicket = () => {
@@ -199,7 +205,7 @@ export const BookTicketScreen = ({navigation, route}: MoreProps) => {
                                         }
                                     }
                                     setDataChair(dataCopy)
-                                }else {
+                                } else {
                                     alert('this chair is reserved')
                                 }
                             }}
@@ -288,8 +294,7 @@ export const BookTicketScreen = ({navigation, route}: MoreProps) => {
                           containerStyle={{marginLeft: scale(10)}}/>
                 </Block>
                 <Block direction={'row'} marginLeft={scale(10)} alignItems={'center'}
-                       justifyContent={'space-between'} marginTop={scale(20)}
-                >
+                       justifyContent={'space-between'} marginTop={scale(20)}>
                     <Block>
                         <_ticketItem numberTicket={handleQualityTicket(dataChair)} onPressItem={onPressTicket}/>
                     </Block>
@@ -304,6 +309,8 @@ export const BookTicketScreen = ({navigation, route}: MoreProps) => {
                 <_modalWithListProduct ref={modalBeverages} onPressPlus={onPressPlusBeveragesItem}
                                        onPressMinus={onPressMinusBeveragesItem}
                                        dataSource={dataBeverage}/>
+                <_modalPayment ref={modalPayment} totalPrice={handlePriceTicket(dataChair, dataCorn, dataBeverage)}
+                               onPressPayment={onPressPayment}/>
             </Screen>
             <IconBack onPress={_onGoBack}/>
         </Block>

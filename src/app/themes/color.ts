@@ -94,7 +94,7 @@ export const ColorsCustom : ColorsCustomType = {
     yellow: "#FDF12C",
   },
   lightGrey: "#b4b4b4",
-  darkOrange: "rgba(255, 132, 11, 1)",
+  darkOrange: "rgb(255,196,91)",
   darkYellow: "rgba(255, 164, 31, 1)",
   yellow: "rgba(255, 198, 53, 1)",
   darkRed: "#8B0000",

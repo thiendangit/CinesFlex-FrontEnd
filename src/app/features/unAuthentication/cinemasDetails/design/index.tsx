@@ -5,20 +5,34 @@ import {useTranslation} from 'react-i18next';
 import {verticalScale} from "@common";
 import {_cinemasListItem} from "./components";
 import {NavigationService} from "@navigation/navigationService";
-import {APP_SCREEN} from "@navigation/screenTypes";
+import {APP_SCREEN, RootStackParamList} from "@navigation/screenTypes";
+import {FilmProps} from "@features/unAuthentication/home/design";
+import {StackScreenProps} from "@react-navigation/stack";
 
-interface CinemasDetailsProps {
-
+interface CinemasDetailsParamProps {
+    route: {
+        params: {
+            film: FilmProps,
+            region: number
+        }
+    },
 }
 
-export const CinemasDetailsScreen = (props : CinemasDetailsProps) => {
+type CinemasDetailsProps = StackScreenProps<RootStackParamList, APP_SCREEN.FILM_DETAILS> | CinemasDetailsParamProps;
+
+export const CinemasDetailsScreen: React.FC<CinemasDetailsProps> = (props) => {
+
+    const film = props.route.params?.film ?? null;
+    const region = props.route.params?.region ?? null;
 
     const _onGoBack = () => {
         NavigationService.goBack()
     };
 
-    const onPressItem = (item: any) => {
-        NavigationService.navigate(APP_SCREEN.BOOK_TICKET);
+    const onPressItem = (obj: any) => {
+        if (film && region) {
+            NavigationService.navigate(APP_SCREEN.BOOK_TICKET, {film, cinemas: obj, region});
+        }
     };
 
     const _renderItem = ({item, index}: any) => {

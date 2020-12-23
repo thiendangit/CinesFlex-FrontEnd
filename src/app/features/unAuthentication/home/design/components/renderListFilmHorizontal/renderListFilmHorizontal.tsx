@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import {Block, Button, Text} from "@components";
 import {Animated, StyleSheet, View} from "react-native";
-import {scale, verticalScale} from "@common";
+import {handleImage, scale, verticalScale} from "@common";
 import {tabItem} from "@config/type";
 import {ColorsCustom} from "@theme/color";
 import {SpacingDefault} from "@theme/spacing";
@@ -9,17 +9,18 @@ import {deviceHeight, deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
 import {FontSizeDefault} from "@theme/fontSize";
 import FastImage from "react-native-fast-image";
+import {FilmProps} from "@features/unAuthentication/home/design";
 
-interface subTabItemProps {
-    item: tabItem,
+interface ListFilmItemProps {
+    item: FilmProps,
     index: string,
-    onPressItem: (item: tabItem) => void,
+    onPressItem: (item: FilmProps) => void,
     translateX: any
 }
 
 const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
 
-const ListFilmHorizontal = ({item, index, onPressItem, translateX}: subTabItemProps) => {
+const ListFilmHorizontal = ({item, index, onPressItem, translateX}: ListFilmItemProps) => {
     let indexNumber = parseInt(index);
     let style = [styles(indexNumber).buttonStyle];
     return (
@@ -34,11 +35,7 @@ const ListFilmHorizontal = ({item, index, onPressItem, translateX}: subTabItemPr
                             transform: [{translateX}]
                         }}
                         resizeMode={'stretch'}
-                        source={{
-                            uri: indexNumber % 2 == 0 ?
-                                'https://phimgi.tv/wp-content/uploads/sat-thu-john-wick-phan-3-chuan-bi-chien-tranh-john-wick-chapter-3-parabellum-9544-2.jpg' :
-                                'https://upload.wikimedia.org/wikipedia/vi/d/de/Sonic_The_Hedgehog_2020_%28poster%29.jpg'
-                        }}
+                        source={handleImage({uri: item?.image})}
                     />
                 </Button>
                 <Block style={styles().SubContainer}>

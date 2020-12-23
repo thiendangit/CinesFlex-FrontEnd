@@ -11,6 +11,7 @@ import {PromotionItemProps} from "@features/unAuthentication/promotion/design";
 import LinearGradient from "react-native-linear-gradient";
 import {FontSizeDefault} from "@theme/fontSize";
 import {ColorsCustom} from "@theme/color";
+import {SharedElement} from 'react-navigation-shared-element';
 
 interface leftTabOption {
     title: string
@@ -24,9 +25,10 @@ export interface Props {
     },
 }
 
-const BACKDROP_HEIGHT = deviceHeight * 0.4;
+const BACKGROUND_HEIGHT = deviceHeight / 1.6;
+const BACKDROP_HEIGHT = deviceHeight - (BACKGROUND_HEIGHT / 1.8);
 
-export const PromotionDetailsScreen: React.FC<Props> = (props): React.ReactElement => {
+export const PromotionDetailsScreen = (props: Props) => {
 
     let item = props.route.params?.item ?? null;
 
@@ -44,25 +46,27 @@ export const PromotionDetailsScreen: React.FC<Props> = (props): React.ReactEleme
                 backgroundColor: 'white'
             }}>
                 <StatusBar hidden={true}/>
-                <Animated.View
-                    removeClippedSubviews={false}
-                    style={{
-                        position: 'absolute',
-                        width: deviceWidth,
-                        height: deviceHeight,
-                        overflow: 'hidden',
-                    }}
-                >
-                    <Img
-                        resizeMode={'cover'}
-                        source={{uri: item.image}}
+                <SharedElement id={`item.${item.id}.photo`}>
+                    <Animated.View
+                        removeClippedSubviews={false}
                         style={{
+                            position: 'absolute',
                             width: deviceWidth,
                             height: BACKDROP_HEIGHT,
-                            position: 'absolute',
+                            overflow: 'hidden',
                         }}
-                    />
-                </Animated.View>
+                    >
+                        <Img
+                            resizeMode={'cover'}
+                            source={{uri: item.image}}
+                            style={{
+                                width: deviceWidth,
+                                height: BACKDROP_HEIGHT,
+                                position: 'absolute',
+                            }}
+                        />
+                    </Animated.View>
+                </SharedElement>
                 <LinearGradient
                     colors={['rgba(0, 0, 0, 0)', 'white']}
                     style={{
@@ -91,7 +95,8 @@ export const PromotionDetailsScreen: React.FC<Props> = (props): React.ReactEleme
                     borderColor: ColorsCustom.blue,
                     borderWidth: 1,
                     width: deviceWidth / 3,
-                    marginTop: scale(30),
+                    marginTop: scale(20),
+                    marginBottom : scale(20),
                     alignSelf: 'center',
                     borderRadius: scale(5)
                 }}>
@@ -103,6 +108,11 @@ export const PromotionDetailsScreen: React.FC<Props> = (props): React.ReactEleme
             <IconBack containerStyle={{marginTop: verticalScale(20)}} onPress={onPressBack}/>
         </ScrollView>
     );
+};
+
+PromotionDetailsScreen.sharedElements = (route: any, otherNavigation: any, showing: any) => {
+    const item = route.params?.item;
+    return [`item.${item.id}.photo`];
 };
 
 export default memo(PromotionDetailsScreen, isEqual);

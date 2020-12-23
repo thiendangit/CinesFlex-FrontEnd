@@ -32,6 +32,8 @@ export const images = {
     bg_cinemas_festival: require("./source/bg_cinemas_festival.png"),
     list: require("./icons/icon-list.png"),
     grid: require("./icons/icon-grid.png"),
+    visa: require("./payment_icons/visa.png"),
+    cash: require("./payment_icons/cash.png"),
 };
 
 export type ImageTypes = keyof typeof images;

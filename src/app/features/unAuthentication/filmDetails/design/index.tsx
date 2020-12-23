@@ -1,6 +1,5 @@
-import React, {memo, useEffect, useRef, useState} from 'react';
+import React, {memo, useRef, useState} from 'react';
 // @ts-ignore
-import {StackScreenProps} from '@react-navigation/stack';
 import isEqual from 'react-fast-compare';
 import {RootStackParamList, APP_SCREEN} from '@navigation/screenTypes';
 import {Block, Button, Icon, IconBack, Img, Text} from "@components"
@@ -12,22 +11,31 @@ import {deviceHeight, deviceWidth} from "@utils";
 import {StatusBar, Animated, TouchableOpacity, ScrollView} from "react-native";
 import {FontSizeDefault} from "@theme/fontSize";
 import {images} from "@assets/image";
-import {useValue} from "react-native-reanimated";
-import {icons} from "@assets/icon";
 import {_ButtonBuy} from "@features/unAuthentication/cinemasDetails/design/components/buttonBuy/buttonBuy";
-
-
-type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
+import {SharedElement} from "react-navigation-shared-element";
+import {FilmProps} from "@features/unAuthentication/home/design";
+import {StackScreenProps} from "@react-navigation/stack";
 
 interface leftTabOption {
     title: string
 }
 
+export interface FilmDetailsProps {
+    route: {
+        params: {
+            item: FilmProps
+        }
+    },
+}
+
+type DetailsProps = StackScreenProps<RootStackParamList, APP_SCREEN.FILM_DETAILS>;
+
 let LEFT_BAR_HEIGHT = deviceHeight / 2;
 let LEFT_BAR_WIDTH = deviceWidth / 6;
 
-export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
+export const FilmDetailsScreen = (props: FilmDetailsProps | DetailsProps) => {
 
+    let film = props.route.params?.item;
     const [dataSourceCords, setDataSourceCords] = useState<any>([]);
     const [barAnim] = useState(new Animated.Value(0));
     const [currentTab, setCurrentTab] = useState(0);
@@ -40,7 +48,7 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
     };
 
     const onPressBuy = () => {
-        NavigationService.navigate(APP_SCREEN.CINEMAS)
+        NavigationService.navigate(APP_SCREEN.CINEMAS, {film: film})
     };
 
     let leftTabOption: leftTabOption[] = [
@@ -65,13 +73,7 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
                        marginTop={deviceHeight / 3}
                        width={LEFT_BAR_WIDTH}
                        height={LEFT_BAR_HEIGHT}>
-                    <Animated.View style={{
-                        top: scale(66),
-                        position: 'absolute',
-                        backgroundColor: ColorsCustom.lime_green,
-                        height: scale(22),
-                        width: scale(68),
-                        borderRadius: scale(22 / 2),
+                    <Animated.View style={[styles().leftBarContainer, {
                         transform: [{
                             translateY: barAnim.interpolate({
                                 inputRange: [0, 1, 2],
@@ -81,15 +83,11 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
                         }, {
                             rotate: '90deg',
                         }],
-                    }}>
+                    }]}>
                     </Animated.View>
                     {
                         leftTabOption.map((tab, index) => {
-                            return <Button style={{
-                                marginTop: scale(60),
-                                transform: ([{rotate: '90deg'}]),
-                                width: scale(70),
-                            }}>
+                            return <Button style={styles().leftBarButtonContainer}>
                                 <Text
                                     onPress={() => {
                                         setCurrentTab(index);
@@ -106,11 +104,11 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
                                             animated: true,
                                         });
                                     }}
-                                    style={{
-                                        fontSize: FontSizeDefault.FONT_14,
-                                        fontWeight: '600',
-                                        color: currentTab === index ? ColorsCustom.lightWhite : ColorsCustom.blackTextPrimary
-                                    }}> {tab.title}</Text>
+                                    style={[styles().leftBarTitle,
+                                        {
+                                            color: currentTab === index ?
+                                                ColorsCustom.lightWhite : ColorsCustom.blackTextPrimary
+                                        }]}> {tab.title}</Text>
                             </Button>
                         })
                     }
@@ -124,40 +122,28 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
                         dataSourceCords[0] = layout.y;
                         setDataSourceCords(dataSourceCords);
                     }}>
-                        <Img style={{
-                            flex: 1,
-                            borderBottomLeftRadius: scale(deviceHeight / 2 / 5)
-                        }}
-                             containerStyle={{
-                                 height: deviceHeight / 2,
-                             }}
-                             resizeMode={'cover'}
-                             source={{
-                                 uri: 'https://phimgi.tv/wp-content/uploads/sat-thu-john-wick-phan-3-chuan-bi-chien-tranh-john-wick-chapter-3-parabellum-9544-2.jpg'
-                             }}
-                        />
+                        <SharedElement id={`item.${film?.id}.photo`}>
+                            <Img style={{
+                                flex: 1,
+                                borderBottomLeftRadius: scale(deviceHeight / 2 / 5)
+                            }}
+                                 containerStyle={{
+                                     height: deviceHeight / 2,
+                                 }}
+                                 resizeMode={'cover'}
+                                 source={{
+                                     uri: film?.image
+                                 }}
+                            />
+                        </SharedElement>
                         <Icon
                             onPress={() => {
                                 setIsLike(!isLike)
                             }}
                             icon={'heart'}
-                            style={{
-                                tintColor: isLike ? ColorsCustom.red : ColorsCustom.lightWhite,
-                                position: 'absolute',
-                                bottom: scale(20),
-                                right: scale(30),
-                                height: scale(30),
-                                width: scale(30)
-                            }}/>
+                            style={[styles().heartIconStyle, {tintColor: isLike ? ColorsCustom.red : ColorsCustom.lightWhite}]}/>
                         <Text
-                            style={{
-                                position: 'absolute',
-                                top: scale(30),
-                                right: scale(30),
-                                color: ColorsCustom.lightWhite,
-                                fontSize: FontSizeDefault.FONT_24,
-                                fontWeight: 'bold'
-                            }}>
+                            style={styles().rateStyle}>
                             9.0
                         </Text>
                     </Block>
@@ -197,16 +183,7 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
                                     return (
                                         <TouchableOpacity
                                             activeOpacity={1}
-                                            style={{
-                                                borderWidth: 1,
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                height: scale(25),
-                                                marginLeft: scale(10),
-                                                width: scale(60),
-                                                borderRadius: scale(25 / 2),
-                                                borderColor: ColorsCustom.grey
-                                            }}>
+                                            style={styles().typeFilm}>
                                             <Text style={{fontSize: FontSizeDefault.FONT_14}}
                                                   fontWeight={'600'}
                                                   color={ColorsCustom.grey}
@@ -281,10 +258,7 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
                                 marginLeft={scale(10)}
                                 fontSize={"FONT_24"}
                                 fontWeight={'600'}
-                                style={{
-                                    color: ColorsCustom.light_red,
-                                    textAlign: 'center',
-                                }}>
+                                style={styles().ageLimited}>
                                 18+
                             </Text>
                         </Block>
@@ -292,9 +266,16 @@ export const FilmDetailsScreen = ({navigation, route}: MoreProps) => {
                     </Block>
                 </Animated.ScrollView>
             </Block>
-            <IconBack  containerStyle={{marginTop: verticalScale(20)}} onPress={onPressBack}/>
+            <IconBack containerStyle={{marginTop: verticalScale(20)}} onPress={onPressBack}/>
         </Block>
     );
+};
+
+FilmDetailsScreen.sharedElements = (route: any, otherNavigation: any, showing: any) => {
+    const film = route.params?.item;
+    return [{
+        id: `item.${film?.id}.photo`,
+    }];
 };
 
 export default memo(FilmDetailsScreen, isEqual);

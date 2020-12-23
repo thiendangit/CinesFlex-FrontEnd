@@ -10,11 +10,12 @@ import {deviceHeight, deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
 import {SvgUri} from "react-native-svg";
 import {FontSizeDefault} from "@theme/fontSize";
+import {FilmProps} from "@features/unAuthentication/home/design";
 
 interface subTabItemProps {
-    item: tabItem,
+    item: FilmProps,
     index: string,
-    onPressItem: (item: tabItem) => void
+    onPressItem: (item: FilmProps) => void
 }
 
 export const renderListFilm = ({item, index, onPressItem}: subTabItemProps) => {
@@ -32,11 +33,7 @@ export const renderListFilm = ({item, index, onPressItem}: subTabItemProps) => {
                      width: deviceWidth / 2.2
                  }}
                  resizeMode={'cover'}
-                 source={{
-                     uri: indexNumber % 2 == 0 ?
-                         'https://phimgi.tv/wp-content/uploads/sat-thu-john-wick-phan-3-chuan-bi-chien-tranh-john-wick-chapter-3-parabellum-9544-2.jpg' :
-                         'https://upload.wikimedia.org/wikipedia/vi/d/de/Sonic_The_Hedgehog_2020_%28poster%29.jpg'
-                 }}
+                 source={handleImage({uri : item?.image})}
             />
             <Text style={styles().textRate}>
                 {9.7}

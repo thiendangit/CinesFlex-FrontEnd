@@ -10,6 +10,8 @@ target 'CinesFlex' do
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
+  pod 'RNSharedElement', :path => '../node_modules/react-native-shared-element'
+
   target 'CinesFlexTests' do
     inherit! :complete
     # Pods for testing

@@ -12,11 +12,13 @@ import {handleImage, scale} from "@common";
 import {Animated, FlatList, Platform, ScrollView, StyleSheet, TouchableOpacity} from "react-native";
 import LinearGradient from 'react-native-linear-gradient';
 import {NavigationService} from "@navigation/navigationService";
-
+import {SharedElement} from 'react-navigation-shared-element';
 
 type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
+
 export interface PromotionItemProps {
-    image : string
+    id: number
+    image: string
 }
 
 const BACKGROUND_HEIGHT = deviceHeight / 1.6;
@@ -28,16 +30,24 @@ const BACKDROP_HEIGHT = deviceHeight * 0.7;
 export const PromotionScreen = ({navigation, route}: MoreProps) => {
 
     const scrollHorizontalX = useRef<any>(new Animated.Value(0)).current;
-    let data : PromotionItemProps[] = [{image: 'https://www.elle.vn/wp-content/uploads/2019/12/17/382575/phim-han-quoc-hay-nam-2019.jpg'}, {
-        image: 'https://upload.wikimedia.org/wikipedia/vi/thumb/0/0e/Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg/250px-Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg'
-    }, {image: 'https://www.elle.vn/wp-content/uploads/2019/12/17/382575/phim-han-quoc-hay-nam-2019.jpg'},
-        {
-            image: 'https://upload.wikimedia.org/wikipedia/vi/thumb/0/0e/Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg/250px-Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg'
-        }];
+    let data: PromotionItemProps[] = [{
+        id: 1,
+        image: 'https://www.elle.vn/wp-content/uploads/2019/12/17/382575/phim-han-quoc-hay-nam-2019.jpg'
+    }, {
+        id: 2,
+        image: 'https://upload.wikimedia.org/wikipedia/vi/thumb/0/0e/Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n' +
+            '_h%C3%ACnh%29_poster.jpg/250px-Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg'
+    }, {
+        id: 3, image: 'https://www.elle.vn/wp-content/uploads/2019/12/17/382575/phim-han-quoc-hay-nam-2019.jpg'
+    }, {
+        id: 4,
+        image: 'https://upload.wikimedia.org/wikipedia/vi/thumb/0/0e/Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%8' +
+            '1n_h%C3%ACnh%29_poster.jpg/250px-Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg'
+    }];
     const [dataSource, setDataSource] = useState<PromotionItemProps[]>(data);
 
-    const handleOnPressBanner = (item : PromotionItemProps) => {
-        NavigationService.navigate(APP_SCREEN.PROMOTION_DETAILS,{item})
+    const handleOnPressBanner = (item: PromotionItemProps) => {
+        NavigationService.push(APP_SCREEN.PROMOTION_DETAILS, {item})
     };
 
     const Backdrop = ({item, scrollX}: any) => {
@@ -165,32 +175,35 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
 
                             return (
                                 <Button
-                                    onPress={()=>handleOnPressBanner(item)}
+                                    onPress={() => handleOnPressBanner(item)}
                                     activeOpacity={1}
                                     style={{width: ITEM_SIZE}}
                                     key={index.toString()}>
-                                    <Animated.View
-                                        style={{
-                                            marginHorizontal: SPACING,
-                                            height: LIST_ITEM_HEIGHT,
-                                            alignItems: 'center',
-                                            backgroundColor: 'white',
-                                            marginTop: scale(50),
-                                            borderRadius: scale(20),
-                                            transform: [{translateY}, {scaleY}],
-                                            overflow: 'hidden'
-                                        }}>
-                                        <Img
+                                    <SharedElement id={`item.${item.id}.photo`}>
+                                        <Animated.View
                                             style={{
+                                                marginHorizontal: SPACING,
                                                 height: LIST_ITEM_HEIGHT,
                                                 width: ITEM_SIZE - SPACING * 2,
-                                            }}
-                                            resizeMode={'cover'}
-                                            source={handleImage({
-                                                uri: item.image
-                                            })}
-                                        />
-                                    </Animated.View>
+                                                alignItems: 'center',
+                                                backgroundColor: 'white',
+                                                marginTop: scale(50),
+                                                borderRadius: scale(20),
+                                                transform: [{translateY}, {scaleY}],
+                                                overflow: 'hidden'
+                                            }}>
+                                            <Img
+                                                style={{
+                                                    height: LIST_ITEM_HEIGHT,
+                                                    width: ITEM_SIZE - SPACING * 2,
+                                                }}
+                                                resizeMode={'cover'}
+                                                source={handleImage({
+                                                    uri: item.image
+                                                })}
+                                            />
+                                        </Animated.View>
+                                    </SharedElement>
                                 </Button>
                             )
                         })

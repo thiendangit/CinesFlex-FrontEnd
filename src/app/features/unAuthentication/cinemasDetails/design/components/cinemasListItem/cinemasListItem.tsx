@@ -16,11 +16,12 @@ interface subTabItemProps {
 
 let CONTAINER_HEIGHT = deviceWidth / 2.5;
 let CONTAINER_WIDTH = deviceWidth / 1.1;
+let DOT_SIZE = scale(20);
 
 
 export const cinemasListItem = ({item, index, onPressItem}: subTabItemProps) => {
     return (
-        <Button onPress={() => onPressItem(item)} style={[styles.container, index == '0' ? {
+        <Button onPress={() => onPressItem(item)} activeOpacity={1} style={[styles.container, index == '0' ? {
             marginTop: scale(30)
         } : null]}>
             <Img style={{
@@ -36,18 +37,14 @@ export const cinemasListItem = ({item, index, onPressItem}: subTabItemProps) => 
                 <Text style={styles.nameCinemas} numberOfLines={2}>
                     Cinemas Quang Trung
                 </Text>
-                <Text
-                    numberOfLines={5}
-                    ellipsizeMode="middle"
-                    style={styles.detailsCinemas}
-                >
+                <Text numberOfLines={5} ellipsizeMode="middle" style={styles.detailsCinemas}>
                     Lịch chiếu phim & Mua vé CGV CT Plaza - CGV toàn quốc đầy đủ & tiện lợi nhất. Rạp CGV CT Plaza
                     nằm ở tầng 10 CT Plaza, nằm đối diện sân bay Tân Sơn Nhất, là 1 khu vực nhộn nhịp và cũng là địa
                     điểm rất được yêu thích của các bạn sinh viên với chất lượng dịch vụ ổn định và giá vé cạnh tranh.
                     {' '}
                     <Text
                         style={[styles.detailsCinemas, {color: ColorsCustom.blue}]}
-                        onPress={() => alert('readMore')}>
+                        onPress={() => alert('read more')}>
                         see more
                     </Text>
                 </Text>
@@ -57,21 +54,10 @@ export const cinemasListItem = ({item, index, onPressItem}: subTabItemProps) => 
                             return (
                                 <TouchableOpacity
                                     activeOpacity={1}
-                                    style={{
-                                        borderWidth: 1,
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        height: scale(14),
-                                        backgroundColor: index === 0 ? ColorsCustom.lightGrey : ColorsCustom.lightWhite,
-                                        margin: scale(3),
-                                        width: scale(50),
-                                        borderRadius: scale(25 / 2),
-                                        borderColor: ColorsCustom.lightGrey
-                                    }}>
+                                    style={[styles.showTime, {backgroundColor: index === 0 ? ColorsCustom.lightGrey : ColorsCustom.lightWhite}]}>
                                     <Text style={{fontSize: FontSizeDefault.FONT_12}}
                                           fontWeight={'600'}
-                                          color={index === 0 ? ColorsCustom.lightWhite : ColorsCustom.lightGrey}
-                                    >
+                                          color={index === 0 ? ColorsCustom.lightWhite : ColorsCustom.lightGrey}>
                                         10:30
                                     </Text>
                                 </TouchableOpacity>
@@ -79,8 +65,17 @@ export const cinemasListItem = ({item, index, onPressItem}: subTabItemProps) => 
                         })
                     }
                 </Block>
-
             </Block>
+            <Block style={[styles.dotStyle, {
+                left: scale(-5),
+                borderTopRightRadius: scale(DOT_SIZE / 2),
+                borderBottomRightRadius: scale(DOT_SIZE / 2),
+            }]}/>
+            <Block style={[styles.dotStyle, {
+                right: scale(-5),
+                borderTopLeftRadius: scale(DOT_SIZE / 2),
+                borderBottomLeftRadius: scale(DOT_SIZE / 2),
+            }]}/>
         </Button>
     )
 };
@@ -92,7 +87,7 @@ const styles = StyleSheet.create({
         borderRadius: scale(10),
         marginHorizontal: scale(10),
         marginTop: scale(25),
-        backgroundColor: 'white',
+        backgroundColor: ColorsCustom.darkOrange,
         flexDirection: 'row',
         shadowColor: "#000",
         shadowOffset: {
@@ -126,6 +121,23 @@ const styles = StyleSheet.create({
     detailsCinemas: {
         color: ColorsCustom.blackTextPrimary,
         fontSize: FontSizeDefault.FONT_13,
+    },
+    showTime: {
+        borderWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: scale(14),
+        margin: scale(3),
+        width: scale(50),
+        borderRadius: scale(25 / 2),
+        borderColor: ColorsCustom.lightGrey
+    },
+    dotStyle: {
+        position: 'absolute',
+        backgroundColor: 'white',
+        bottom: CONTAINER_HEIGHT / 3 - scale(DOT_SIZE / 2),
+        height: scale(DOT_SIZE) / 1.3,
+        width: scale(DOT_SIZE) / 2,
     }
 });
 

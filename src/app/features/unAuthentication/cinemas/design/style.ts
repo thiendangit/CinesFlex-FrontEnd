@@ -35,11 +35,12 @@ export const styles = StyleSheet.create({
         width: deviceWidth,
         flex: 1,
         paddingHorizontal: scale(10),
+        marginTop: scale(30),
         alignItems: 'center',
     },
     buttonSupplier_Buyer: {
         backgroundColor: 'white',
-        marginTop: scale(30),
+        // marginTop: scale(30),
         borderWidth: 1,
         alignItems: 'center',
         flexDirection: 'row',
@@ -48,7 +49,7 @@ export const styles = StyleSheet.create({
         borderRadius: scale(deviceWidth * 0.3) / 10
     },
     nameSupplierBuyer: {
-        marginTop: moderateScale(10),
+        // marginTop: moderateScale(10),
         fontSize: FontSizeDefault.FONT_20,
         fontWeight: '600',
     }

@@ -72,6 +72,5 @@ export const ModalBox = memo(ModalBoxComponent, equals);
 
 export interface ModalBoxRef {
     show(): void;
-
     hide(): void;
 }
