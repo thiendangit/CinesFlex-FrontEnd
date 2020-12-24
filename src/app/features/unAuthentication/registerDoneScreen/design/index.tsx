@@ -49,7 +49,7 @@ export const registerDoneScreen: React.FC<Props> = (props): React.ReactElement =
                 onPress={onPressButtonHome}
                 style={[styles.buttonLogin, {backgroundColor: userType === Constants.ROLE.SUPPLIER ? ColorsCustom.lime_green : ColorsCustom.light_red}]}>
                 <Text style={styles.textButton}>
-                    {t('common:home')}
+                    {t('common:Login')}
                 </Text>
             </Button>
         </Block>

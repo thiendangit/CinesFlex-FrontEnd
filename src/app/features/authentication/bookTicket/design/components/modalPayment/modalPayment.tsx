@@ -123,21 +123,8 @@ const ModalPayment = forwardRef<any, ModalWithListProductProps>(
                                                 <Button
                                                     activeOpacity={1}
                                                     onPress={() => handleOnPressPaymentMethod(item, index)}
-                                                    key={item.id.toString()} style={{
-                                                    height: MODAL_WIDTH / 2.2,
-                                                    width: MODAL_WIDTH / 3,
-                                                    backgroundColor: item.is_Selected ? ColorsCustom.lightGrey : 'white',
-                                                    borderRadius: scale(10),
-                                                    shadowColor: "#000",
-                                                    shadowOffset: {
-                                                        width: 0,
-                                                        height: 2,
-                                                    },
-                                                    shadowOpacity: 0.25,
-                                                    shadowRadius: 3.84,
-
-                                                    elevation: 5,
-                                                }}>
+                                                    key={item.id.toString()}
+                                                    style={[styles.cardContainer, {backgroundColor: item.is_Selected ? ColorsCustom.lightGrey : 'white',}]}>
                                                     <Img style={{
                                                         width: MODAL_WIDTH / 3,
                                                         height: MODAL_WIDTH / 2.2 / 2,
@@ -245,6 +232,20 @@ const styles = StyleSheet.create({
         width: MODAL_WIDTH,
         backgroundColor: ColorsCustom.lightWhite,
         borderRadius: scale(30)
+    },
+    cardContainer: {
+        height: MODAL_WIDTH / 2.2,
+        width: MODAL_WIDTH / 3,
+        borderRadius: scale(10),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
     }
 });
 

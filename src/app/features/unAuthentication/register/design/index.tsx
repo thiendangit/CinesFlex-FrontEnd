@@ -10,7 +10,7 @@ import {styles} from "@features/unAuthentication/register/design/style";
 import {ColorsCustom} from "@theme/color";
 import {images} from "@assets/image";
 import {useTranslation} from "react-i18next";
-import {Constants, dispatch, verticalScale} from "@common";
+import {Constants, dispatch, toast, verticalScale} from "@common";
 import {useSelector} from "react-redux";
 import {FormRegister, FormValueLoginPage} from "@features/unAuthentication/register/components";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
@@ -36,7 +36,7 @@ export const RegisterScreen = ({}: RegisterProps) => {
     );
     const _modalMode = useRef<ModalAppModeRef>();
     const _onGoBack = () => {
-            NavigationService.goBack()
+        NavigationService.goBack()
     };
     const [t] = useTranslation();
 
@@ -45,25 +45,20 @@ export const RegisterScreen = ({}: RegisterProps) => {
         let body = JSON.stringify({
             email: data.email.toLowerCase(),
             password: data.password.toLowerCase(),
-            password_confirm: data.confirmPassword.toLowerCase(),
-            phone_number: data.phone,
+            password_confirmation: data.confirmPassword.toLowerCase(),
+            name: data.phone,
         });
+        console.log({body});
         dispatch(actionsRegister.onRegister(`${URL_DOMAIN}${ApiConstants.REGISTER}`, body, (result) => {
             dispatch(actionsLogin.onLoginEnd());
             if (result?.data && result?.data?.success) {
                 NavigationService.navigate(APP_SCREEN.REGISTER_DONE, {text: result?.data.message});
             } else {
-                Alert.alert(
-                    '',
-                    result?.data.message,
-                    [
-                        {
-                            text: 'OK', onPress: () => {
-                            },
-                        },
-                    ],
-                    {cancelable: false},
-                );
+                if (result?.data) {
+                    toast(`${result?.data?.errors[0]}`, 2000);
+                } else {
+                    toast(`${result?.msg}`, 2000);
+                }
             }
         }));
     }

@@ -13,6 +13,7 @@ import {images} from "@assets/image";
 import {_lineItem} from "@features/authentication/userProfile/design/components";
 import {APP_SCREEN} from "@navigation/screenTypes";
 import {NavigationService} from "@navigation/navigationService";
+import {onLogout} from "@app_redux/reducer";
 
 interface IState {
 
@@ -30,26 +31,17 @@ export interface lineItemProps {
 
 const UserProfileScreen = (props: any): React.ReactElement => {
 
-    // useEffect(() => {
-    // @ts-ignore
-    // if (!loginReducer.isLoggedIn) {
-    //     NavigationService.navigate('LoginScreen')
-    // }
-    // @ts-ignore
-    // }, [(!loginReducer.isLoggedIn)]);
-
-    // const id = useSelector((state: IState) => state.loginReducer.id);
     const dispatch = useDispatch();
-    const onLogout = () => {
-        // dispatch(loginActions.logOut());
-        // NavigationService.navigate('LoginScreen')
+    const onPressLogout = () => {
+        dispatch(onLogout());
+        NavigationService.reset(APP_SCREEN.LOGIN)
     };
 
     const handleOnPressLineItem = (item: lineItemProps) => {
-        if(item.detail !== APP_SCREEN.LOGOUT){
+        if (item.detail !== APP_SCREEN.LOGOUT) {
             NavigationService.navigate(item.detail)
-        }else {
-            alert('Logout')
+        } else {
+            onPressLogout()
         }
     };
 
@@ -131,7 +123,8 @@ const UserProfileScreen = (props: any): React.ReactElement => {
                     {
                         lineItemOption.map((item, index) => {
                             return (
-                                <_lineItem key={index.toString()} item={item} index={index.toString()} onPressItem={handleOnPressLineItem}/>
+                                <_lineItem key={index.toString()} item={item} index={index.toString()}
+                                           onPressItem={handleOnPressLineItem}/>
                             )
                         })
                     }

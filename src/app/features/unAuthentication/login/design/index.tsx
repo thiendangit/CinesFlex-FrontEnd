@@ -3,7 +3,7 @@ import isEqual from 'react-fast-compare';
 import {Block, Button, IconBack, Img, ModalAppMode, ModalAppModeRef, Screen, Text} from '@components';
 import {onSetAppProfile, onSetAppTab, onSetToken} from '@store/app_redux/reducer';
 import {FormLogin, FormValueLogin} from './components';
-import {dispatch} from '@common';
+import {dispatch, toast} from '@common';
 import {APP_SCREEN, RootStackParamList} from '@navigation/screenTypes';
 import {useTranslation} from "react-i18next";
 import {ColorsCustom} from "@theme/color";
@@ -45,27 +45,19 @@ export const LoginScreen: React.FC<Props> = (props): React.ReactElement => {
         });
         dispatch(actionsLogin.onLoginStart());
         dispatch(actionsLogin.onLogin(`${URL_DOMAIN}${ApiConstants.LOGIN}`, body, async (result) => {
-            if (result.data.success) {
-                dispatch(onSetToken('s'));
-                dispatch(onSetAppProfile(result.data?.auth));
-                const userType = result.data.auth.user_type;
-                await fetch(``, {
-                    method: 'GET',
-                    headers: new Headers({
-                        'Content-Type': 'application/json'
-                    }),
-                }).then(async r => {
-                    let _;
-                    dispatch(actionsLogin.onAfterLogin(``, _, (result) => {
-                        dispatch(actionsLogin.onLoginEnd());
-                        if (result.data.success) {
-                            let tab: AppTab = result.data.data;
-                            dispatch(onSetAppTab(tab))
-                        }
-                    }));
-                });
+            console.log({result});
+            if (result?.data?.success) {
+                toast('Login Success');
+                dispatch(onSetToken(result?.data?.data?.token));
+                dispatch(onSetAppProfile({...result.data?.data?.user}));
+                NavigationService.reset(APP_SCREEN.USER_PROFILE)
             } else {
-                alert(result.data.message)
+                dispatch(actionsLogin.onLoginEnd());
+                if (result?.data) {
+                    toast(`${result?.data?.message}`, 2000);
+                } else {
+                    toast(`${result?.msg}`, 2000);
+                }
             }
         }));
     };

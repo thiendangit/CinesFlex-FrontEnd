@@ -11,6 +11,7 @@ const initialState: LoginState = {
     loading: false,
     count: 0
 };
+
 const loginSlice = createSlice({
     name: SLICE_NAME.LOGIN,
     initialState: initialState,

@@ -1,5 +1,5 @@
 export const DEV_MODE_API = '';
-export const PROD_MODE_API = 'https://cine-flex.herokuapp.com/api/';
+export const PROD_MODE_API = 'http://127.0.0.1:8000/api/';
 export const STAGING_MODE_API = '';
 export const APP_MODE_URL = {
     dev: DEV_MODE_API,
@@ -12,5 +12,5 @@ const API_VERSION = '';
 
 export const ApiConstants = {
     LOGIN: `login`,
-    REGISTER : `register`,
+    REGISTER: `register`,
 };

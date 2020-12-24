@@ -1,23 +1,23 @@
-import { ThemeType } from '@theme';
-import { AppModeType } from '@networking';
-import {AppTab} from "@config/type";
+import {ThemeType} from '@theme';
+import {AppModeType} from '@networking';
+import {AppTab, UserType} from "@config/type";
 
 export interface AppState {
-  internetState: boolean;
+    internetState: boolean;
 
-  profile: any;
+    profile: UserType
 
-  token: any | undefined | null;
+    token: any | undefined | null;
 
-  loading: boolean;
+    loading: boolean;
 
-  showDialog: boolean;
+    showDialog: boolean;
 
-  theme: ThemeType;
+    theme: ThemeType;
 
-  appMode: AppModeType;
+    appMode: AppModeType;
 
-  appUrl: string;
+    appUrl: string;
 
-  appTab : AppTab
+    appTab: AppTab
 }

@@ -23,14 +23,14 @@ import {actionsRegister} from "@features/unAuthentication/register/redux/reducer
 export type FormValueLoginPage = {
     email: string;
     password: string;
-    phone : number,
+    phone: number,
     confirmPassword: string;
 };
 
 interface FormLoginProps {
     activeTintBorderColor: string,
     onSubmit: (data: FormValueLoginPage) => void;
-    onForgotPassword:() => void;
+    onForgotPassword: () => void;
 }
 
 interface OptionPageProps {
@@ -40,7 +40,7 @@ interface OptionPageProps {
     containerStyle: any,
 }
 
-const FormLoginComponent = React.forwardRef(({onSubmit, activeTintBorderColor}: FormLoginProps,ref : any) => {
+const FormLoginComponent = React.forwardRef(({onSubmit, activeTintBorderColor}: FormLoginProps, ref: any) => {
 
     const {
         register: register,
@@ -54,10 +54,6 @@ const FormLoginComponent = React.forwardRef(({onSubmit, activeTintBorderColor}: 
     const [t] = useTranslation();
     const x = useValue(0);
     const [showPassword, setShowPassword] = useState(true);
-    const [districts, setDistricts] = useState<any>([]);
-    const [districtSelected, setDistrictSelected] = useState<any>(null);
-    const [citiesSelected, setCitiesSelected] = useState<any>(null);
-    const [cities, setCities] = useState<any>(null);
     const [addressError, setAddressError] = useState<any>(false);
     const [dataPage1, setDataPage1] = useState({});
     const scrollRef = useRef<any>(null);
@@ -67,31 +63,6 @@ const FormLoginComponent = React.forwardRef(({onSubmit, activeTintBorderColor}: 
     const URL_DOMAIN = useSelector(
         (state: { app: AppState }) => state?.app?.appUrl
     );
-
-    const fetchDistrictAndCity = useCallback(async (id?: number) => {
-        let body = JSON.stringify({
-            parent_id: id ?? 0
-        });
-        dispatch(actionsRegister.onGetCityDistrict(`${URL_DOMAIN}${ApiConstants.GET_DISTRICT_CITY}`, body, (result) => {
-            if (result.data?.success) {
-                let resultTemp = result.data?.data;
-                let dataSource: { label: string, value: number }[] = [];
-                resultTemp.map((item: any) => {
-                    dataSource.push({label: item.name, value: item.id})
-                });
-                if (!id) {
-                    setCities(dataSource)
-                } else {
-                    setDistricts(dataSource);
-                    setDistrictSelected(null);
-                }
-            }
-        }));
-    }, [cities]);
-
-    useEffect(() => {
-        fetchDistrictAndCity().then(r => '')
-    }, []);
 
     const customRuleString = (name: string, minLength = 2, maxLength = 50, validate?: (val: any) => any) => {
         return {
@@ -123,7 +94,7 @@ const FormLoginComponent = React.forwardRef(({onSubmit, activeTintBorderColor}: 
         }
     };
 
-    const customRulePhone = (name: string, minLength = 7, maxLength = 20) => {
+    const customRulePhone = (name: string, minLength = 2, maxLength = 20) => {
         return {
             required: {value: true, message: `The ${name.toLowerCase()} field is required.`},
             minLength: {
@@ -133,15 +104,6 @@ const FormLoginComponent = React.forwardRef(({onSubmit, activeTintBorderColor}: 
             maxLength: {
                 value: maxLength,
                 message: `Please enter ${name.toLowerCase()} less than ${maxLength} characters`
-            },
-            validate: (val: any) => {
-                if (validator.isNumeric(val)) {
-                    if (!isMobilePhoneFunc(val, ['vi-VN', 'ko-KR'])) {
-                        return `The ${name.toLowerCase()} field is invalid.`
-                    }
-                } else {
-                    return `The ${name.toLowerCase()} field must be number.`
-                }
             }
         }
     };
@@ -156,7 +118,7 @@ const FormLoginComponent = React.forwardRef(({onSubmit, activeTintBorderColor}: 
                         message: "invalid email address"
                     },
                 },
-                phone: customRulePhone('Phone'),
+                phone: customRulePhone('Name'),
                 password: customRuleString('Password', 6, 30),
                 confirmPassword: customRuleString('Password', 6, 30, (val: any) =>
                     onCheckType(getValues().password, 'undefined') ||
@@ -202,19 +164,7 @@ const FormLoginComponent = React.forwardRef(({onSubmit, activeTintBorderColor}: 
                 }}>
                     <Input
                         containerStyle={[styles().textInputContainer, {marginTop: verticalScale(10)}]}
-                        name={'email'} label={'Email'}
-                        nameTrigger={'email'}
-                        activeTintBorderColor={activeTintBorderColor}
-                    />
-                    <ErrorMessage
-                        errors={errors}
-                        name="email"
-                        render={({message}) =>
-                            <Text style={styles().textError}>{message}</Text>}
-                    />
-                    <Input
-                        containerStyle={[styles().textInputContainer, {marginTop: verticalScale(10)}]}
-                        name={'phone'} label={'Phone'}
+                        name={'phone'} label={'Name'}
                         nameTrigger={'phone'}
                         keyboardType={'numeric'}
                         activeTintBorderColor={activeTintBorderColor}
@@ -222,6 +172,18 @@ const FormLoginComponent = React.forwardRef(({onSubmit, activeTintBorderColor}: 
                     <ErrorMessage
                         errors={errors}
                         name="phone"
+                        render={({message}) =>
+                            <Text style={styles().textError}>{message}</Text>}
+                    />
+                    <Input
+                        containerStyle={[styles().textInputContainer, {marginTop: verticalScale(10)}]}
+                        name={'email'} label={'Email'}
+                        nameTrigger={'email'}
+                        activeTintBorderColor={activeTintBorderColor}
+                    />
+                    <ErrorMessage
+                        errors={errors}
+                        name="email"
                         render={({message}) =>
                             <Text style={styles().textError}>{message}</Text>}
                     />

@@ -275,3 +275,15 @@ export interface ProductItem {
     quality?: number
 }
 
+export interface UserType {
+    "id": string,
+    "name": string,
+    "phone": string,
+    "email": string,
+    "email_verified_at": string,
+    "type": number,
+    "status": number,
+    "created_at": string,
+    "updated_at": string
+}
+
