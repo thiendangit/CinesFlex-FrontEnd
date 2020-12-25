@@ -1,2 +1,2 @@
-export const LOGIN = 'LOGIN';
+export const GET_DATA_HOMEPAGE = 'GET_DATA_HOMEPAGE';
 export const AFTER_LOGIN = 'AFTER_LOGIN';

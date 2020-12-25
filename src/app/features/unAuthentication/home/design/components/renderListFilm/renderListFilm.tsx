@@ -33,7 +33,7 @@ export const renderListFilm = ({item, index, onPressItem}: subTabItemProps) => {
                      width: deviceWidth / 2.2
                  }}
                  resizeMode={'cover'}
-                 source={handleImage({uri : item?.image})}
+                 source={handleImage({uri : item?.image ?? 'https://phimgi.tv/wp-content/uploads/sat-thu-john-wick-phan-3-chuan-bi-chien-tranh-john-wick-chapter-3-parabellum-9544-2.jpg'})}
             />
             <Text style={styles().textRate}>
                 {9.7}

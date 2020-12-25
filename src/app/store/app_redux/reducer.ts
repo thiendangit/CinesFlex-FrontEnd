@@ -8,7 +8,15 @@ import {Constants} from "@common";
 const initialAppState: AppState = {
     internetState: true,
     profile: {
-        user_type : 'b',
+        id: '',
+        name: '',
+        phone: '',
+        email: '',
+        email_verified_at: '',
+        type: 1,
+        status: 1,
+        created_at: '',
+        updated_at: ''
     },
     token: null,
     /**
@@ -81,7 +89,7 @@ const appSlice = createSlice({
         },
         onLogout: (state) => {
             state.token = null;
-            state.profile = {};
+            state.profile = {...initialAppState.profile};
             state.appTab = initialAppState.appTab
         },
         onSetAppTab: (state, {payload}: PayloadAction<any>) => {
@@ -93,10 +101,12 @@ const appSlice = createSlice({
 });
 
 export const appReducer = appSlice.reducer;
-export const {onLogout,
+export const {
+    onLogout,
     onStartProcess, onEndProcess,
     onLoadApp, onLoadAppEnd,
     onSetAppMode, onSetAppProfile,
     onSetAppTheme, onSetInternet,
-    onSetToken,onSetAppTab,
-    onLoadTheme} = appSlice.actions;
+    onSetToken, onSetAppTab,
+    onLoadTheme
+} = appSlice.actions;

@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
     },
     modalChooseItem: {
         height: deviceHeight / 1.3,
+        width: deviceWidth / 1.1,
         backgroundColor: ColorsCustom.green,
         borderRadius: scale(30)
     }

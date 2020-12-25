@@ -3,29 +3,30 @@ import {Block, Button, Text} from "@components";
 import {StyleSheet} from "react-native";
 import {scale, verticalScale} from "@common";
 import {images} from "@assets/image";
-import {tabItem} from "@config/type";
+import {ShowTimeProps, tabItem} from "@config/type";
 import {ColorsCustom} from "@theme/color";
 import {SpacingDefault} from "@theme/spacing";
 import {deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
 import {FontSizeDefault} from "@theme/fontSize";
 
-interface subTabItemProps {
-    item: any,
+interface TimeItemProps {
+    item: ShowTimeProps,
     index: string,
-    onPressItem: (item: tabItem) => void
+    onPressItem: (item: ShowTimeProps, index: string) => void
 }
 
-export const TimeItem = ({item, index, onPressItem}: subTabItemProps) => {
+export const TimeItem = ({item, index, onPressItem}: TimeItemProps) => {
     return (
-        <Block style={styles.container}>
+        <Button style={[styles.container, item.is_Selected ? {backgroundColor: ColorsCustom.lightBlue} : null]}
+                onPress={() => onPressItem(item, index)}>
             <Text style={styles.dayText}>
-                17:30
+                {item?.show_time}
             </Text>
             <Text style={styles.dayOfWeed}>
                 $5.42 • 2D
             </Text>
-        </Block>
+        </Button>
     )
 };
 

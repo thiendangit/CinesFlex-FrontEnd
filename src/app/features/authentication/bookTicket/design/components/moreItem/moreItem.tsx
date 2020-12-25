@@ -31,20 +31,20 @@ export const MoreItem = (props: MoreItemProps) => {
         <Block block>
             <Button style={[styles.container]} activeOpacity={1}>
                 <Img style={styles.imageProduct}
-                     source={handleImage({uri: props.item.image})}/>
+                     source={handleImage({uri: props.item?.image ?? "https://vuabongbong.com/images/201808/goods_img/bap-rang-le_1460.jpg"})}/>
                 <Block style={{}} flex={1}>
                     <Block flex={0.2} direction={'row'} style={{}}>
                         <Block flex={1} style={{marginLeft: scale(10)}} alignItems={'center'}>
                             <Text style={styles.productName} numberOfLines={2}>
-                                {props.item.name}
+                                {props.item?.name}
                             </Text>
-                            <Text style={styles.productDetails}>
-                                {props.item.description}
+                            <Text style={styles.productDetails} numberOfLines={3}>
+                                {props.item?.description}
                             </Text>
                         </Block>
                         <Block flex={0.7} alignItems={'center'}>
                             <Text style={styles.productPrice}>
-                                {formatMoney(props.item.price)}
+                                {formatMoney(props.item?.price)}
                             </Text>
                         </Block>
                     </Block>
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         marginTop: scale(5)
     },
     productPrice: {
-        fontSize: FontSizeDefault.FONT_15,
+        fontSize: FontSizeDefault.FONT_14,
         fontWeight: '800'
     }
 });

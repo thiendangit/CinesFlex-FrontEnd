@@ -17,7 +17,7 @@ export const styles = (theme?: AppTheme) =>
             flex: 1,
             backgroundColor: 'white',
             alignSelf: 'center',
-            width: deviceWidth,
+            // width: deviceWidth,
         },
         container: {
             flex: 1,

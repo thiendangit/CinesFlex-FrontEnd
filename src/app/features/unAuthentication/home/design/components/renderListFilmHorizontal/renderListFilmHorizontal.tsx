@@ -35,7 +35,7 @@ const ListFilmHorizontal = ({item, index, onPressItem, translateX}: ListFilmItem
                             transform: [{translateX}]
                         }}
                         resizeMode={'stretch'}
-                        source={handleImage({uri: item?.image})}
+                        source={handleImage({uri: item?.image ?? 'https://phimgi.tv/wp-content/uploads/sat-thu-john-wick-phan-3-chuan-bi-chien-tranh-john-wick-chapter-3-parabellum-9544-2.jpg'})}
                     />
                 </Button>
                 <Block style={styles().SubContainer}>

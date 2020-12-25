@@ -253,16 +253,20 @@ export interface AppTab {
 }
 
 export interface ChairItem {
+    id: string
     name: string,
-    parent: string,
-    is_available: boolean
+    seat_row: string
+    status: number
+    type: number
 }
 
 
 export interface ChairItemChoose {
+    id: string
     name: string,
-    parent: string,
-    is_available: boolean,
+    seat_row: string
+    status: number
+    type: number
     is_selected: boolean,
 }
 
@@ -273,17 +277,35 @@ export interface ProductItem {
     description: string
     image: string,
     quality?: number
+    "reference": string,
+    "type": number,
+    "status": number
 }
 
 export interface UserType {
-    "id": string,
-    "name": string,
-    "phone": string,
-    "email": string,
-    "email_verified_at": string,
-    "type": number,
-    "status": number,
-    "created_at": string,
-    "updated_at": string
+    id: string,
+    name: string,
+    phone: string,
+    email: string,
+    email_verified_at: string,
+    type: number,
+    status: number,
+    created_at: string,
+    updated_at: string
+}
+
+
+export interface ShowTimeProps {
+    cinema_id: string
+    day: number
+    day_of_week: string
+    id: string
+    movie_id: string
+    screen_id: string
+    show_time: string
+    status: number
+    type: number,
+    show_times: any,
+    is_Selected?: boolean,
 }
 

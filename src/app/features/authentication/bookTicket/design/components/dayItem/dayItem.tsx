@@ -1,9 +1,9 @@
 import React, {memo} from "react";
-import {Block, Button,Text} from "@components";
+import {Block, Button, Text} from "@components";
 import {StyleSheet} from "react-native";
 import {scale, verticalScale} from "@common";
 import {images} from "@assets/image";
-import {tabItem} from "@config/type";
+import {ShowTimeProps, tabItem} from "@config/type";
 import {ColorsCustom} from "@theme/color";
 import {SpacingDefault} from "@theme/spacing";
 import {deviceWidth} from "@utils";
@@ -11,20 +11,21 @@ import isEqual from "react-fast-compare";
 import {FontSizeDefault} from "@theme/fontSize";
 
 interface subTabItemProps {
-    item : any,
-    index : string,
-    onPressItem : (item : tabItem) => void
+    item: ShowTimeProps,
+    index: string,
+    onPressItem: (item: ShowTimeProps, index: string) => void
 }
 
-export const DayItem = ({item, index, onPressItem} : subTabItemProps) => {
+export const DayItem = ({item, index, onPressItem}: subTabItemProps) => {
     return (
         <Block>
-            <Button style={styles.container}>
+            <Button style={[styles.container, item.is_Selected ? {backgroundColor: ColorsCustom.lightBlue} : null]}
+                    onPress={() => onPressItem(item, index)}>
                 <Text style={styles.dayOfWeed}>
-                    Tue
+                    {item?.day_of_week}
                 </Text>
                 <Text style={styles.dayText}>
-                    18
+                    {item?.day}
                 </Text>
             </Button>
         </Block>
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
         width: deviceWidth / 5,
         borderRadius: scale(20),
         marginVertical: scale(5),
-        marginHorizontal : scale(10),
+        marginHorizontal: scale(10),
         alignItems: 'center',
         backgroundColor: ColorsCustom.product.ViewBorder,
         justifyContent: 'space-between',
@@ -52,14 +53,14 @@ const styles = StyleSheet.create({
 
         elevation: 5,
     },
-    dayText : {
-        marginTop : scale(5),
-        fontSize : FontSizeDefault.FONT_24,
-        fontWeight : 'bold'
+    dayText: {
+        marginTop: scale(5),
+        fontSize: FontSizeDefault.FONT_24,
+        fontWeight: 'bold'
     },
-    dayOfWeed : {
-        color : ColorsCustom.grey,
-        marginBottom : scale(5)
+    dayOfWeed: {
+        color: ColorsCustom.grey,
+        marginBottom: scale(5)
     }
 });
 

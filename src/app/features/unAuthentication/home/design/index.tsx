@@ -23,8 +23,11 @@ import {SharedElement} from "react-navigation-shared-element";
 type HomeProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
 
 export interface FilmProps {
-    id: number
-    image: string
+    "id": string,
+    "name": string,
+    "type": number,
+    "status": number,
+    "image": string
 }
 
 let dataDemo = [{
@@ -67,11 +70,12 @@ let dataDemo2 = [{
     image: 'https://image.phimmoizz.net/film/9271/poster.medium.jpg'
 }];
 
+
 export const HomeScreen = ({navigation, route}: HomeProps) => {
     const [text, setTitle] = useState("In Theater now");
-    const [dataFilmNow, setDataFilmNow] = useState<any>(dataDemo);
-    const [dataFilmComing, setDataFilmComing] = useState<any>(dataDemo2);
-    const [dataFilmSearch, setDataFilmSearch] = useState<any>(dataDemo);
+    const [dataFilmNow, setDataFilmNow] = useState<FilmProps[] | []>([]);
+    const [dataFilmComing, setDataFilmComing] = useState<FilmProps[] | []>([]);
+    const [dataFilmSearch, setDataFilmSearch] = useState<FilmProps[] | []>([]);
     const [isFocusSearch, setIsFocusSearch] = useState<boolean>(false);
     const [textSearch, setTextSearch] = useState<string>('');
     const scrollRef = useRef<any>();
@@ -83,8 +87,22 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
         (state: RootState) => state.home?.isHorizontal
     );
 
+    let URL_DOMAIN = useSelector(
+        (state: RootState) => state.app?.appUrl
+    );
+
     useEffect(() => {
-        //call api
+        dispatch(actionsHome.getDataHomePage(`${URL_DOMAIN}movies`, (result) => {
+            console.log({result});
+            if (result?.data?.data) {
+                setDataFilmNow(result.data.data.filter((item: FilmProps) => {
+                    return item?.type === 1
+                }));
+                setDataFilmComing(result.data.data.filter((item: FilmProps) => {
+                    return item?.type === 2
+                }))
+            }
+        }))
     }, []);
 
     const onScroll = (event: any) => {
@@ -230,7 +248,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
                                            marginTop: verticalScale(40),
                                            marginBottom: verticalScale(40)
                                        }}
-                                       ListFooterComponent={_footerView}
+                        // ListFooterComponent={_footerView}
 
                     />
                     <Text style={styles().headerTitle}>
@@ -253,8 +271,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
                                            marginTop: verticalScale(40),
                                            marginBottom: verticalScale(40)
                                        }}
-                                       ListFooterComponent={_footerView}
-
+                        // ListFooterComponent={_footerView}
                     />
                 </Screen>
             </Block>
@@ -338,9 +355,9 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
                     isHorizontal ? contentViewHorizontal() : contentViewVertical()
                     : contentViewForSearch()}
             </Block>
-            <Button style={styles().buttonChangeLayout} onPress={handleOnPressChangeLayout}>
+            {!isFocusSearch ? <Button style={styles().buttonChangeLayout} onPress={handleOnPressChangeLayout}>
                 <Img source={isHorizontal ? images.list : images.grid} style={styles().imageChangeLayout}/>
-            </Button>
+            </Button> : null}
         </Screen>
     );
 };

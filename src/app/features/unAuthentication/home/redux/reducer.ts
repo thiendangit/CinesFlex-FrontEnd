@@ -20,13 +20,12 @@ const homeSlice = createSlice({
     }
 });
 
-const onLogin = createAction(Action.LOGIN, (url: string, body: any, onSucceeded: (response: any) => void) => ({
+const getDataHomePage = createAction(Action.GET_DATA_HOMEPAGE, (url: string, onSucceeded: (response: any) => void) => ({
     payload: {
         url,
-        body,
         onSucceeded
     }
 }));
 
-export const actionsHome = {...homeSlice.actions, onLogin};
+export const actionsHome = {...homeSlice.actions, getDataHomePage};
 export const homeReducer = homeSlice.reducer;

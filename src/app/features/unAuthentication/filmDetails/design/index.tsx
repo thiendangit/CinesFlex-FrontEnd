@@ -132,7 +132,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps | DetailsProps) => {
                                  }}
                                  resizeMode={'cover'}
                                  source={{
-                                     uri: film?.image
+                                     uri: film?.image ?? 'https://phimgi.tv/wp-content/uploads/sat-thu-john-wick-phan-3-chuan-bi-chien-tranh-john-wick-chapter-3-parabellum-9544-2.jpg'
                                  }}
                             />
                         </SharedElement>
