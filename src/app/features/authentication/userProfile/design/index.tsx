@@ -90,7 +90,7 @@ const UserProfileScreen = (props: any): React.ReactElement => {
                     <Block>
                         <Block style={styles.imageContainer}>
                             <Avatar.Image style={{}} size={(deviceWidth / 2.5 - scale(10))}
-                                          source={{uri: 'https://avatars2.githubusercontent.com/u/56025627?s=460&u=6c1c2577adb2c45d76167d061cf68b05e9b3e43d&v=4'}}>
+                                          source={{uri: 'https://scontent.fsgn5-6.fna.fbcdn.net/v/t1.0-9/108200276_2405548933075795_7974088370686247055_n.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=KGBn4x0m754AX-TyvZ7&_nc_ht=scontent.fsgn5-6.fna&oh=66be5a0af52fbcfac2f8a820cc499881&oe=600E6167'}}>
                             </Avatar.Image>
                         </Block>
                         <Button

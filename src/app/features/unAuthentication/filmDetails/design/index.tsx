@@ -118,8 +118,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
                 </Block>
 
                 <Animated.ScrollView style={{flex: 1}} bounces={false} showsVerticalScrollIndicator={false}
-                                     ref={scrollRef}
-                >
+                                     ref={scrollRef}>
                     <Block onLayout={(event) => {
                         const layout = event.nativeEvent.layout;
                         dataSourceCords[0] = layout.y;
@@ -201,7 +200,13 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
                         </Block>
                         <Block marginTop={scale(10)}>
                             <Text fontWeight={'400'}>
-                                {film?.detail?.description} Hai anh em Mai và Men cùng yêu một cô gái tên Pon, nhưng do điều kiện gia đình không tốt, hai anh em đành dấn thân vào thế giới đen tối. Nhờ sự giới thiệu của Bo, hai anh em họ gia nhập vào một nhóm cướp xe do To dẫn đầu. Không lâu sau, bố của Mai là Sorn mất, Men cũng biết về quan hệ yêu dương của Mai và Pon. Lần này, Mai đã vướng phải vô vàn rắc rối, bao gồm cả sự truy sát của To. Chính vì vậy, Mai buộc phải giải quyết hết mọi rắc rối của mình, dù là trong tình cảm hay với những người xung quanh.
+                                {film?.detail?.description} Hai anh em Mai và Men cùng yêu một cô gái tên Pon, nhưng do
+                                điều kiện gia đình không tốt, hai anh em đành dấn thân vào thế giới đen tối. Nhờ sự giới
+                                thiệu của Bo, hai anh em họ gia nhập vào một nhóm cướp xe do To dẫn đầu. Không lâu sau,
+                                bố của Mai là Sorn mất, Men cũng biết về quan hệ yêu dương của Mai và Pon. Lần này, Mai
+                                đã vướng phải vô vàn rắc rối, bao gồm cả sự truy sát của To. Chính vì vậy, Mai buộc phải
+                                giải quyết hết mọi rắc rối của mình, dù là trong tình cảm hay với những người xung
+                                quanh.
                             </Text>
                         </Block>
                     </Block>
