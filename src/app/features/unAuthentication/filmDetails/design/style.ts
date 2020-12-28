@@ -96,7 +96,7 @@ export const styles = (theme?: AppTheme) =>
             justifyContent: 'center',
             height: scale(25),
             marginLeft: scale(10),
-            width: scale(60),
+            minWidth: scale(60),
             borderRadius: scale(25 / 2),
             borderColor: ColorsCustom.grey
         },

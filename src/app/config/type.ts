@@ -275,11 +275,16 @@ export interface ProductItem {
     name: string,
     price: string,
     description: string
-    image: string,
+    images: {
+        created_at: string
+        id: string
+        updated_at: string
+        url: string
+    }[],
     quality?: number
     "reference": string,
     "type": number,
-    "status": number
+    "status": number,
 }
 
 export interface UserType {

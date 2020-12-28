@@ -58,12 +58,21 @@ const getListSeatByScreen = createAction(Action.GET_LIST_SEAT_BY_SCREEN, (url: s
     }
 }));
 
+const bookTicket = createAction(Action.BOOK_TICKET, (url: string, body: any, onSucceeded: (response: any) => void) => ({
+    payload: {
+        url,
+        body,
+        onSucceeded
+    }
+}));
+
 export const actionsCinemas = {
     ...homeSlice.actions,
     getDataCinemas,
     getListCinemas,
     getListShowTimeByCinemas,
     getListSeatByScreen,
-    getListProducts
+    getListProducts,
+    bookTicket
 };
 export const cinemasReducer = homeSlice.reducer;

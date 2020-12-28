@@ -32,17 +32,15 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
     const scrollHorizontalX = useRef<any>(new Animated.Value(0)).current;
     let data: PromotionItemProps[] = [{
         id: 1,
-        image: 'https://www.elle.vn/wp-content/uploads/2019/12/17/382575/phim-han-quoc-hay-nam-2019.jpg'
+        image: 'https://www.cgv.vn/media/wysiwyg/Newsoffer2/May18/Keyart_350x495.jpg'
     }, {
         id: 2,
-        image: 'https://upload.wikimedia.org/wikipedia/vi/thumb/0/0e/Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n' +
-            '_h%C3%ACnh%29_poster.jpg/250px-Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg'
+        image: 'https://thegioidienanh.vn/stores/news_dataimages/thanhtan/072017/12/15/2752_Promotion_Ha_Tinh_POSM_A4.jpg'
     }, {
-        id: 3, image: 'https://www.elle.vn/wp-content/uploads/2019/12/17/382575/phim-han-quoc-hay-nam-2019.jpg'
+        id: 3, image: 'https://cdn.chanhtuoi.com/uploads/2015/05/cgv-tang-coinbank-Avengers-mien-phi.jpg'
     }, {
         id: 4,
-        image: 'https://upload.wikimedia.org/wikipedia/vi/thumb/0/0e/Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%8' +
-            '1n_h%C3%ACnh%29_poster.jpg/250px-Ng%C6%B0%E1%BB%9Di_%C4%91%C3%A0m_ph%C3%A1n_%28phim_truy%E1%BB%81n_h%C3%ACnh%29_poster.jpg'
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBaFa2HbWkziCUVIl81KVljzNRb4Cfs7eYXg&usqp=CAU'
     }];
     const [dataSource, setDataSource] = useState<PromotionItemProps[]>(data);
 

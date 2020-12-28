@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import {Button, Img, Text} from "@components";
 import {StyleSheet, View} from "react-native";
-import {handleImage, scale, verticalScale} from "@common";
+import {formatDateToDDMM, handleImage, scale, verticalScale} from "@common";
 import {images} from "@assets/image";
 import {AppTab, tabItem} from "@config/type";
 import {ColorsCustom} from "@theme/color";
@@ -11,18 +11,23 @@ import isEqual from "react-fast-compare";
 import {SvgUri} from "react-native-svg";
 import {FontSizeDefault} from "@theme/fontSize";
 import {FilmProps} from "@features/unAuthentication/home/design";
+import {useSelector} from "react-redux";
+import {RootState} from "@store/allReducers";
+import {URL_IMAGE} from "@networking";
 
 interface subTabItemProps {
     item: FilmProps,
     index: string,
-    onPressItem: (item: FilmProps) => void
+    onPressItem: (item: FilmProps, isComing: boolean | undefined) => void,
+    isComing: boolean
 }
 
-export const renderListFilm = ({item, index, onPressItem}: subTabItemProps) => {
+export const renderListFilm = ({item, index, onPressItem, isComing}: subTabItemProps) => {
     let indexNumber = parseInt(index);
     let style = [styles(indexNumber).container];
+
     return (
-        <Button onPress={() => onPressItem(item)} activeOpacity={1} style={style}>
+        <Button onPress={() => onPressItem(item, isComing)} activeOpacity={1} style={style}>
             <Img style={{
                 height: deviceHeight / 1.6,
                 width: deviceWidth / 2.2,
@@ -33,10 +38,10 @@ export const renderListFilm = ({item, index, onPressItem}: subTabItemProps) => {
                      width: deviceWidth / 2.2
                  }}
                  resizeMode={'cover'}
-                 source={handleImage({uri : item?.image ?? 'https://phimgi.tv/wp-content/uploads/sat-thu-john-wick-phan-3-chuan-bi-chien-tranh-john-wick-chapter-3-parabellum-9544-2.jpg'})}
+                 source={handleImage({uri: `${URL_IMAGE}${item?.detail?.images[0]?.url}` ?? ''})}
             />
             <Text style={styles().textRate}>
-                {9.7}
+                {isComing ? formatDateToDDMM(item?.date_begin) : item?.detail?.rating}
             </Text>
         </Button>
     )
@@ -76,13 +81,13 @@ const styles = (indexNumber?: number) => StyleSheet.create({
         marginTop: verticalScale(5),
         color: ColorsCustom.grey
     },
-    textRate : {
-        color : ColorsCustom.lightWhite,
-        fontSize : FontSizeDefault.FONT_18,
-        position : 'absolute',
-        top : scale(10),
-        right : scale(10),
-        fontWeight : 'bold'
+    textRate: {
+        color: ColorsCustom.lightWhite,
+        fontSize: FontSizeDefault.FONT_18,
+        position: 'absolute',
+        top: scale(10),
+        right: scale(10),
+        fontWeight: 'bold'
     }
 });
 

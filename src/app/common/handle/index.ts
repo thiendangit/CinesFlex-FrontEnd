@@ -33,3 +33,13 @@ export const handleCheckTimeWithCurrentTime = (date: string): boolean => {
     let endTime = moment(currentTime, 'HH:mm a');
     return beginningTime.isBefore(endTime)
 };
+
+export const formatDateToDDMM = (date: string) => {
+    return moment(date).format('DD/MM')
+};
+
+export const formatMinusToHours = (minus: number) => {
+    let hours = Math.floor(minus / 60);
+    let minutes = minus % 60;
+    return hours + "h" + minutes + "m";
+};

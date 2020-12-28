@@ -6,7 +6,7 @@ import {Block, Button, Icon, IconBack, Img, Text} from "@components"
 import {styles} from "@features/unAuthentication/filmDetails/design/style";
 import {ColorsCustom} from "@theme/color";
 import {NavigationService} from "@navigation/navigationService";
-import {handleImage, scale, verticalScale} from "@common";
+import {formatDateToDDMM, formatMinusToHours, handleImage, scale, verticalScale} from "@common";
 import {deviceHeight, deviceWidth} from "@utils";
 import {StatusBar, Animated, TouchableOpacity, ScrollView} from "react-native";
 import {FontSizeDefault} from "@theme/fontSize";
@@ -15,6 +15,7 @@ import {_ButtonBuy} from "@features/unAuthentication/cinemasDetails/design/compo
 import {SharedElement} from "react-navigation-shared-element";
 import {FilmProps} from "@features/unAuthentication/home/design";
 import {StackScreenProps} from "@react-navigation/stack";
+import {URL_IMAGE} from "@networking";
 
 interface leftTabOption {
     title: string
@@ -23,7 +24,8 @@ interface leftTabOption {
 export interface FilmDetailsProps {
     route: {
         params: {
-            item: FilmProps
+            item: FilmProps,
+            isComing: boolean
         }
     },
 }
@@ -33,9 +35,10 @@ type DetailsProps = StackScreenProps<RootStackParamList, APP_SCREEN.FILM_DETAILS
 let LEFT_BAR_HEIGHT = deviceHeight / 2;
 let LEFT_BAR_WIDTH = deviceWidth / 6;
 
-export const FilmDetailsScreen = (props: FilmDetailsProps | DetailsProps) => {
+export const FilmDetailsScreen = (props: FilmDetailsProps) => {
 
-    let film = props.route.params?.item;
+    let film = props.route.params.item ?? null;
+    let isComing = props.route.params.isComing ?? false;
     const [dataSourceCords, setDataSourceCords] = useState<any>([]);
     const [barAnim] = useState(new Animated.Value(0));
     const [currentTab, setCurrentTab] = useState(0);
@@ -132,7 +135,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps | DetailsProps) => {
                                  }}
                                  resizeMode={'cover'}
                                  source={{
-                                     uri: film?.image ?? 'https://phimgi.tv/wp-content/uploads/sat-thu-john-wick-phan-3-chuan-bi-chien-tranh-john-wick-chapter-3-parabellum-9544-2.jpg'
+                                     uri: `${URL_IMAGE}${film?.detail?.images[0]?.url}`
                                  }}
                             />
                         </SharedElement>
@@ -144,7 +147,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps | DetailsProps) => {
                             style={[styles().heartIconStyle, {tintColor: isLike ? ColorsCustom.red : ColorsCustom.lightWhite}]}/>
                         <Text
                             style={styles().rateStyle}>
-                            9.0
+                            {isComing ? formatDateToDDMM(film?.date_begin) : film?.detail?.rating}
                         </Text>
                     </Block>
                     <Block marginLeft={scale(10)}>
@@ -152,16 +155,16 @@ export const FilmDetailsScreen = (props: FilmDetailsProps | DetailsProps) => {
                               fontWeight={'600'}
                               marginTop={scale(10)}
                               color={ColorsCustom.blue}
-                        >John Wick 3 : Parabelum</Text>
+                        >{film?.name}</Text>
                         <Block direction={'row'} marginTop={scale(10)}>
                             {
-                                [1, 2, 3].map(() => {
+                                film?.detail?.categories.map((item: any, index: number) => {
                                     return (
                                         <Text marginLeft={scale(5)}
                                               color={ColorsCustom.grey}
                                               fontWeight={'400'}
                                         >
-                                            Action
+                                            {item?.title}
                                         </Text>
                                     )
                                 })
@@ -173,22 +176,23 @@ export const FilmDetailsScreen = (props: FilmDetailsProps | DetailsProps) => {
                             </Text>
                             <Block>
                                 <Text fontWeight={'600'} color={ColorsCustom.grey}>
-                                    1h45m
+                                    {formatMinusToHours(film?.detail?.duration_min)}
                                 </Text>
                             </Block>
                         </Block>
                         <Block direction={'row'} marginTop={scale(10)}>
                             {
-                                [1, 2].map(() => {
+                                film?.detail?.languages.map((item: any, index: number) => {
                                     return (
                                         <TouchableOpacity
                                             activeOpacity={1}
                                             style={styles().typeFilm}>
-                                            <Text style={{fontSize: FontSizeDefault.FONT_14}}
-                                                  fontWeight={'600'}
-                                                  color={ColorsCustom.grey}
+                                            <Text
+                                                style={{fontSize: FontSizeDefault.FONT_14, paddingHorizontal: scale(5)}}
+                                                fontWeight={'600'}
+                                                color={ColorsCustom.grey}
                                             >
-                                                VieSubs
+                                                {item.title}
                                             </Text>
                                         </TouchableOpacity>
                                     )
@@ -197,16 +201,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps | DetailsProps) => {
                         </Block>
                         <Block marginTop={scale(10)}>
                             <Text fontWeight={'400'}>
-                                Sau phần 2, John Wick bị treo thưởng với hợp đồng mở 14 triệu đô la (tăng lên 15 triệu
-                                đô la sau này)
-                                vì đã phá vỡ quy tắc ngầm: giết người trong khách sạn Continental. Nạn nhân, Santino
-                                D'Antonio
-                                (Riccardo Scamarcio) là một thành viên của Hội đồng tối cao đã ra lệnh ký hợp đồng mở lý
-                                của Continental,
-                                Winston (Ian McShane), đã cho anh một giờ để chạy trốn trước khi bị "Trừ khử".
-                                Vào tháng 10 năm 2016, Stahelski đã công bố phát triển phần phim thứ ba. Sát thủ John
-                                Wick:
-                                Phần 3 – Chuẩn bị chiến tranh được sản xuất vào đầu năm 2018.
+                                {film?.detail?.description} Hai anh em Mai và Men cùng yêu một cô gái tên Pon, nhưng do điều kiện gia đình không tốt, hai anh em đành dấn thân vào thế giới đen tối. Nhờ sự giới thiệu của Bo, hai anh em họ gia nhập vào một nhóm cướp xe do To dẫn đầu. Không lâu sau, bố của Mai là Sorn mất, Men cũng biết về quan hệ yêu dương của Mai và Pon. Lần này, Mai đã vướng phải vô vàn rắc rối, bao gồm cả sự truy sát của To. Chính vì vậy, Mai buộc phải giải quyết hết mọi rắc rối của mình, dù là trong tình cảm hay với những người xung quanh.
                             </Text>
                         </Block>
                     </Block>
@@ -216,7 +211,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps | DetailsProps) => {
                         setDataSourceCords(dataSourceCords);
                     }}>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{marginTop: scale(10)}}>
-                            {[1, 2, 3].map(() => {
+                            {film?.detail.casters.map((item: any, index: number) => {
                                 return (
                                     <Block marginLeft={scale(10)}>
                                         <Img style={{
@@ -224,10 +219,10 @@ export const FilmDetailsScreen = (props: FilmDetailsProps | DetailsProps) => {
                                             height: deviceWidth / 6,
                                             width: deviceWidth / 3
                                         }}
+                                             resizeMode={'cover'}
                                              source={handleImage(
                                                  {
-                                                     uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9' +
-                                                         'GcQgTo7YNajkAvSihDUJWKYKtfVx8qCamxnucw&usqp=CAU'
+                                                     uri: `${URL_IMAGE}${item.images[0].url}`
                                                  })}/>
                                     </Block>
                                 )
@@ -259,10 +254,10 @@ export const FilmDetailsScreen = (props: FilmDetailsProps | DetailsProps) => {
                                 fontSize={"FONT_24"}
                                 fontWeight={'600'}
                                 style={styles().ageLimited}>
-                                18+
+                                {film?.detail?.rated}+
                             </Text>
                         </Block>
-                        <_ButtonBuy text={'BOOK'} image={images.cart} onPressBuy={onPressBuy}/>
+                        <_ButtonBuy text={'BOOK'} disable={isComing} image={images.cart} onPressBuy={onPressBuy}/>
                     </Block>
                 </Animated.ScrollView>
             </Block>

@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {Avatar, Text} from 'react-native-paper';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styles from './styles';
 import {scale} from "@common";
 import isEqual from "react-fast-compare";
@@ -14,6 +14,7 @@ import {_lineItem} from "@features/authentication/userProfile/design/components"
 import {APP_SCREEN} from "@navigation/screenTypes";
 import {NavigationService} from "@navigation/navigationService";
 import {onLogout} from "@app_redux/reducer";
+import {RootState} from "@store/allReducers";
 
 interface IState {
 
@@ -44,6 +45,12 @@ const UserProfileScreen = (props: any): React.ReactElement => {
             onPressLogout()
         }
     };
+
+    let profile = useSelector(
+        (state: RootState) => state.app?.profile
+    );
+
+    console.log({profile});
 
     const onPressEdit = () => {
         alert('Edit')
@@ -97,7 +104,7 @@ const UserProfileScreen = (props: any): React.ReactElement => {
                             fontWeight: 'bold',
                             fontSize: FontSizeDefault.FONT_18,
                         }} numberOfLines={1}>
-                            Dang Tibbers
+                            {profile?.name}
                         </Text>
                         <Block direction={'row'} alignItems={'center'} paddingVertical={scale(5)}>
                             <Img source={images.mail} style={styles.IconMail} tintColor={ColorsCustom.blue}
@@ -105,7 +112,7 @@ const UserProfileScreen = (props: any): React.ReactElement => {
                             <Text style={{
                                 fontSize: FontSizeDefault.FONT_13,
                             }} numberOfLines={1}>
-                                thiendangit1102@gmail.com
+                                {profile?.email}
                             </Text>
                         </Block>
                         <Block direction={'row'} alignItems={'center'} paddingVertical={scale(5)}>
@@ -114,7 +121,7 @@ const UserProfileScreen = (props: any): React.ReactElement => {
                             <Text style={{
                                 fontSize: FontSizeDefault.FONT_13
                             }} numberOfLines={1}>
-                                0927371897
+                                {profile?.phone}
                             </Text>
                         </Block>
                     </Block>

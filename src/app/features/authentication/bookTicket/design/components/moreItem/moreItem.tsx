@@ -8,6 +8,7 @@ import isEqual from "react-fast-compare";
 import {FontSizeDefault} from "@theme/fontSize";
 import {ProductItem} from "@config/type";
 import {formatMoney} from "@common";
+import {URL_IMAGE} from "@networking";
 
 interface MoreItemProps {
     item: ProductItem,
@@ -31,7 +32,7 @@ export const MoreItem = (props: MoreItemProps) => {
         <Block block>
             <Button style={[styles.container]} activeOpacity={1}>
                 <Img style={styles.imageProduct}
-                     source={handleImage({uri: props.item?.image ?? "https://vuabongbong.com/images/201808/goods_img/bap-rang-le_1460.jpg"})}/>
+                     source={handleImage({uri: `${URL_IMAGE}${props.item?.images[0].url}` ?? "https://vuabongbong.com/images/201808/goods_img/bap-rang-le_1460.jpg"})}/>
                 <Block style={{}} flex={1}>
                     <Block flex={0.2} direction={'row'} style={{}}>
                         <Block flex={1} style={{marginLeft: scale(10)}} alignItems={'center'}>

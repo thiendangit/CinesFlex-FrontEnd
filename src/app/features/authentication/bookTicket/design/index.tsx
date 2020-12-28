@@ -15,7 +15,7 @@ import {
     Screen,
     Text
 } from "@components"
-import {ScrollView} from "react-native";
+import {Alert, ScrollView} from "react-native";
 import {dispatch, formatMoney, scale, toast, useSelector, verticalScale} from "@common";
 import {ColorsCustom} from "@theme/color";
 import {ChairItemChoose, ProductItem, ShowTimeProps} from "@config/type";
@@ -63,7 +63,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
         (state: { app: AppState }) => state?.app?.token
     );
 
-    const [dataChair, setDataChair] = useState<any>([]);
+    const [dataChair, setDataChair] = useState<ChairItemChoose[] | []>([]);
     const [showTime, setShowTime] = useState<ShowTimeProps[] | any>([]);
     const [showTimeSub, setShowTimeSub] = useState<ShowTimeProps[] | any>([]);
     const modalCorn = useRef<ModalBoxRef>();
@@ -71,6 +71,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
     const modalPayment = useRef<ModalBoxRef>();
     const [dataCorn, setDataCorn] = useState<ProductItem[] | []>([]);
     const [dataBeverage, setDataBeverage] = useState<ProductItem[] | []>([]);
+    const [showTimeSelected, setShowTimeSelected] = useState<string>('');
     let URL_DOMAIN = useSelector(
         (state: RootState) => state.app?.appUrl
     );
@@ -84,15 +85,31 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
             "cinema_id": cinemas?.id ?? ''
         }, (result) => {
             if (result && result?.data?.data) {
-                let dataSource = Object.assign([], result?.data?.data);
+                let dataSource: ShowTimeProps[] = Object.assign([], result?.data?.data);
                 dataSource.map((item: any, index: number) => {
-                    item.is_Selected = index === 0;
-                    dataSource[index]?.show_times?.map((item: ShowTimeProps, index: number) => {
-                        item.is_Selected = false
-                    })
+                    if (index === 0) {
+                        item.is_Selected = true;
+                        dataSource[0].show_times[0].is_Selected = true;
+                        dispatch(actionsCinemas.getListSeatByScreen(`${URL_DOMAIN}seats/get-list-by-screen`, {
+                            "screen_id": dataSource[index]?.show_times[0].screen_id ?? '',
+                        }, (result) => {
+                            if (result && result?.data?.data) {
+                                let dataSource = Object.assign([], result?.data?.data);
+                                dataSource.map((item: any, index: number) => {
+                                    item.is_Selected = false
+                                });
+                                setDataChair(dataSource);
+                            }
+                        }))
+                    } else {
+                        dataSource[index]?.show_times?.map((item: ShowTimeProps, index: number) => {
+                            item.is_Selected = false
+                        });
+                    }
                 });
                 setShowTime(dataSource);
-                setShowTimeSub(dataSource[0]?.show_times)
+                setShowTimeSub(dataSource[0]?.show_times);
+                setShowTimeSelected(dataSource[0]?.show_times[0].id ?? '');
             }
         }))
     }, [token]);
@@ -143,8 +160,46 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
     };
 
     const onPressPayment = () => {
-        alert('call api payment')
-        // NavigationService.navigate(APP_SCREEN.BOOK_TICKET_RESULT, {text: "Book ticket success! Please take your phone with book code for take a ticket"})
+        let seat_ids: string[] = [];
+        dataChair.filter((item) => {
+            return item.is_selected
+        }).map((item) => {
+            seat_ids.push(item.id)
+        });
+        let products: { product_id: string, product_quantity: number }[] = [];
+        dataCorn.filter((item) => {
+            return (item.quality ?? 0) > 0
+        }).map((item_sub, index_sub) => {
+            products.push({
+                product_id: item_sub.id,
+                product_quantity: item_sub.quality ?? 0
+            })
+        });
+        dataBeverage.filter((item) => {
+            return (item.quality ?? 0) > 0
+        }).map((item_sub, index_sub) => {
+            products.push({
+                product_id: item_sub.id,
+                product_quantity: item_sub.quality ?? 0
+            })
+        });
+        dispatch(actionsCinemas.bookTicket(`${URL_DOMAIN}orders/booking-ticket`, {
+            show_time: showTimeSelected,
+            seat_ids,
+            products: products
+        }, (result) => {
+            if (result && result?.data?.data) {
+                modalPayment.current?.hide();
+                setTimeout(() => {
+                    toast(result.data.message);
+                    setTimeout(() => {
+                        NavigationService.navigate(APP_SCREEN.BOOK_TICKET_RESULT, {text: "Book ticket success! Please take your phone with book code for take a ticket"})
+                    }, 200)
+                }, 200)
+            } else {
+                Alert.alert(result?.data?.message)
+            }
+        }))
     };
 
     const onPressTicket = () => {
@@ -235,36 +290,36 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
         setDataBeverage(result);
     };
 
+    const onPressChair = (item: ChairItemChoose) => {
+        {
+            if (item.type !== 2) {
+                let dataCopy: ChairItemChoose[] = Object.assign([], dataChair);
+                for (let i in dataCopy) {
+                    if (dataCopy[i].name === item.name) {
+                        dataCopy[i].is_selected = !dataCopy[i].is_selected
+                    }
+                }
+                setDataChair(dataCopy)
+            } else {
+                toast('this chair is reserved', 2000)
+            }
+        }
+    };
+
     const _renderChairItem = (dataChair: ChairItemChoose[]) => {
         let dataTemp: any = [];
         let filterByLine: ChairItemChoose[];
         let data: ChairItemChoose[] = dataChair;
-        let numberOfLine = data.length / 5;
+        let numberOfLine = data.length / 6;
         for (let i = 1; i <= numberOfLine; i++) {
             filterByLine = data.filter(function (item) {
                 return item?.seat_row == data[i === 1 ? 1 : i + numberOfLine * i - 1]?.seat_row;
             });
-            console.log({
-                filterByLine
-            });
-
             dataTemp.push(
                 <Block direction={'row'}>
                     {filterByLine.map(item => {
                         return (
-                            <Button onPress={() => {
-                                if (item.type !== 2) {
-                                    let dataCopy: ChairItemChoose[] = Object.assign([], dataChair);
-                                    for (let i in dataCopy) {
-                                        if (dataCopy[i].name === item.name) {
-                                            dataCopy[i].is_selected = !dataCopy[i].is_selected
-                                        }
-                                    }
-                                    setDataChair(dataCopy)
-                                } else {
-                                    toast('this chair is reserved')
-                                }
-                            }}
+                            <Button onPress={() => onPressChair(item)}
                                     style={[styles().chairContainer, {
                                         backgroundColor: item.type === 2 ? ColorsCustom.product.TextLight : item.is_selected ? ColorsCustom.darkOrange : 'white',
                                     }]}>
@@ -292,12 +347,28 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
             });
             dataSource[index].is_Selected = true;
             setShowTime(dataSource);
-            setShowTimeSub(dataSource[index]?.show_times)
+            setDataChair([]);
+            dataSource[index]?.show_times?.map((item_sub: ShowTimeProps, index_sub: number) => {
+                if (item.is_Selected) {
+                    dispatch(actionsCinemas.getListSeatByScreen(`${URL_DOMAIN}seats/get-list-by-screen`, {
+                        "screen_id": item_sub?.screen_id ?? '',
+                    }, (result) => {
+                        if (result && result?.data?.data) {
+                            let dataSource = Object.assign([], result?.data?.data);
+                            dataSource.map((item_sub_s: any, index_sub_s: number) => {
+                                item_sub_s.is_Selected = false
+                            });
+                            setDataChair(dataSource);
+                        }
+                    }))
+                }
+            });
+            setShowTimeSelected(item?.id);
+            setShowTimeSub(dataSource[index]?.show_times);
         }
     };
 
-    const onPressTime = (item: any, index: string) => {
-        console.log({item});
+    const onPressTime = (item: ShowTimeProps, index: string) => {
         let dataSource = Object.assign([], showTimeSub);
         if (!item.is_Selected) {
             dataSource.map((item: any, index: number) => {
@@ -314,6 +385,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                         item.is_Selected = false
                     });
                     setDataChair(dataSource);
+                    setShowTimeSelected(item?.id)
                 }
             }))
         }
@@ -324,7 +396,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
             <Screen scroll bounces={false}>
                 <Block alignItems={'center'}>
                     <Text style={styles().nameFilm} numberOfLines={2}>
-                        John Wick 3 : The Secrets
+                        {film?.name}
                     </Text>
                     <Text style={styles().sectionSelection}>
                         session selection

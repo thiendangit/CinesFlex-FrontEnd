@@ -27,49 +27,31 @@ export interface FilmProps {
     "name": string,
     "type": number,
     "status": number,
-    "image": string
+    "detail": {
+        images: {
+            id: string,
+            url: string
+        }[],
+        casters: any,
+        categories: any,
+        price: number,
+        rated: number,
+        rating: number,
+        languages: any,
+        director: string,
+        duration_min: number,
+        description: string
+    },
+    movie_id: string
+    price: number
+    rated: number
+    rating: number
+    trailer_path: string
+    updated_at: string,
+    created_at: string
+    date_begin: string
+    date_end: string
 }
-
-let dataDemo = [{
-    id: 1,
-    image: 'https://phimgi.tv/wp-content/uploads/sat-thu-john-wick-phan-3-chuan-bi-chien-tranh-john-wick-chapter-3-parabellum-9544-2.jpg'
-}, {
-    id: 2,
-    image: 'https://pbs.twimg.com/media/EoQhMw0XcAE2uh9.jpg'
-}, {
-    id: 3,
-    image: 'https://image.phimmoizz.net/film/9271/poster.medium.jpg'
-}, {
-    id: 4,
-    image: 'https://cdn.moveek.com/media/cache/tall/5f7bd372a5dc5059847886.jpg'
-}, {
-    id: 5,
-    image: 'https://pbs.twimg.com/media/EoQhMw0XcAE2uh9.jpg'
-}, {
-    id: 6,
-    image: 'https://image.phimmoizz.net/film/9271/poster.medium.jpg'
-}];
-
-let dataDemo2 = [{
-    id: 7,
-    image: 'https://phimgi.tv/wp-content/uploads/sat-thu-john-wick-phan-3-chuan-bi-chien-tranh-john-wick-chapter-3-parabellum-9544-2.jpg'
-}, {
-    id: 8,
-    image: 'https://pbs.twimg.com/media/EoQhMw0XcAE2uh9.jpg'
-}, {
-    id: 9,
-    image: 'https://image.phimmoizz.net/film/9271/poster.medium.jpg'
-}, {
-    id: 10,
-    image: 'https://cdn.moveek.com/media/cache/tall/5f7bd372a5dc5059847886.jpg'
-}, {
-    id: 11,
-    image: 'https://pbs.twimg.com/media/EoQhMw0XcAE2uh9.jpg'
-}, {
-    id: 12,
-    image: 'https://image.phimmoizz.net/film/9271/poster.medium.jpg'
-}];
-
 
 export const HomeScreen = ({navigation, route}: HomeProps) => {
     const [text, setTitle] = useState("In Theater now");
@@ -93,7 +75,6 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
 
     useEffect(() => {
         dispatch(actionsHome.getDataHomePage(`${URL_DOMAIN}movies`, (result) => {
-            console.log({result});
             if (result?.data?.data) {
                 setDataFilmNow(result.data.data.filter((item: FilmProps) => {
                     return item?.type === 1
@@ -126,16 +107,16 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
         dispatch(actionsHome.onSetLayoutHorizontal(!isHorizontal))
     };
 
-    function onPressItem(item: FilmProps) {
-        console.log({item});
-        NavigationService.push(APP_SCREEN.FILM_DETAILS, {item});
+    function onPressItem(item: FilmProps, isComing = false) {
+        // console.log({item});
+        NavigationService.push(APP_SCREEN.FILM_DETAILS, {item, isComing});
         // alert(item)
     }
 
-    const _renderItem = ({item, index}: any) => {
+    const _renderItem = ({item, index, isComing}: any) => {
         return (
             <SharedElement id={`item.${item.id}.photo`}>
-                <_renderListFilm index={index} item={item} onPressItem={onPressItem}/>
+                <_renderListFilm isComing={isComing} index={index} item={item} onPressItem={onPressItem}/>
             </SharedElement>
         )
     };
@@ -168,7 +149,8 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
             outputRange: [-deviceWidth * 0.7, 0, deviceWidth * 0.7]
         });
         return (
-            <_renderListFilmHorizontal translateX={translateX} index={index} item={item} onPressItem={onPressItem}/>
+            <_renderListFilmHorizontal isComing translateX={translateX} index={index} item={item}
+                                       onPressItem={onPressItem}/>
         )
     };
 
@@ -310,7 +292,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
                     <ListView style={[styles().listContainer]}
                               data={dataFilmComing}
                               showsVerticalScrollIndicator={false}
-                              renderItem={_renderItem}
+                              renderItem={({item, index}: any) => _renderItem({item, index, isComing: true})}
                               keyExtractor={(item, index) => `${index}+1`.toString()}
                               contentContainerStyle={{marginTop: verticalScale(10)}}
                               ListFooterComponentStyle={{

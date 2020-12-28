@@ -16,10 +16,15 @@ interface subTabItemProps {
     image?: ImageSourcePropType
     onPressBuy?: () => void,
     style?: StyleProp<ViewStyle>;
+    disable?: boolean
 }
 
 
-export const ButtonBuy = ({totalPrice, text, image, onPressBuy, style}: subTabItemProps) => {
+export const ButtonBuy = ({
+                              totalPrice, text,
+                              image, onPressBuy,
+                              style, disable
+                          }: subTabItemProps) => {
 
     const buttonStyle = React.useMemo(
         () => enhance([styles.buttonStyleDefault, style]),
@@ -42,8 +47,10 @@ export const ButtonBuy = ({totalPrice, text, image, onPressBuy, style}: subTabIt
 
     return (
         <Button
-            onPress={onPressBuyButton}
-            style={[buttonStyle, (totalPrice != null ? (totalPrice > 0) ? null : {backgroundColor: ColorsCustom.lightGrey} : null)]}>
+            activeOpacity={1}
+            onPress={!disable ? onPressBuyButton : () => {
+            }}
+            style={[buttonStyle, ((totalPrice != null) ? (totalPrice > 0) ? null : {backgroundColor: ColorsCustom.lightGrey} : disable ? {backgroundColor: ColorsCustom.lightGrey} : null)]}>
             <Img style={{
                 marginHorizontal: scale(5),
                 height: scale(20),

@@ -8,5 +8,6 @@ export function* CinemasSaga() {
     yield takeLatest(actionsCinemas.getListShowTimeByCinemas.type, Saga.getListShowTimeByCinemas);
     yield takeLatest(actionsCinemas.getListSeatByScreen.type, Saga.getListSeatByScreen);
     yield takeLatest(actionsCinemas.getListProducts.type, Saga.getListProducts);
+    yield takeLatest(actionsCinemas.bookTicket.type, Saga.bookTicket);
 }
 

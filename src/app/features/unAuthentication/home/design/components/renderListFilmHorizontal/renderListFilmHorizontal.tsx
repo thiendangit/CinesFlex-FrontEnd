@@ -1,7 +1,7 @@
 import React, {memo} from "react";
-import {Block, Button, Text} from "@components";
+import {Block, Button, Img, Text} from "@components";
 import {Animated, StyleSheet, View} from "react-native";
-import {handleImage, scale, verticalScale} from "@common";
+import {formatDateToDDMM, handleImage, scale, verticalScale} from "@common";
 import {tabItem} from "@config/type";
 import {ColorsCustom} from "@theme/color";
 import {SpacingDefault} from "@theme/spacing";
@@ -10,23 +10,25 @@ import isEqual from "react-fast-compare";
 import {FontSizeDefault} from "@theme/fontSize";
 import FastImage from "react-native-fast-image";
 import {FilmProps} from "@features/unAuthentication/home/design";
+import {URL_IMAGE} from "@networking";
 
 interface ListFilmItemProps {
     item: FilmProps,
     index: string,
-    onPressItem: (item: FilmProps) => void,
-    translateX: any
+    onPressItem: (item: FilmProps, isComing: boolean | undefined) => void,
+    translateX: any,
+    isComing?: boolean
 }
 
 const AnimatedFastImage = Animated.createAnimatedComponent(FastImage);
 
-const ListFilmHorizontal = ({item, index, onPressItem, translateX}: ListFilmItemProps) => {
+const ListFilmHorizontal = ({item, index, onPressItem, translateX, isComing}: ListFilmItemProps) => {
     let indexNumber = parseInt(index);
     let style = [styles(indexNumber).buttonStyle];
     return (
         <Block style={styles().container}>
             <Block style={styles().buttonContainer}>
-                <Button onPress={() => onPressItem(item)} activeOpacity={1} style={style}>
+                <Button onPress={() => onPressItem(item, isComing)} activeOpacity={1} style={style}>
                     <AnimatedFastImage
                         style={{
                             height: deviceHeight / 1.8 - scale(20),
@@ -35,13 +37,13 @@ const ListFilmHorizontal = ({item, index, onPressItem, translateX}: ListFilmItem
                             transform: [{translateX}]
                         }}
                         resizeMode={'stretch'}
-                        source={handleImage({uri: item?.image ?? 'https://phimgi.tv/wp-content/uploads/sat-thu-john-wick-phan-3-chuan-bi-chien-tranh-john-wick-chapter-3-parabellum-9544-2.jpg'})}
+                        source={handleImage({uri: `${URL_IMAGE}${item?.detail?.images[0]?.url}` ?? ''})}
                     />
                 </Button>
-                <Block style={styles().SubContainer}>
+                <Block style={[styles().SubContainer, isComing ? {width: scale(70)} : null]}>
                     <Button style={styles().buttonSub}>
                         <Text style={styles().textRate}>
-                            {9.7}
+                            {isComing ? formatDateToDDMM(item?.date_begin) : item?.detail?.rating}
                         </Text>
                     </Button>
                 </Block>
@@ -103,7 +105,7 @@ const styles = (indexNumber?: number) => StyleSheet.create({
     SubContainer: {
         position: 'absolute',
         height: scale(50),
-        width: scale(50),
+        minWidth: scale(50),
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
@@ -122,7 +124,7 @@ const styles = (indexNumber?: number) => StyleSheet.create({
     },
     buttonSub: {
         height: scale(40),
-        width: scale(40),
+        minWidth: scale(40),
         backgroundColor: 'red',
         alignItems: 'center',
         justifyContent: 'center',

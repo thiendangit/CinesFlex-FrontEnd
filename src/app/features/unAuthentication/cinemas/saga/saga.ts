@@ -63,3 +63,17 @@ export function* getListProducts(action: Action) {
         }
     }
 }
+
+export function* bookTicket(action: Action) {
+    if (actionsCinemas.bookTicket.match(action)) {
+        const {onSucceeded, url, body} = action.payload;
+        console.log({body});
+        const response = yield ServiceSaga.Post(url, body);
+        console.log({response});
+        if (response) {
+            if (onCheckType(onSucceeded, 'function')) {
+                yield call(onSucceeded, response);
+            }
+        }
+    }
+}

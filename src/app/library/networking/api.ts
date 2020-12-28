@@ -1,5 +1,6 @@
 export const DEV_MODE_API = '';
 export const PROD_MODE_API = 'http://127.0.0.1:8000/api/';
+export const URL_IMAGE = 'http://127.0.0.1:8000';
 export const STAGING_MODE_API = '';
 export const APP_MODE_URL = {
     dev: DEV_MODE_API,
