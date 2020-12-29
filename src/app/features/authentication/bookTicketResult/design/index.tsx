@@ -5,8 +5,7 @@ import {Block, Button, Img, Text} from "@components";
 import {useTranslation} from 'react-i18next';
 import {ColorsCustom} from "@theme/color";
 import {NavigationService} from "@navigation/navigationService";
-import {Constants, verticalScale} from "@common";
-import {useSelector} from "react-redux";
+import {verticalScale} from "@common";
 import isEqual from "react-fast-compare";
 
 export interface Props {

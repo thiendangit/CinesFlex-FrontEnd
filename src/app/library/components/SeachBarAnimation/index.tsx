@@ -15,8 +15,8 @@ interface Props_Search {
     onChangeTextSearch: Function,
     ref: MutableRefObject<any>,
     isFocus: boolean,
-    placeHolder : string,
-    onSubmit : ()=>void
+    placeHolder: string,
+    onSubmit: (text: string) => void
 }
 
 
@@ -30,7 +30,7 @@ const SearchBarAnimation: React.ForwardRefExoticComponent<React.PropsWithoutRef<
 
     const {colors: {text}} = useTheme();
     const _onFocus = () => {
-        props.onChangeTextSearch(searchQuery,true);
+        props.onChangeTextSearch(searchQuery, true);
         const input_box_translate_x_config = {
             duration: 600,
             toValue: 5,
@@ -123,14 +123,14 @@ const SearchBarAnimation: React.ForwardRefExoticComponent<React.PropsWithoutRef<
                     <TextInput
                         keyboardType="default"
                         ref={ref}
-                        placeholder= {props.placeHolder ?? "Search Facebook"}
+                        placeholder={props.placeHolder ?? "Search Facebook"}
                         clearButtonMode="always"
                         value={searchQuery}
                         onChangeText={(value) => onChangeSearch(value)}
                         style={styles.input}
                         returnKeyLabel={'search'}
                         returnKeyType={'search'}
-                        onSubmitEditing={()=>props.onSubmit()}
+                        onSubmitEditing={() => props.onSubmit(searchQuery)}
                     />
                 </Animated.View>
             </View>

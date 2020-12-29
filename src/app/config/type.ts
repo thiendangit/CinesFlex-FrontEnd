@@ -296,7 +296,7 @@ export interface UserType {
     type: number,
     status: number,
     created_at: string,
-    updated_at: string
+    updated_at: string,
 }
 
 
@@ -312,5 +312,6 @@ export interface ShowTimeProps {
     type: number,
     show_times: any,
     is_Selected?: boolean,
+    price: number
 }
 

@@ -22,7 +22,6 @@ import {ChairItemChoose, ProductItem, ShowTimeProps} from "@config/type";
 import {AppState} from "@app_redux/type";
 import {_modalWithListProduct, dayItem as _dayItem, _modalPayment} from '../design/components'
 import {timeItem as _timeItem} from '../design/components'
-import {moreItem as _moreItem} from '../design/components'
 import {NavigationService} from "@navigation/navigationService";
 import {images} from "@assets/image";
 import {deviceWidth} from "@utils";
@@ -77,9 +76,11 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
     );
 
     useEffect(() => {
+        // push to login if user not logged in
         if (!token) {
             NavigationService.navigate(APP_SCREEN.LOGIN)
         }
+        // fetch day list by cinemas id & movie id
         dispatch(actionsCinemas.getListShowTimeByCinemas(`${URL_DOMAIN}movie-screens/show-times-by-movie-n-cinema`, {
             "movie_id": film?.id ?? '',
             "cinema_id": cinemas?.id ?? ''
@@ -117,6 +118,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
     useEffect(() => {
         let dataCorn: ProductItem[] = [];
         let dataBeverage: ProductItem[] = [];
+        // fetch list corn & beverage
         dispatch(actionsCinemas.getListProducts(`${URL_DOMAIN}products`, (result) => {
             if (result && result?.data?.data) {
                 let data: ProductItem[] = result?.data?.data;
@@ -147,7 +149,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
     };
 
 
-    const onPressApplyCode = () => {
+    const onPressApplyPromotionCode = () => {
         alert('Apply Code!!')
     };
 
@@ -161,12 +163,15 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
 
     const onPressPayment = () => {
         let seat_ids: string[] = [];
+        // get list seat ids
         dataChair.filter((item) => {
             return item.is_selected
         }).map((item) => {
             seat_ids.push(item.id)
         });
+        // get list products
         let products: { product_id: string, product_quantity: number }[] = [];
+        // get list corn
         dataCorn.filter((item) => {
             return (item.quality ?? 0) > 0
         }).map((item_sub, index_sub) => {
@@ -175,6 +180,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 product_quantity: item_sub.quality ?? 0
             })
         });
+        // get list beverage
         dataBeverage.filter((item) => {
             return (item.quality ?? 0) > 0
         }).map((item_sub, index_sub) => {
@@ -183,6 +189,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 product_quantity: item_sub.quality ?? 0
             })
         });
+        // call api book ticket
         dispatch(actionsCinemas.bookTicket(`${URL_DOMAIN}orders/booking-ticket`, {
             show_time: showTimeSelected,
             seat_ids,
@@ -214,6 +221,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
         modalCorn.current?.show()
     };
 
+    // return quality of product
     const handleQualityProduct = (dataSources: ProductItem[]): number => {
         let quality = 0;
         dataSources
@@ -260,6 +268,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
         return totalPrice;
     };
 
+    // handle on press minus or plus product extra
     const plusMinusProduct = (dataSources: ProductItem[], itemForPlus: ProductItem, isPlus = true): ProductItem[] => {
         let dataCornCopy: ProductItem[] = Object.assign([], dataSources);
         dataCornCopy.map((obj, index) => {
@@ -289,7 +298,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
         let result: ProductItem[] = plusMinusProduct(dataBeverage, item, false);
         setDataBeverage(result);
     };
-
+    // handle on press choose chair
     const onPressChair = (item: ChairItemChoose) => {
         {
             if (item.type !== 2) {
@@ -306,11 +315,13 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
         }
     };
 
+    //render chair
     const _renderChairItem = (dataChair: ChairItemChoose[]) => {
         let dataTemp: any = [];
         let filterByLine: ChairItemChoose[];
         let data: ChairItemChoose[] = dataChair;
-        let numberOfLine = data.length / 6;
+        let rowOfChair = 6;
+        let numberOfLine = data.length / rowOfChair;
         for (let i = 1; i <= numberOfLine; i++) {
             filterByLine = data.filter(function (item) {
                 return item?.seat_row == data[i === 1 ? 1 : i + numberOfLine * i - 1]?.seat_row;
@@ -339,6 +350,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
         )
     };
 
+    // handle OnPress Day
     const onPressDay = (item: any, index: string) => {
         let dataSource = Object.assign([], showTime);
         if (!item.is_Selected) {
@@ -368,6 +380,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
         }
     };
 
+    // handle OnPress Time
     const onPressTime = (item: ShowTimeProps, index: string) => {
         let dataSource = Object.assign([], showTimeSub);
         if (!item.is_Selected) {
@@ -413,6 +426,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                         })}
                     </ScrollView>
                 </Block>
+                {/*render list show time sub*/}
                 <Block justifyContent={'center'}>
                     <ScrollView horizontal style={{marginTop: scale(5)}}
                                 contentContainerStyle={{marginLeft: scale(15)}}
@@ -428,9 +442,11 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                     <Img source={images.line}
                          style={{width: deviceWidth / 1.1, height: 40, marginTop: verticalScale(15)}}/>
                 </Block>
+                {/*render chair*/}
                 <Block alignItems={'center'}>
                     {_renderChairItem(dataChair)}
                 </Block>
+                {/*render button choose chair*/}
                 <Block direction={'row'} justifyContent={'center'} marginTop={scale(20)}>
                     <_buttonChooseMore onPressItem={onPressButtonCorn} image={images.corn}
                                        key={1}
@@ -445,7 +461,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                            activeTintBorderColor={ColorsCustom.blue}
                            containerStyle={{width: deviceWidth - scale(50), height: scale(scale(30))}}/>
                     <Icon icon={'send'} style={{height: scale(15), width: scale(15)}}
-                          onPress={onPressApplyCode}
+                          onPress={onPressApplyPromotionCode}
                           containerStyle={{marginLeft: scale(10)}}/>
                 </Block>
                 <Block direction={'row'} marginLeft={scale(10)} alignItems={'center'}
@@ -458,6 +474,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                                 image={images.cart}
                                 onPressBuy={onPressBuy}/>
                 </Block>
+                {/*render modal product & payment*/}
                 <_modalWithListProduct ref={modalCorn} onPressPlus={onPressPlusCornItem}
                                        onPressMinus={onPressMinusCornItem}
                                        dataSource={dataCorn}/>

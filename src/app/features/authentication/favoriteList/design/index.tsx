@@ -1,11 +1,10 @@
 import React, {memo} from "react";
 import {styles} from './style'
-import {Block, Header, IconBack, ListView, Screen, Text} from "@components";
+import {Block, IconBack, ListView, Screen, Text} from "@components";
 import {useTranslation} from 'react-i18next';
 import {NavigationService} from "@navigation/navigationService";
 import isEqual from "react-fast-compare";
 import {verticalScale} from "@common";
-import {APP_SCREEN} from "@navigation/screenTypes";
 import {_favoriteListItem} from "./components";
 
 export interface Props {

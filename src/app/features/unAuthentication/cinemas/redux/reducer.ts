@@ -1,21 +1,41 @@
 import * as Action from './actionType';
 import {createAction, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {SLICE_NAME} from '@config/type';
+import {FilmProps} from "@features/unAuthentication/home/design";
 
 export interface HomeState {
     isHorizontal: boolean;
+    favoriteList: FilmProps[]
 }
 
 const initialState: HomeState = {
     isHorizontal: false,
+    favoriteList: []
 };
 
-const homeSlice = createSlice({
+const cinemasSlice = createSlice({
     name: SLICE_NAME.HOME,
     initialState: initialState,
     reducers: {
         onSetLayoutHorizontal: (state, {payload}: PayloadAction<any>) => {
             state.isHorizontal = payload
+        },
+        onAddFilmToFavoriteList: (state, {payload}: PayloadAction<FilmProps>) => {
+            console.log({payload});
+            let favoriteCopy = Object.assign([], state.favoriteList);
+            console.log({favoriteCopy});
+            if (favoriteCopy.length > 0) {
+                favoriteCopy.map((item: FilmProps, index: number) => {
+                    if (item.id === payload.id) {
+                        alert('detele');
+                       // favoriteCopy.splice()
+                        return
+                    }
+                })
+
+            } else {
+                state.favoriteList.push(payload)
+            }
         },
     }
 });
@@ -67,7 +87,7 @@ const bookTicket = createAction(Action.BOOK_TICKET, (url: string, body: any, onS
 }));
 
 export const actionsCinemas = {
-    ...homeSlice.actions,
+    ...cinemasSlice.actions,
     getDataCinemas,
     getListCinemas,
     getListShowTimeByCinemas,
@@ -75,4 +95,4 @@ export const actionsCinemas = {
     getListProducts,
     bookTicket
 };
-export const cinemasReducer = homeSlice.reducer;
+export const cinemasReducer = cinemasSlice.reducer;

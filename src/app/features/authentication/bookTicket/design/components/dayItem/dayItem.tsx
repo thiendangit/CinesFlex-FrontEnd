@@ -1,9 +1,8 @@
 import React, {memo} from "react";
 import {Block, Button, Text} from "@components";
 import {StyleSheet} from "react-native";
-import {scale, verticalScale} from "@common";
-import {images} from "@assets/image";
-import {ShowTimeProps, tabItem} from "@config/type";
+import {scale} from "@common";
+import {ShowTimeProps} from "@config/type";
 import {ColorsCustom} from "@theme/color";
 import {SpacingDefault} from "@theme/spacing";
 import {deviceWidth} from "@utils";

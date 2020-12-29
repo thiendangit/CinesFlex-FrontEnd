@@ -1,7 +1,7 @@
 import React, {forwardRef, memo, useRef, useState} from "react";
-import {Block, Button, CardAnimation, IconBack, Img, ListView, ModalBox, Text} from "@components";
+import {Block, Button, CardAnimation, IconBack, Img, ModalBox, Text} from "@components";
 import {ScrollView, StyleSheet} from "react-native";
-import {Constants, formatMoney, handleImage, scale, toast, verticalScale} from "@common";
+import {Constants, formatMoney, scale, verticalScale} from "@common";
 import {ColorsCustom} from "@theme/color";
 import {deviceHeight, deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
@@ -60,6 +60,7 @@ const ModalPayment = forwardRef<any, ModalWithListProductProps>(
             scrollRef.current.scrollTo({x: 0, animated: true});
         };
 
+        //handle onPress Payment
         const handleOnPressPaymentMethod = (option: OptionPayment, index: number) => {
             if (!option.is_Selected) {
                 let obj: OptionPayment[] = Object.assign([], option_PaymentState);
@@ -80,6 +81,7 @@ const ModalPayment = forwardRef<any, ModalWithListProductProps>(
             handleActiveButtonPayment()
         };
 
+        // onPress visa card
         const onPressCard = (option: CardType, index: number) => {
             let obj: CardType[] = Object.assign([], dataCards);
             obj.map((item: CardType) => {
@@ -89,6 +91,11 @@ const ModalPayment = forwardRef<any, ModalWithListProductProps>(
             setDataCards(obj);
             handleActiveButtonPayment()
         };
+
+        // handle active payment when invalid
+        // condition :
+        // 1. is PAYMENT_ON_CASH
+        // 2. when user choose invalid visa
 
         const handleActiveButtonPayment = (): boolean => {
             option_PaymentState.map((item) => {
@@ -108,30 +115,21 @@ const ModalPayment = forwardRef<any, ModalWithListProductProps>(
             <ModalBox ref={ref} key={0}>
                 <Block style={styles.modalChooseItem}>
                     <Block flex={1} margin={scale(10)}>
-                        <ScrollView horizontal style={{flex: 1}} showsHorizontalScrollIndicator={false}
-                                    ref={scrollRef}
+                        <ScrollView horizontal style={{flex: 1}} showsHorizontalScrollIndicator={false} ref={scrollRef}
                                     scrollEnabled={false}
                                     pagingEnabled={true}>
                             <Block block width={MODAL_WIDTH - scale(18)}>
-                                <Block block justifyContent={'space-between'}
-                                       alignItems={'center'}
-                                       style={{marginHorizontal: scale(20)}}
-                                       direction={'row'}>
+                                <Block block justifyContent={'space-between'} alignItems={'center'}
+                                       style={{marginHorizontal: scale(20)}} direction={'row'}>
                                     {
                                         option_PaymentState.map((item, index) => {
                                             return (
-                                                <Button
-                                                    activeOpacity={1}
-                                                    onPress={() => handleOnPressPaymentMethod(item, index)}
-                                                    key={item.id.toString()}
-                                                    style={[styles.cardContainer, {backgroundColor: item.is_Selected ? ColorsCustom.lightGrey : 'white',}]}>
-                                                    <Img style={{
-                                                        width: MODAL_WIDTH / 3,
-                                                        height: MODAL_WIDTH / 2.2 / 2,
-                                                    }}
-                                                         resizeMode={'contain'}
-                                                         source={item.image}
-                                                    />
+                                                <Button activeOpacity={1}
+                                                        onPress={() => handleOnPressPaymentMethod(item, index)}
+                                                        key={item.id.toString()}
+                                                        style={[styles.cardContainer, {backgroundColor: item.is_Selected ? ColorsCustom.lightGrey : 'white',}]}>
+                                                    <Img style={styles.imagePaymentMethod} resizeMode={'contain'}
+                                                         source={item.image}/>
                                                     <Text textAlign={'center'} marginTop={scale(10)}>
                                                         {item.name}
                                                     </Text>
@@ -142,36 +140,27 @@ const ModalPayment = forwardRef<any, ModalWithListProductProps>(
                                 </Block>
                             </Block>
                             <Block block width={MODAL_WIDTH - scale(18)}>
-                                <Block
-                                    block
-                                    justifyContent={'center'}
-                                    style={{marginLeft: scale(30)}}>
+                                <Block block justifyContent={'center'} style={{marginLeft: scale(30)}}>
                                     {/*card*/}
                                     <CardAnimation cards={dataCards} onPressCard={onPressCard}/>
+                                    {/*Linear gradient*/}
                                     <LinearGradient
                                         colors={['rgba(203,203,203,0)', 'white']}
-                                        style={{
-                                            height: deviceHeight * 0.05,
-                                            width: deviceWidth,
-                                            position: 'absolute',
-                                            bottom: 0,
-                                        }}
+                                        style={styles.gradientStyle}
                                     />
                                 </Block>
                                 <IconBack onPress={_onGoBack}
                                           containerStyle={{top: verticalScale(30 + (MODAL_WIDTH / 2) / 2), left: 0}}/>
                             </Block>
                         </ScrollView>
+                        {/*total price*/}
                         <Block flex={0.5}>
                             <Block block margin={scale(20)} marginTop={verticalScale(10)}>
                                 <Text fontSize={"FONT_24"} fontWeight={'bold'}>
                                     Total Price
                                 </Text>
-                                <Text fontSize={"FONT_28"}
-                                      fontWeight={'bold'}
-                                      color={ColorsCustom.blue}
-                                      textAlign={'center'}
-                                      marginTop={verticalScale(20)}>
+                                <Text fontSize={"FONT_28"} fontWeight={'bold'} color={ColorsCustom.blue}
+                                      textAlign={'center'} marginTop={verticalScale(20)}>
                                     {formatMoney(totalPrice, '')}
                                     <Text color={ColorsCustom.light_red}>
                                         VNĐ
@@ -179,24 +168,14 @@ const ModalPayment = forwardRef<any, ModalWithListProductProps>(
                                 </Text>
                             </Block>
                         </Block>
+                        {/*payment button*/}
                         <Block>
                             <Button
                                 onPress={isActivePayment ? onPressCompletePayment : () => {
-                                    alert('please choose payment method!')
+                                    alert('Please choose payment method!')
                                 }}
-                                style={{
-                                    alignSelf: 'center',
-                                    height: verticalScale(50),
-                                    width: MODAL_WIDTH,
-                                    backgroundColor: isActivePayment ? ColorsCustom.darkYellow : ColorsCustom.lightGrey,
-                                    borderRadius: scale(30),
-                                    top: verticalScale(10)
-                                }}>
-                                <Text style={{
-                                    fontSize: FontSizeDefault.FONT_18,
-                                    fontWeight: '600',
-                                    color: ColorsCustom.lightWhite
-                                }}>
+                                style={[styles.buttonPayment, {backgroundColor: isActivePayment ? ColorsCustom.darkYellow : ColorsCustom.lightGrey}]}>
+                                <Text style={styles.paymentText}>
                                     Payment
                                 </Text>
                             </Button>
@@ -246,6 +225,28 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
 
         elevation: 5,
+    },
+    gradientStyle: {
+        height: deviceHeight * 0.05,
+        width: deviceWidth,
+        position: 'absolute',
+        bottom: 0,
+    },
+    buttonPayment: {
+        alignSelf: 'center',
+        height: verticalScale(50),
+        width: MODAL_WIDTH,
+        borderRadius: scale(30),
+        top: verticalScale(10)
+    },
+    paymentText: {
+        fontSize: FontSizeDefault.FONT_18,
+        fontWeight: '600',
+        color: ColorsCustom.lightWhite
+    },
+    imagePaymentMethod: {
+        width: MODAL_WIDTH / 3,
+        height: MODAL_WIDTH / 2.2 / 2,
     }
 });
 

@@ -46,6 +46,7 @@ export const CinemasScreen: React.FC<CinemasProps> = (props) => {
         (state: RootState) => state.app?.appUrl
     );
     useEffect(() => {
+        //fetch region list
         dispatch(actionsCinemas.getDataCinemas(`${URL_DOMAIN}regions`, (result) => {
             if (result?.data?.data && result.data.success) {
                 setRegions(result.data.data)
@@ -53,12 +54,9 @@ export const CinemasScreen: React.FC<CinemasProps> = (props) => {
         }))
     }, []);
 
-    const buttonSupplierBuyer = (text: string, source: ImageTypes, borderColor: StyleProp<any>, onPress: (text: string) => void) => {
+    const buttonChooseRegion = (text: string, source: ImageTypes, borderColor: StyleProp<any>, onPress: (text: string) => void) => {
         return (
             <Button key={text} style={[styles.buttonSupplier_Buyer, {borderColor}]} onPress={() => onPress(text)}>
-                {/*<Img style={styles.imageSupplier_Buyer}*/}
-                {/*     source={source}*/}
-                {/*     resizeMode={"contain"}/>*/}
                 <Text style={[styles.nameSupplierBuyer, {color: borderColor}]}>
                     {text && t(`user:${text}`) || ''}
                 </Text>
@@ -67,7 +65,6 @@ export const CinemasScreen: React.FC<CinemasProps> = (props) => {
     };
 
     const onPressButtonRegion = (index: number) => {
-        // dispatch(onSetAppProfile({user_type: Constants.ROLE.BUYER}));
         NavigationService.navigate(APP_SCREEN.CINEMAS_DETAILS, {region: regions[index], film})
     };
 
@@ -75,24 +72,19 @@ export const CinemasScreen: React.FC<CinemasProps> = (props) => {
         <Block style={styles.container}>
             {/*<Wallpaper backgroundImage={images.bg_cinemas}/>*/}
             <Screen style={{}}>
-                <Text style={styles.text}>
-                    REGION LIST
-                </Text>
-                <Img style={{
-                    height: deviceHeight / 2.3,
-                    width: deviceWidth
-                }}
+                <Text style={styles.text}> REGION LIST </Text>
+                <Img style={styles.imageBG}
                      resizeMode={'contain'}
                      source={images.bg_cinemas_festival}
                 />
                 <Block style={styles.buttonContainer}>
-                    {buttonSupplierBuyer("HÀ NỘI", images.temple, ColorsCustom.lime_green, () => onPressButtonRegion(0))}
+                    {buttonChooseRegion("HÀ NỘI", images.temple, ColorsCustom.lime_green, () => onPressButtonRegion(0))}
                     <Block direction={'row'} alignItems={'center'} marginTop={scale(10)} marginBottom={scale(10)}>
                         <Block height={1} width={deviceWidth / 4} style={{backgroundColor: ColorsCustom.lightGrey}}/>
                         <Text style={{marginHorizontal: scale(10)}}>OR</Text>
                         <Block height={1} width={deviceWidth / 4} style={{backgroundColor: ColorsCustom.lightGrey}}/>
                     </Block>
-                    {buttonSupplierBuyer("TP. HCM", images.building, ColorsCustom.light_red, () => onPressButtonRegion(1))}
+                    {buttonChooseRegion("TP. HCM", images.building, ColorsCustom.light_red, () => onPressButtonRegion(1))}
                 </Block>
             </Screen>
             <IconBack onPress={_onGoBack}/>

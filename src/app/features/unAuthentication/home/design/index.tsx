@@ -5,7 +5,7 @@ import isEqual from 'react-fast-compare';
 import {RootStackParamList, APP_SCREEN} from '@navigation/screenTypes';
 import {Block, Button, Img, ListView, Screen, Text} from "@components"
 import {ColorsCustom} from "@theme/color";
-import {Animated, View} from "react-native";
+import {Animated} from "react-native";
 import SwitchSelector from "react-native-switch-selector";
 import {Constants, dispatch, scale, verticalScale} from "@common";
 import {deviceWidth} from "@utils";
@@ -73,6 +73,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
         (state: RootState) => state.app?.appUrl
     );
 
+    //fetch data home page here
     useEffect(() => {
         dispatch(actionsHome.getDataHomePage(`${URL_DOMAIN}movies`, (result) => {
             if (result?.data?.data) {
@@ -90,6 +91,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
         // console.log(event.nativeEvent.contentOffset.x)
     };
 
+    //handle search text
     const onChangeTextSearch = (text: string, isFocus: boolean) => {
         setTimeout(() => {
             setIsFocusSearch(isFocus);
@@ -98,11 +100,13 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
         searchRef.current.focus()
     };
 
-    const onSubmitSearch = () => {
+    //handle submit search
+    const onSubmitSearch = (text: string) => {
         //call api search
-        alert('call api search')
+        alert(`call api search ${text}`)
     };
 
+    //handle on change type of layout
     const handleOnPressChangeLayout = () => {
         dispatch(actionsHome.onSetLayoutHorizontal(!isHorizontal))
     };
@@ -113,6 +117,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
         // alert(item)
     }
 
+    //render item  for list vertical (type 1 )
     const _renderItem = ({item, index, isComing}: any) => {
         return (
             <SharedElement id={`item.${item.id}.photo`}>
@@ -121,6 +126,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
         )
     };
 
+    //render item  in the theater for list Horizontal (type 2 )
     const _renderItemInTheTheaterHorizontal = ({item, index}: any) => {
         const inputRange = [
             (index - 0.9) * deviceWidth,
@@ -138,6 +144,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
         )
     };
 
+    //render item  in the coming for list Horizontal (type 2 )
     const _renderItemComingHorizontal = ({item, index}: any) => {
         const inputRange = [
             (index - 0.6) * deviceWidth,
@@ -176,6 +183,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
                         <Text style={styles().headerTitle}>
                             {text.toUpperCase()}
                         </Text>
+                        {/*switch change layout type */}
                         <SwitchSelector
                             textStyle={{fontSize: FontSizeDefault.FONT_10}}
                             textCStyle={{fontSize: FontSizeDefault.FONT_10}}
@@ -206,6 +214,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
         )
     };
 
+    // Horizontal list
     const contentViewHorizontal = () => {
         return (
             <Block marginTop={10} flex={1}>
@@ -260,6 +269,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
         )
     };
 
+    // Vertical list
     const contentViewVertical = () => {
         return (
             <Animated.ScrollView
@@ -305,6 +315,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
         )
     };
 
+    //search list
     const contentViewForSearch = () => {
         return (
             <Block

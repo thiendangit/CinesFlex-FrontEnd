@@ -4,7 +4,7 @@ import {scale, verticalScale} from "@common";
 import {SpacingDefault} from "@theme/spacing";
 import {FontSizeDefault} from "@theme/fontSize";
 import {ColorsCustom} from "@theme/color";
-import {deviceWidth} from "@utils";
+import {deviceHeight, deviceWidth} from "@utils";
 
 export const styles = (theme?: AppTheme) =>
     StyleSheet.create({
@@ -103,5 +103,22 @@ export const styles = (theme?: AppTheme) =>
         ageLimited: {
             color: ColorsCustom.light_red,
             textAlign: 'center',
+        },
+        imageBg: {
+            flex: 1,
+            borderBottomLeftRadius: scale(deviceHeight / 2 / 5)
+        },
+        filmTitle: {
+            fontSize: FontSizeDefault.FONT_14,
+            paddingHorizontal: scale(5)
+        },
+        imageCaster: {
+            borderRadius: scale(10),
+            height: deviceWidth / 6,
+            width: deviceWidth / 3
+        },
+        rateImage: {
+            height: scale(28),
+            width: scale(28),
         }
     });

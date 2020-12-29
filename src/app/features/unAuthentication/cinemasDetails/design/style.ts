@@ -9,15 +9,20 @@ import {ColorsCustom} from "@theme/color";
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor : 'white'
+        backgroundColor: 'white'
     },
     listContainer: {
         flex: 1,
     },
     text: {
         color: ColorsCustom.blue,
-        fontWeight : 'bold',
+        fontWeight: 'bold',
         fontSize: FontSizeDefault.FONT_30,
-        marginLeft : scale(20)
+        marginLeft: scale(20)
     },
+    flatListContainer: {
+        marginTop: verticalScale(60), alignSelf: 'center',
+        paddingBottom: verticalScale(80)
+
+    }
 });

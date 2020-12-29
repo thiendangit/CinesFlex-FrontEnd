@@ -1,15 +1,11 @@
 import React, {memo} from "react";
-import {Block, Button, Icon, Img, Text} from "@components";
+import {Block, Button, Img, Text} from "@components";
 import {ImageProps, StyleSheet} from "react-native";
-import {scale, verticalScale} from "@common";
-import {tabItem} from "@config/type";
+import {scale} from "@common";
 import {ColorsCustom} from "@theme/color";
-import {SpacingDefault} from "@theme/spacing";
 import {deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
 import {FontSizeDefault} from "@theme/fontSize";
-import {icons} from "@assets/icon";
-import {images} from "@assets/image";
 
 interface ticketItemProps {
     image: ImageProps,

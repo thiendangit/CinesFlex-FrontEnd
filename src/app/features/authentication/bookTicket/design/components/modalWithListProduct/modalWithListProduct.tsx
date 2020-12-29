@@ -1,7 +1,7 @@
 import React, {forwardRef, memo} from "react";
-import {Block, Button, ButtonPlusMinus, Img, ListView, ModalBox, ModalBoxRef, Text} from "@components";
+import {Block, ListView, ModalBox, Text} from "@components";
 import {StyleSheet} from "react-native";
-import {formatMoney, handleImage, scale} from "@common";
+import {formatMoney, scale} from "@common";
 import {ColorsCustom} from "@theme/color";
 import {deviceHeight, deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
@@ -49,26 +49,13 @@ const ModalWithListProduct = forwardRef<any, ModalWithListProductProps>(
         return (
             <ModalBox ref={ref} key={0}>
                 <Block style={styles.modalChooseItem}>
-                    <Block block style={{
-                        borderBottomLeftRadius: scale(60),
-                        borderBottomRightRadius: scale(60),
-                        borderTopLeftRadius: scale(20),
-                        borderTopRightRadius: scale(20),
-                        alignItems: 'center',
-                        backgroundColor: 'white'
-                    }}>
+                    <Block block style={styles.listViewContainer}>
                         <ListView
                             data={dataSource}
                             renderItem={({item, index}: any) => _renderMoreItem({item, index})}
                             keyExtractor={((item) => item.id.toString())}
                             extraData={dataSource}
-                            style={{
-                                borderBottomLeftRadius: scale(60),
-                                borderBottomRightRadius: scale(60),
-                                borderTopLeftRadius: scale(20),
-                                borderTopRightRadius: scale(20),
-                                backgroundColor: 'white'
-                            }}
+                            style={styles.listViewStyle}
                             ListFooterComponent={() => {
                                 return (
                                     <Block height={scale(20)}/>
@@ -79,18 +66,10 @@ const ModalWithListProduct = forwardRef<any, ModalWithListProductProps>(
                     </Block>
                     <Block height={scale(60)} style={{backgroundColor: ColorsCustom.green}} borderRadius={60}>
                         <Block block alignItems={'center'} justifyContent={'center'} direction={'row'}>
-                            <Text style={{
-                                fontSize: FontSizeDefault.FONT_18,
-                                fontWeight: 'bold'
-                            }}>
+                            <Text style={styles.totalText}>
                                 Tổng cộng :
                             </Text>
-                            <Text style={{
-                                fontSize: FontSizeDefault.FONT_18,
-                                fontWeight: 'bold',
-                                color: ColorsCustom.lightWhite,
-                                marginLeft: scale(5)
-                            }}>
+                            <Text style={styles.priceTotal}>
                                 {handlePriceCorn(dataSource)}
                             </Text>
                         </Block>
@@ -127,6 +106,31 @@ const styles = StyleSheet.create({
         width: deviceWidth / 1.1,
         backgroundColor: ColorsCustom.green,
         borderRadius: scale(30)
+    },
+    listViewContainer: {
+        borderBottomLeftRadius: scale(60),
+        borderBottomRightRadius: scale(60),
+        borderTopLeftRadius: scale(20),
+        borderTopRightRadius: scale(20),
+        alignItems: 'center',
+        backgroundColor: 'white'
+    },
+    listViewStyle: {
+        borderBottomLeftRadius: scale(60),
+        borderBottomRightRadius: scale(60),
+        borderTopLeftRadius: scale(20),
+        borderTopRightRadius: scale(20),
+        backgroundColor: 'white'
+    },
+    totalText: {
+        fontSize: FontSizeDefault.FONT_18,
+        fontWeight: 'bold'
+    },
+    priceTotal: {
+        fontSize: FontSizeDefault.FONT_18,
+        fontWeight: 'bold',
+        color: ColorsCustom.lightWhite,
+        marginLeft: scale(5)
     }
 });
 

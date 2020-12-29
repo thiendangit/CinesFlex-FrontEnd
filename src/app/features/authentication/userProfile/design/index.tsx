@@ -16,10 +16,6 @@ import {NavigationService} from "@navigation/navigationService";
 import {onLogout} from "@app_redux/reducer";
 import {RootState} from "@store/allReducers";
 
-interface IState {
-
-}
-
 export interface lineItemProps {
     id: number,
     image: any,
@@ -50,12 +46,11 @@ const UserProfileScreen = (props: any): React.ReactElement => {
         (state: RootState) => state.app?.profile
     );
 
-    console.log({profile});
-
     const onPressEdit = () => {
         alert('Edit')
     };
 
+    // option for list item
     const lineItemOption: lineItemProps[] = [
         {
             id: 1,

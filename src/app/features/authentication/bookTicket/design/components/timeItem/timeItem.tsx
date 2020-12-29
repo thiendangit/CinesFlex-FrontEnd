@@ -1,9 +1,8 @@
 import React, {memo} from "react";
-import {Block, Button, Text} from "@components";
+import {Button, Text} from "@components";
 import {StyleSheet} from "react-native";
-import {scale, verticalScale} from "@common";
-import {images} from "@assets/image";
-import {ShowTimeProps, tabItem} from "@config/type";
+import {formatMoney, scale} from "@common";
+import {ShowTimeProps} from "@config/type";
 import {ColorsCustom} from "@theme/color";
 import {SpacingDefault} from "@theme/spacing";
 import {deviceWidth} from "@utils";
@@ -24,7 +23,7 @@ export const TimeItem = ({item, index, onPressItem}: TimeItemProps) => {
                 {item?.show_time}
             </Text>
             <Text style={styles.dayOfWeed}>
-                $5.42 • 2D
+                {formatMoney(item?.price)} • 2D
             </Text>
         </Button>
     )

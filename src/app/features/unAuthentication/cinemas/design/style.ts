@@ -28,7 +28,6 @@ export const styles = StyleSheet.create({
         width: scale(35),
         height: scale(35),
         marginRight: scale(10)
-        // backgroundColor: 'red'
     },
 
     buttonContainer: {
@@ -40,7 +39,6 @@ export const styles = StyleSheet.create({
     },
     buttonSupplier_Buyer: {
         backgroundColor: 'white',
-        // marginTop: scale(30),
         borderWidth: 1,
         alignItems: 'center',
         flexDirection: 'row',
@@ -49,8 +47,11 @@ export const styles = StyleSheet.create({
         borderRadius: scale(deviceWidth * 0.3) / 10
     },
     nameSupplierBuyer: {
-        // marginTop: moderateScale(10),
         fontSize: FontSizeDefault.FONT_20,
         fontWeight: '600',
+    },
+    imageBG: {
+        height: deviceHeight / 2.3,
+        width: deviceWidth
     }
 });

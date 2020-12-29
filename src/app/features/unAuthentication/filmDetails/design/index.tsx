@@ -6,18 +6,19 @@ import {Block, Button, Icon, IconBack, Img, Text} from "@components"
 import {styles} from "@features/unAuthentication/filmDetails/design/style";
 import {ColorsCustom} from "@theme/color";
 import {NavigationService} from "@navigation/navigationService";
-import {formatDateToDDMM, formatMinusToHours, handleImage, scale, verticalScale} from "@common";
+import {dispatch, formatDateToDDMM, formatMinusToHours, handleImage, scale, verticalScale} from "@common";
 import {deviceHeight, deviceWidth} from "@utils";
 import {StatusBar, Animated, TouchableOpacity, ScrollView} from "react-native";
-import {FontSizeDefault} from "@theme/fontSize";
 import {images} from "@assets/image";
 import {_ButtonBuy} from "@features/unAuthentication/cinemasDetails/design/components/buttonBuy/buttonBuy";
 import {SharedElement} from "react-navigation-shared-element";
 import {FilmProps} from "@features/unAuthentication/home/design";
 import {StackScreenProps} from "@react-navigation/stack";
 import {URL_IMAGE} from "@networking";
+import {actionsCinemas} from "@features/unAuthentication/cinemas/redux/reducer";
 
 interface leftTabOption {
+    id: number
     title: string
 }
 
@@ -54,14 +55,18 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
         NavigationService.navigate(APP_SCREEN.CINEMAS, {film: film})
     };
 
+    //left tab option
     let leftTabOption: leftTabOption[] = [
         {
+            id: 1,
             title: 'Info'
         },
         {
+            id: 2,
             title: 'Cast'
         },
         {
+            id: 3,
             title: 'Ticket'
         }
     ];
@@ -77,6 +82,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
                        width={LEFT_BAR_WIDTH}
                        height={LEFT_BAR_HEIGHT}>
                     <Animated.View style={[styles().leftBarContainer, {
+                        // style animation for left tab
                         transform: [{
                             translateY: barAnim.interpolate({
                                 inputRange: [0, 1, 2],
@@ -92,6 +98,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
                         leftTabOption.map((tab, index) => {
                             return <Button style={styles().leftBarButtonContainer}>
                                 <Text
+                                    // process animation for left tab
                                     onPress={() => {
                                         setCurrentTab(index);
                                         Animated.timing(barAnim, {
@@ -100,11 +107,11 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
                                             useNativeDriver: true
                                         }).start(() => {
                                             barAnim.setValue(index);
-                                        });
-                                        scrollRef.current.scrollTo({
-                                            x: 0,
-                                            y: dataSourceCords[index],
-                                            animated: true,
+                                            scrollRef.current.scrollTo({
+                                                x: 0,
+                                                y: dataSourceCords[index],
+                                                animated: true,
+                                            });
                                         });
                                     }}
                                     style={[styles().leftBarTitle,
@@ -125,10 +132,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
                         setDataSourceCords(dataSourceCords);
                     }}>
                         <SharedElement id={`item.${film?.id}.photo`}>
-                            <Img style={{
-                                flex: 1,
-                                borderBottomLeftRadius: scale(deviceHeight / 2 / 5)
-                            }}
+                            <Img style={styles().imageBg}
                                  containerStyle={{
                                      height: deviceHeight / 2,
                                  }}
@@ -139,8 +143,9 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
                             />
                         </SharedElement>
                         <Icon
-                            onPress={() => {
-                                setIsLike(!isLike)
+                            onPress={async () => {
+                                await dispatch(actionsCinemas.onAddFilmToFavoriteList(film));
+                                // setIsLike(!isLike)
                             }}
                             icon={'heart'}
                             style={[styles().heartIconStyle, {tintColor: isLike ? ColorsCustom.red : ColorsCustom.lightWhite}]}/>
@@ -149,6 +154,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
                             {isComing ? formatDateToDDMM(film?.date_begin) : film?.detail?.rating}
                         </Text>
                     </Block>
+                    {/*film name */}
                     <Block marginLeft={scale(10)}>
                         <Text fontSize={"FONT_22"}
                               fontWeight={'600'}
@@ -187,7 +193,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
                                             activeOpacity={1}
                                             style={styles().typeFilm}>
                                             <Text
-                                                style={{fontSize: FontSizeDefault.FONT_14, paddingHorizontal: scale(5)}}
+                                                style={styles().filmTitle}
                                                 fontWeight={'600'}
                                                 color={ColorsCustom.grey}
                                             >
@@ -198,6 +204,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
                                 })
                             }
                         </Block>
+                        {/*film description*/}
                         <Block marginTop={scale(10)}>
                             <Text fontWeight={'400'}>
                                 {film?.detail?.description} Hai anh em Mai và Men cùng yêu một cô gái tên Pon, nhưng do
@@ -210,6 +217,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
                             </Text>
                         </Block>
                     </Block>
+                    {/*caster list*/}
                     <Block onLayout={(event) => {
                         const layout = event.nativeEvent.layout;
                         dataSourceCords[1] = layout.y;
@@ -219,11 +227,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
                             {film?.detail.casters.map((item: any, index: number) => {
                                 return (
                                     <Block marginLeft={scale(10)}>
-                                        <Img style={{
-                                            borderRadius: scale(10),
-                                            height: deviceWidth / 6,
-                                            width: deviceWidth / 3
-                                        }}
+                                        <Img style={styles().imageCaster}
                                              resizeMode={'cover'}
                                              source={handleImage(
                                                  {
@@ -243,16 +247,9 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
                            }}
                     >
                         <Block
-                            style={{}}
-                            width={deviceWidth / 3}
-                            height={scale(deviceWidth / 6)}
-                            alignItems={'center'}
-                            direction={'row'}
-                            justifyContent={'center'}>
-                            <Img style={{
-                                height: scale(28),
-                                width: scale(28),
-                            }}
+                            style={{}} width={deviceWidth / 3} height={scale(deviceWidth / 6)} alignItems={'center'}
+                            direction={'row'} justifyContent={'center'}>
+                            <Img style={styles().rateImage}
                                  source={handleImage(images.age_limit)}/>
                             <Text
                                 marginLeft={scale(10)}
@@ -271,6 +268,7 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
     );
 };
 
+// process share element
 FilmDetailsScreen.sharedElements = (route: any, otherNavigation: any, showing: any) => {
     const film = route.params?.item;
     return [{

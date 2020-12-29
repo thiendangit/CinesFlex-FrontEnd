@@ -4,6 +4,5 @@ import * as Saga from './saga';
 
 export function* LoginSaga() {
     yield takeLatest(actionsLogin.onLogin.type, Saga.onLogin);
-    yield takeLatest(actionsLogin.onAfterLogin.type, Saga.onAfterLogin);
 }
 

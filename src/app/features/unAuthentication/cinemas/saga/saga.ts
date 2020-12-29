@@ -3,6 +3,7 @@ import {Action} from 'redux';
 import {put, call} from 'redux-saga/effects';
 import {actionsCinemas} from '../redux/reducer';
 import {onCheckType} from '@common'
+import {onLoadApp, onLoadAppEnd} from '@app_redux/reducer'
 
 export function* getDataCinemas(action: Action) {
     if (actionsCinemas.getDataCinemas.match(action)) {
@@ -19,7 +20,9 @@ export function* getDataCinemas(action: Action) {
 export function* getListCinemas(action: Action) {
     if (actionsCinemas.getListCinemas.match(action)) {
         const {onSucceeded, url, body} = action.payload;
+        yield put(onLoadApp());
         const response = yield ServiceSaga.Post(url, body);
+        yield put(onLoadAppEnd());
         if (response) {
             if (onCheckType(onSucceeded, 'function')) {
                 yield call(onSucceeded, response);
@@ -31,6 +34,7 @@ export function* getListCinemas(action: Action) {
 export function* getListShowTimeByCinemas(action: Action) {
     if (actionsCinemas.getListShowTimeByCinemas.match(action)) {
         const {onSucceeded, url, body} = action.payload;
+        yield put(onLoadApp());
         const response = yield ServiceSaga.Post(url, body);
         if (response) {
             if (onCheckType(onSucceeded, 'function')) {
@@ -43,7 +47,9 @@ export function* getListShowTimeByCinemas(action: Action) {
 export function* getListSeatByScreen(action: Action) {
     if (actionsCinemas.getListSeatByScreen.match(action)) {
         const {onSucceeded, url, body} = action.payload;
+        yield put(onLoadApp());
         const response = yield ServiceSaga.Post(url, body);
+        yield put(onLoadAppEnd());
         if (response) {
             if (onCheckType(onSucceeded, 'function')) {
                 yield call(onSucceeded, response);
@@ -67,9 +73,9 @@ export function* getListProducts(action: Action) {
 export function* bookTicket(action: Action) {
     if (actionsCinemas.bookTicket.match(action)) {
         const {onSucceeded, url, body} = action.payload;
-        console.log({body});
+        yield put(onLoadApp());
         const response = yield ServiceSaga.Post(url, body);
-        console.log({response});
+        yield put(onLoadApp());
         if (response) {
             if (onCheckType(onSucceeded, 'function')) {
                 yield call(onSucceeded, response);
