@@ -99,7 +99,7 @@ const ModalPayment = forwardRef<any, ModalWithListProductProps>(
 
         const handleActiveButtonPayment = (): boolean => {
             option_PaymentState.map((item) => {
-                if (item.name === Constants.PAYMENT_ON_CASH && item.is_Selected) {
+                if (item.name === Constants.PAYMENT_ON_CASH || (item.is_Selected && item.name ! === Constants.PAYMENT_ONLINE)) {
                     setIsActivePayment(true)
                 }
             });

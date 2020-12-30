@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from "react";
+import React, {memo, useLayoutEffect, useState} from "react";
 import {styles} from './style'
 import {Block, IconBack, ListView, Screen, Text} from "@components";
 import {useTranslation} from 'react-i18next';
@@ -7,7 +7,6 @@ import isEqual from "react-fast-compare";
 import {dispatch, verticalScale} from "@common";
 import {_orderListItem} from "./components";
 import {actionsHome} from "@features/unAuthentication/home/redux/reducer";
-import {FilmProps} from "@features/unAuthentication/home/design";
 import {useSelector} from "react-redux";
 import {RootState} from "@store/allReducers";
 
@@ -44,7 +43,7 @@ const OrderHistoryScreen: React.FC<Props> = (props): React.ReactElement => {
     let URL_DOMAIN = useSelector(
         (state: RootState) => state.app?.appUrl
     );
-    useEffect(() => {
+    useLayoutEffect(() => {
         dispatch(actionsHome.getListOrderProduct(`${URL_DOMAIN}orders/fetch-history`, (result) => {
             console.log({result});
             if (result?.data?.data) {

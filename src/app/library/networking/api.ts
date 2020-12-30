@@ -14,4 +14,5 @@ const API_VERSION = '';
 export const ApiConstants = {
     LOGIN: `login`,
     REGISTER: `register`,
+    EDIT : 'edit'
 };

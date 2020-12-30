@@ -4,6 +4,7 @@ import BookTicketResultScreen from './bookTicketResult/design';
 import OrderHistoryScreen from './orderHistory/design';
 import FavoriteListScreen from './favoriteList/design';
 import CurrentSeeListScreen from './currentSeeList/design';
+import EditProfileScreen from './currentSeeList/design';
 
 export {
     UserProfileScreen,
@@ -11,5 +12,6 @@ export {
     BookTicketResultScreen,
     OrderHistoryScreen,
     FavoriteListScreen,
-    CurrentSeeListScreen
+    CurrentSeeListScreen,
+    EditProfileScreen
 }

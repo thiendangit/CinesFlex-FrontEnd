@@ -49,7 +49,7 @@ const UserProfileScreen = (props: any): React.ReactElement => {
     );
 
     const onPressEdit = () => {
-        alert('Edit')
+        NavigationService.navigate(APP_SCREEN.EDIT_PROFILE)
     };
 
     // option for list item

@@ -1,9 +1,11 @@
-import React, {memo, forwardRef} from 'react';
+import React, {memo, forwardRef, RefAttributes} from 'react';
 import {Block, Form, Text, TextField} from '@components';
 import isEqual from 'react-fast-compare';
 import {FieldError} from 'react-hook-form';
 import {ColorsCustom} from "@theme/color";
-import {KeyboardType, StyleProp, ViewStyle} from "react-native";
+import {Animated, StyleProp, ViewStyle} from "react-native";
+import {ErrorMessage} from "@hookform/error-message";
+import {styles} from "@features/unAuthentication/register/components/FormRegister/style";
 
 interface InputProps {
     name: string;
@@ -19,22 +21,21 @@ interface InputProps {
     disabledBorderColor?: string,
     containerStyle?: StyleProp<ViewStyle>
     rightChildren?: () => any,
-    secureTextEntry?: boolean
-    keyboardType?: KeyboardType,
-    typeInput?: "flat" | "outline",
-    defaultValue?: string
+    secureTextEntry?: boolean,
+    errors? : any,
+    hide? : boolean
 }
 
 const InputComponent = forwardRef<any, InputProps>(
     ({
          onSubmit, label, name, nameTrigger, error,
          disabledLabelColor, activeTintBorderColor, activeTintLabelColor,
-         unActiveTintBorderColor, unActiveTintLabelColor, disabledBorderColor,
-         containerStyle, rightChildren, secureTextEntry,
-         typeInput, keyboardType, defaultValue, ...rest
+         unActiveTintBorderColor, unActiveTintLabelColor, disabledBorderColor,hide,
+         containerStyle, rightChildren, secureTextEntry,errors,...rest
      }, ref) => {
+
         return (
-            <Block>
+            <Block style={hide && {height : 0 , width : 0}}>
                 <TextField
                     onSubmit={onSubmit}
                     ref={ref}
@@ -42,17 +43,15 @@ const InputComponent = forwardRef<any, InputProps>(
                     error={error?.message !== undefined}
                     label={label}
                     name={name}
-                    defaultValue={defaultValue}
                     disabledLabelColor={disabledLabelColor && disabledLabelColor || ColorsCustom.lightGrey}
                     activeTintBorderColor={activeTintBorderColor && activeTintBorderColor || ColorsCustom.lightGrey}
                     activeTintLabelColor={activeTintLabelColor && activeTintLabelColor || ColorsCustom.lightGrey}
                     unActiveTintBorderColor={unActiveTintBorderColor && unActiveTintBorderColor || ColorsCustom.lightGrey}
                     unActiveTintLabelColor={unActiveTintLabelColor && unActiveTintLabelColor || ColorsCustom.lightGrey}
                     disabledBorderColor={disabledBorderColor && disabledBorderColor || ColorsCustom.lightGrey}
-                    typeInput={typeInput ?? 'flat'}
+                    typeInput={'flat'}
                     containerStyle={containerStyle}
                     rightChildren={rightChildren}
-                    keyboardType={keyboardType}
                     secureTextEntry={secureTextEntry}
                     {...rest}
                 />
@@ -61,4 +60,4 @@ const InputComponent = forwardRef<any, InputProps>(
     },
 );
 
-export const Input = memo(InputComponent, isEqual);
+export const InputWithError = memo(InputComponent,isEqual);

@@ -46,7 +46,8 @@ export const RegisterScreen = ({}: RegisterProps) => {
             email: data.email.toLowerCase(),
             password: data.password.toLowerCase(),
             password_confirmation: data.confirmPassword.toLowerCase(),
-            name: data.phone,
+            phone: data.phone,
+            name: data.name,
         });
         console.log({body});
         dispatch(actionsRegister.onRegister(`${URL_DOMAIN}${ApiConstants.REGISTER}`, body, (result) => {
@@ -83,7 +84,7 @@ export const RegisterScreen = ({}: RegisterProps) => {
                 </Text>
                 <FormRegister onSubmit={_onSubmit}
                               onForgotPassword={_onForgotPassword}
-                              activeTintBorderColor={userType === Constants.ROLE.SUPPLIER ? ColorsCustom.lime_green : ColorsCustom.light_red}/>
+                              activeTintBorderColor={ColorsCustom.lime_green}/>
                 <Block style={{height: verticalScale(30)}}/>
                 <IconBack onPress={_onGoBack}/>
             </KeyboardAwareScrollView>

@@ -54,7 +54,8 @@
     "next" : "Next",
     "congratulation" : "Congratulation",
     "success" : "Success",
-    "ContinueBuy" : "Continue buy"
+    "ContinueBuy" : "Continue buy",
+    "editProfile" : "Edit Profile"
   },
   "dialog": {
     "error": "Lỗi",

@@ -55,7 +55,8 @@
     "email": "email",
     "password": "password",
     "confirmPassword": "confirmPassword",
-    "next": "Next"
+    "next": "Next",
+    "editProfile" : "Edit Profile"
   },
   "main": {
     "chatTab": {

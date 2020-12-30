@@ -108,7 +108,7 @@ export const orderListItem = ({item, index, onPressItem}: OrderListItemProps) =>
                         </Block>
                         <Block block direction={'row'} alignItems={'center'}>
                             <Text fontWeight={'600'} color={ColorsCustom.grey}>
-                                Total :
+                                SubTotal :
                             </Text>
                             <Text fontWeight={'600'} color={ColorsCustom.grey}>
                                 {formatMoney(100000)}
@@ -123,7 +123,7 @@ export const orderListItem = ({item, index, onPressItem}: OrderListItemProps) =>
                     Total :
                 </Text>
                 <Text fontWeight={'600'} style={{fontSize: FontSizeDefault.FONT_20}} color={ColorsCustom.light_red}>
-                    {' '}{formatMoney(100000)}
+                    {' '}{formatMoney(1000000)}
                 </Text>
             </Block>
         </Button>
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
-        alignSelf : 'center',
+        alignSelf: 'center',
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -154,13 +154,13 @@ const styles = StyleSheet.create({
         minHeight: CONTAINER_HEIGHT,
         width: CONTAINER_WIDTH,
         margin: scale(5),
-        backgroundColor: 'white',
+        backgroundColor: ColorsCustom.lime_green,
         flex: 1,
         flexDirection: 'row',
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 2
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
