@@ -15,6 +15,7 @@ import {APP_SCREEN} from "@navigation/screenTypes";
 import {NavigationService} from "@navigation/navigationService";
 import {onLogout} from "@app_redux/reducer";
 import {RootState} from "@store/allReducers";
+import {actionsCinemas} from "@features/unAuthentication/cinemas/redux/reducer";
 
 export interface lineItemProps {
     id: number,
@@ -31,6 +32,7 @@ const UserProfileScreen = (props: any): React.ReactElement => {
     const dispatch = useDispatch();
     const onPressLogout = () => {
         dispatch(onLogout());
+        dispatch(actionsCinemas.onLogout());
         NavigationService.reset(APP_SCREEN.LOGIN)
     };
 

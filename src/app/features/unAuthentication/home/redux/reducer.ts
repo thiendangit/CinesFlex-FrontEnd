@@ -27,5 +27,14 @@ const getDataHomePage = createAction(Action.GET_DATA_HOMEPAGE, (url: string, onS
     }
 }));
 
-export const actionsHome = {...homeSlice.actions, getDataHomePage};
+const getListOrderProduct = createAction(Action.GET_ORDER_LIST, (url: string, onSucceeded: (response: any) => void) => {
+    return ({
+        payload: {
+            url,
+            onSucceeded
+        }
+    });
+});
+
+export const actionsHome = {...homeSlice.actions, getDataHomePage, getListOrderProduct};
 export const homeReducer = homeSlice.reducer;

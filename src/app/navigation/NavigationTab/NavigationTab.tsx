@@ -139,6 +139,12 @@ const AuthNavigator = () => {
                 component={CurrentSeeListScreen}
                 options={homeOptions}
             />
+            <Stack.Screen name={APP_SCREEN.FILM_DETAILS} component={FilmDetailsScreen} options={homeOptions}/>
+            <Stack.Screen name={APP_SCREEN.CINEMAS} component={CinemasScreen} options={homeOptions}/>
+            <Stack.Screen name={APP_SCREEN.CINEMAS_DETAILS} component={CinemasDetailsScreen} options={homeOptions}/>
+            <Stack.Screen name={APP_SCREEN.BOOK_TICKET} component={BookTicketScreen} options={homeOptions}/>
+            <Stack.Screen name={APP_SCREEN.BOOK_TICKET_RESULT} component={BookTicketResultScreen}
+                          options={homeOptions}/>
         </AuthStack.Navigator>
     );
 };

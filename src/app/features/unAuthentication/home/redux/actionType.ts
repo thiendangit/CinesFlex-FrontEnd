@@ -1,2 +1,3 @@
 export const GET_DATA_HOMEPAGE = 'GET_DATA_HOMEPAGE';
+export const GET_ORDER_LIST = 'GET_ORDER_LIST';
 export const AFTER_LOGIN = 'AFTER_LOGIN';

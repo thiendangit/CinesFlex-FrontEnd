@@ -1,24 +1,27 @@
 import React, {memo} from "react";
 import {Block, Button, Img, Text} from "@components";
-import {StyleSheet, TouchableOpacity} from "react-native";
-import {handleImage, scale, verticalScale} from "@common";
+import {StyleSheet} from "react-native";
+import {formatMinusToHours, handleImage, scale, verticalScale} from "@common";
 import {ColorsCustom} from "@theme/color";
-import {SpacingDefault} from "@theme/spacing";
 import {deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
 import {FontSizeDefault} from "@theme/fontSize";
+import {FilmProps} from "@features/unAuthentication/home/design";
+import {URL_IMAGE} from "@networking";
+import {icons} from "@assets/icon";
+import {images} from "@assets/image";
 
 interface FavoriteListItemProps {
-    item: any,
+    item: FilmProps,
     index: string,
-    onPressItem: (item: any) => void
+    onPressItem: (item: FilmProps) => void,
+    onPressDelete: (item: FilmProps) => void,
 }
 
 let CONTAINER_HEIGHT = deviceWidth / 5;
 let CONTAINER_WIDTH = deviceWidth / 1.1;
 
-
-export const favoriteListItem = ({item, index, onPressItem}: FavoriteListItemProps) => {
+export const favoriteListItem = ({item, index, onPressItem, onPressDelete}: FavoriteListItemProps) => {
     return (
         <Button onPress={() => onPressItem(item)} style={[styles.container, index == '0' ? {
             marginTop: scale(15)
@@ -29,11 +32,43 @@ export const favoriteListItem = ({item, index, onPressItem}: FavoriteListItemPro
             }}
                  containerStyle={styles.imageContainer}
                  source={handleImage({
-                     uri: 'https://quangcaongoaitroi.com/wp-content/u' +
-                         'ploads/2020/02/quang-cao-tai-rap-chieu-phim-5.jpg'
+                     uri: `${URL_IMAGE}${item?.detail?.images[0]?.url}`
                  })}/>
             <Block block alignSelf={"flex-start"} style={styles.rightViewContainer}>
-
+                <Text fontSize={"FONT_20"}
+                      fontWeight={'600'}
+                      marginTop={scale(2)}
+                      color={ColorsCustom.blue}
+                >{item?.name}</Text>
+                <Block direction={'row'} marginTop={scale(5)}>
+                    {
+                        item?.detail?.categories.map((item: any, index: number) => {
+                            return (
+                                <Text marginLeft={scale(5)}
+                                      color={ColorsCustom.grey}
+                                      fontWeight={'400'}
+                                >
+                                    {item?.title}
+                                </Text>
+                            )
+                        })
+                    }
+                    <Text paddingHorizontal={scale(5)}
+                          color={ColorsCustom.grey}
+                          fontWeight={'400'}>
+                        |
+                    </Text>
+                    <Block>
+                        <Text fontWeight={'600'} color={ColorsCustom.grey}>
+                            {formatMinusToHours(item?.detail?.duration_min)}
+                        </Text>
+                    </Block>
+                </Block>
+            </Block>
+            <Block style={styles.rightViewContainer_1}>
+                <Button onPress={() => onPressDelete(item)} activeOpacity={1}>
+                    <Img source={icons.trash} style={styles.iconTrash}/>
+                </Button>
             </Block>
         </Button>
     )
@@ -67,7 +102,12 @@ const styles = StyleSheet.create({
         color: ColorsCustom.grey
     },
     rightViewContainer: {
-        marginLeft: CONTAINER_WIDTH / 3 + scale(20),
+        marginLeft: scale(20),
+    },
+    rightViewContainer_1: {
+        marginLeft: scale(2),
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     nameCinemas: {
         color: ColorsCustom.blue,
@@ -77,6 +117,10 @@ const styles = StyleSheet.create({
     detailsCinemas: {
         color: ColorsCustom.blackTextPrimary,
         fontSize: FontSizeDefault.FONT_13,
+    },
+    iconTrash: {
+        height: scale(30),
+        width: scale(30)
     }
 });
 

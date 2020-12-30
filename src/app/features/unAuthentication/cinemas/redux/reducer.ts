@@ -6,11 +6,13 @@ import {FilmProps} from "@features/unAuthentication/home/design";
 export interface HomeState {
     isHorizontal: boolean;
     favoriteList: FilmProps[]
+    currentSeeList: FilmProps[]
 }
 
 const initialState: HomeState = {
     isHorizontal: false,
-    favoriteList: []
+    favoriteList: [],
+    currentSeeList: [],
 };
 
 const cinemasSlice = createSlice({
@@ -21,21 +23,47 @@ const cinemasSlice = createSlice({
             state.isHorizontal = payload
         },
         onAddFilmToFavoriteList: (state, {payload}: PayloadAction<FilmProps>) => {
-            console.log({payload});
+            let flag = false;
             let favoriteCopy = Object.assign([], state.favoriteList);
-            console.log({favoriteCopy});
             if (favoriteCopy.length > 0) {
                 favoriteCopy.map((item: FilmProps, index: number) => {
                     if (item.id === payload.id) {
-                        alert('detele');
-                       // favoriteCopy.splice()
-                        return
+                        favoriteCopy.splice(index, 1);
+                        flag = true;
                     }
-                })
-
+                });
+                if (!flag) {
+                    state.favoriteList.unshift(payload);
+                } else {
+                    state.favoriteList = favoriteCopy
+                }
             } else {
                 state.favoriteList.push(payload)
             }
+        },
+        onAddFilmToCurrentSeeList: (state, {payload}: PayloadAction<FilmProps>) => {
+            let flag = false;
+            let currentSeeCopy = Object.assign([], state.currentSeeList);
+            if (currentSeeCopy.length > 0) {
+                currentSeeCopy.map((item: FilmProps, index: number) => {
+                    if (item.id === payload.id) {
+                        flag = true;
+                    }
+                });
+                if (!flag) {
+                    if (currentSeeCopy.length >= 4) {
+                        currentSeeCopy.shift();
+                    }
+                    state.currentSeeList.unshift(payload);
+                }
+            } else {
+                state.currentSeeList.push(payload)
+            }
+        },
+        onLogout: (state) => {
+            state.isHorizontal = false;
+            state.favoriteList = [];
+            state.currentSeeList = [];
         },
     }
 });

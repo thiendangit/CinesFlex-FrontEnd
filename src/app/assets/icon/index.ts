@@ -18,6 +18,7 @@ export const icons = {
   logout: require('./source/logout.png'),
   order: require('./source/order.png'),
   seeCurrent: require('./source/seeCurrent.png'),
+  trash: require('./source/trash.png'),
 };
 
 export type IconTypes = keyof typeof icons;

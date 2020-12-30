@@ -18,3 +18,18 @@ export function* getDataHomePage(action: Action) {
         }
     }
 }
+
+export function* getListOrderProduct(action: Action) {
+    if (actionsHome.getListOrderProduct.match(action)) {
+        yield put(onLoadApp());
+        const {onSucceeded, url} = action.payload;
+        yield put(onLoadAppEnd());
+        let body = {};
+        const response = yield ServiceSaga.Post(url, body);
+        if (response) {
+            if (onCheckType(onSucceeded, 'function')) {
+                yield call(onSucceeded, response);
+            }
+        }
+    }
+}

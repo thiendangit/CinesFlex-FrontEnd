@@ -52,6 +52,7 @@ export const CinemasDetailsScreen: React.FC<CinemasDetailsProps> = (props) => {
             "movie_id": film?.id ?? '',
             "region_id": region?.id ?? ''
         }, (result) => {
+            console.log({result});
             if (result && result?.data?.data) {
                 setCinemas(result?.data?.data)
             }
@@ -69,7 +70,7 @@ export const CinemasDetailsScreen: React.FC<CinemasDetailsProps> = (props) => {
     };
 
     const _renderItem = ({item, index}: any) => {
-        return <_cinemasListItem item={item} index={index} onPressItem={onPressItem}/>
+        return <_cinemasListItem item={item} index={index} film={film} onPressItem={onPressItem}/>
     };
 
     return (

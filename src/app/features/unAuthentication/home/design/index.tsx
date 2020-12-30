@@ -19,6 +19,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "@store/allReducers";
 import {actionsHome} from "../redux/reducer";
 import {SharedElement} from "react-navigation-shared-element";
+import {actionsCinemas} from "@features/unAuthentication/cinemas/redux/reducer";
 
 type HomeProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
 
@@ -68,7 +69,9 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
     let isHorizontal = useSelector(
         (state: RootState) => state.home?.isHorizontal
     );
-
+    let {token} = useSelector(
+        (state: RootState) => state.app
+    );
     let URL_DOMAIN = useSelector(
         (state: RootState) => state.app?.appUrl
     );
@@ -113,6 +116,9 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
 
     function onPressItem(item: FilmProps, isComing = false) {
         // console.log({item});
+        if (token) {
+            dispatch(actionsCinemas.onAddFilmToCurrentSeeList(item));
+        }
         NavigationService.push(APP_SCREEN.FILM_DETAILS, {item, isComing});
         // alert(item)
     }

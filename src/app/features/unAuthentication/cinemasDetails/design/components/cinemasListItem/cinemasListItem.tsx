@@ -8,11 +8,13 @@ import {deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
 import {FontSizeDefault} from "@theme/fontSize";
 import {CinemasProps} from "@features/unAuthentication/cinemasDetails/design";
+import {FilmProps} from "@features/unAuthentication/home/design";
 
 interface subTabItemProps {
     item: CinemasProps,
     index: string,
-    onPressItem: (item: any) => void
+    onPressItem: (item: any) => void,
+    film?: FilmProps | null
 }
 
 let CONTAINER_HEIGHT = deviceWidth / 2.5;
@@ -20,7 +22,7 @@ let CONTAINER_WIDTH = deviceWidth / 1.1;
 let DOT_SIZE = scale(20);
 
 
-export const cinemasListItem = ({item, index, onPressItem}: subTabItemProps) => {
+export const cinemasListItem = ({item, index, onPressItem, film}: subTabItemProps) => {
     return (
         <Button key={index.toString()} onPress={() => onPressItem(item)} activeOpacity={1}
                 style={[styles.container, index == '0' ? {
@@ -48,23 +50,25 @@ export const cinemasListItem = ({item, index, onPressItem}: subTabItemProps) => 
                         see more
                     </Text>
                 </Text>
-                <Block direction={'row'} flexWrap={'wrap'}>
-                    {
-                        item?.show_times.map((item, index) => {
-                            return (
-                                <TouchableOpacity
-                                    activeOpacity={1}
-                                    style={[styles.showTime, {backgroundColor: handleCheckTimeWithCurrentTime(item.show_time) ? ColorsCustom.lightGrey : ColorsCustom.lightWhite}]}>
-                                    <Text style={{fontSize: FontSizeDefault.FONT_12}}
-                                          fontWeight={'600'}
-                                          color={handleCheckTimeWithCurrentTime(item.show_time) ? ColorsCustom.lightWhite : ColorsCustom.lightGrey}>
-                                        {item.show_time}
-                                    </Text>
-                                </TouchableOpacity>
-                            )
-                        })
-                    }
-                </Block>
+                {
+                    film ? <Block direction={'row'} flexWrap={'wrap'}>
+                        {
+                            item?.show_times.map((item, index) => {
+                                return (
+                                    <TouchableOpacity
+                                        activeOpacity={1}
+                                        style={[styles.showTime, {backgroundColor: handleCheckTimeWithCurrentTime(item.show_time) ? ColorsCustom.lightGrey : ColorsCustom.lightWhite}]}>
+                                        <Text style={{fontSize: FontSizeDefault.FONT_12}}
+                                              fontWeight={'600'}
+                                              color={handleCheckTimeWithCurrentTime(item.show_time) ? ColorsCustom.lightWhite : ColorsCustom.lightGrey}>
+                                            {item.show_time}
+                                        </Text>
+                                    </TouchableOpacity>
+                                )
+                            })
+                        }
+                    </Block> : null
+                }
             </Block>
             <Block style={[styles.dotStyle, {
                 left: scale(-5),

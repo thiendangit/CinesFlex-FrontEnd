@@ -1,4 +1,4 @@
-import React, {memo, useRef, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 // @ts-ignore
 import isEqual from 'react-fast-compare';
 import {RootStackParamList, APP_SCREEN} from '@navigation/screenTypes';
@@ -16,6 +16,8 @@ import {FilmProps} from "@features/unAuthentication/home/design";
 import {StackScreenProps} from "@react-navigation/stack";
 import {URL_IMAGE} from "@networking";
 import {actionsCinemas} from "@features/unAuthentication/cinemas/redux/reducer";
+import {useSelector} from "react-redux";
+import {RootState} from "@store/allReducers";
 
 interface leftTabOption {
     id: number
@@ -46,6 +48,22 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
     const [isLike, setIsLike] = useState(false);
 
     const scrollRef = useRef<any>();
+    let {favoriteList} = useSelector(
+        (state: RootState) => state.cinemas
+    );
+
+    let {token} = useSelector(
+        (state: RootState) => state.app
+    );
+
+    // set favourite
+    useEffect(() => {
+        favoriteList.map((item) => {
+            if (film?.id === item.id) {
+                setIsLike(true)
+            }
+        })
+    }, []);
 
     const onPressBack = () => {
         NavigationService.goBack()
@@ -143,9 +161,13 @@ export const FilmDetailsScreen = (props: FilmDetailsProps) => {
                             />
                         </SharedElement>
                         <Icon
-                            onPress={async () => {
-                                await dispatch(actionsCinemas.onAddFilmToFavoriteList(film));
-                                // setIsLike(!isLike)
+                            onPress={() => {
+                                if (token) {
+                                    setIsLike(!isLike);
+                                    dispatch(actionsCinemas.onAddFilmToFavoriteList(film));
+                                } else {
+                                    alert('Please login to use this feature!')
+                                }
                             }}
                             icon={'heart'}
                             style={[styles().heartIconStyle, {tintColor: isLike ? ColorsCustom.red : ColorsCustom.lightWhite}]}/>
