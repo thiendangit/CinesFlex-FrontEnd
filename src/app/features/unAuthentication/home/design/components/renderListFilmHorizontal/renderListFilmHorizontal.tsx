@@ -56,6 +56,7 @@ const styles = (indexNumber?: number) => StyleSheet.create({
     container: {
         height: deviceHeight / 2,
         width: deviceWidth,
+        marginTop: scale(30),
         alignItems: 'center',
         justifyContent: 'center',
         shadowColor: "#000",

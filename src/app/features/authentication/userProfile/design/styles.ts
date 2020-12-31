@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         width: scale(40),
         position: 'absolute',
         bottom: scale(20),
-        right: scale(20)
+        right: scale(20),
     },
     IconEdit: {
         height: scale(30), width: scale(30),

@@ -1,6 +1,6 @@
 import React, {memo} from "react";
 import {Block, Button, Img, Text} from "@components";
-import {StyleSheet} from "react-native";
+import {Platform, StyleSheet} from "react-native";
 import {scale, verticalScale} from "@common";
 import {ColorsCustom} from "@theme/color";
 import {deviceWidth} from "@utils";
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         width: scale(15),
         transform: [
             {
-                rotate: '3.1'
+                rotate: Platform.OS === "ios" ? '3.1' : "180deg"
             }
         ]
     },

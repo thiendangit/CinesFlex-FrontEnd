@@ -183,7 +183,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
 
     const _renderHeaderView = () => {
         return (
-            <Block direction={'row'} marginTop={Platform.OS === 'android' ? scale(30) : 0}>
+            <Block direction={'row'}>
                 <Block height={verticalScale(35)}/>
                 <SearchBarAnimation text={textSearch}
                                     placeHolder={'Search film'}
@@ -250,8 +250,8 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
                                        renderItem={_renderItemInTheTheaterHorizontal}
                                        keyExtractor={(item, index) => index.toString()}
                                        contentContainerStyle={{
-                                           marginTop: verticalScale(40),
-                                           marginBottom: verticalScale(40)
+                                           marginTop: verticalScale(5),
+                                           marginBottom: verticalScale(20)
                                        }}
                         // ListFooterComponent={_footerView}
 
@@ -273,8 +273,8 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
                                        renderItem={_renderItemComingHorizontal}
                                        keyExtractor={(item, index) => `${index}+1`.toString()}
                                        contentContainerStyle={{
-                                           marginTop: verticalScale(40),
-                                           marginBottom: verticalScale(40)
+                                           marginTop: verticalScale(5),
+                                           marginBottom: verticalScale(20)
                                        }}
                         // ListFooterComponent={_footerView}
                     />
