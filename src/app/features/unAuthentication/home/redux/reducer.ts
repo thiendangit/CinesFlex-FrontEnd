@@ -36,5 +36,15 @@ const getListOrderProduct = createAction(Action.GET_ORDER_LIST, (url: string, on
     });
 });
 
-export const actionsHome = {...homeSlice.actions, getDataHomePage, getListOrderProduct};
+const searchProductByName = createAction(Action.SEARCH_PRODUCT_BY_NAME, (url: string, body: any, onSucceeded: (response: any) => void) => {
+    return ({
+        payload: {
+            url,
+            body,
+            onSucceeded
+        }
+    });
+});
+
+export const actionsHome = {...homeSlice.actions, getDataHomePage, getListOrderProduct,searchProductByName};
 export const homeReducer = homeSlice.reducer;

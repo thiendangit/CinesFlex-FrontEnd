@@ -49,8 +49,8 @@ export const CinemasDetailsScreen: React.FC<CinemasDetailsProps> = (props) => {
     useEffect(() => {
         //fetch cinemas list by region & movie
         dispatch(actionsCinemas.getListCinemas(`${URL_DOMAIN}movie-screens/show-times-by-movie-n-region`, {
-            "movie_id": film?.id ?? '',
-            "region_id": region?.id ?? ''
+            "movie_id": film?.id ?? null,
+            "region_id": region?.id ?? null
         }, (result) => {
             console.log({result});
             if (result && result?.data?.data) {

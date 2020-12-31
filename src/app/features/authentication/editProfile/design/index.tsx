@@ -22,6 +22,7 @@ import {actionsRegister} from "@features/unAuthentication/register/redux/reducer
 import {FormEdit, FormValueEditPage} from "@features/authentication/editProfile/components";
 import {Avatar} from "react-native-paper";
 import {actionsEdit} from "@features/authentication/editProfile/redux/reducer";
+import {onSetAppProfile} from "@app_redux/reducer";
 
 type EditProps = StackScreenProps<RootStackParamList, APP_SCREEN.REGISTER>;
 
@@ -46,21 +47,22 @@ export const EditProfileScreen = ({}: EditProps) => {
             phone: data.phone,
             name: data.name.toLowerCase(),
         });
-        // dispatch(actionsEdit.onEdit(`${URL_DOMAIN}${ApiConstants.EDIT}`, body, (result) => {
-        //     dispatch(actionsLogin.onLoginEnd());
-        //     if (result?.data && result?.data?.success) {
-        //         toast('Edit profile success');
-        //         setTimeout(() => {
-        //             NavigationService.goBack();
-        //         }, 1000)
-        //     } else {
-        //         if (result?.data) {
-        //             toast(`${result?.data?.errors[0]}`, 2000);
-        //         } else {
-        //             toast(`${result?.msg}`, 2000);
-        //         }
-        //     }
-        // }));
+        dispatch(actionsEdit.onEdit(`${URL_DOMAIN}users/update-profile`, body, (result) => {
+            dispatch(actionsLogin.onLoginEnd());
+            if (result?.data && result?.data?.success) {
+                toast('Edit profile success');
+                dispatch(onSetAppProfile({...result.data?.data}));
+                setTimeout(() => {
+                    NavigationService.goBack();
+                }, 1000)
+            } else {
+                if (result?.data) {
+                    toast(`${result?.data?.errors[0]}`, 2000);
+                } else {
+                    toast(`${result?.msg}`, 2000);
+                }
+            }
+        }));
     }
 
     const _onSubmit = (data: FormValueLoginPage) => {

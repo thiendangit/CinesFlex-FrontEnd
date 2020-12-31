@@ -1,4 +1,4 @@
-import React, {memo, useRef, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 // @ts-ignore
 import {StackScreenProps} from '@react-navigation/stack';
 import isEqual from 'react-fast-compare';
@@ -8,17 +8,38 @@ import {ColorsCustom} from "@theme/color";
 import {styles} from "@features/unAuthentication/promotion/design/style";
 import {images} from "@assets/image";
 import {deviceHeight, deviceWidth} from "@utils";
-import {handleImage, scale} from "@common";
+import {dispatch, handleImage, scale} from "@common";
 import {Animated, FlatList, Platform, ScrollView, StyleSheet, TouchableOpacity} from "react-native";
 import LinearGradient from 'react-native-linear-gradient';
 import {NavigationService} from "@navigation/navigationService";
 import {SharedElement} from 'react-navigation-shared-element';
+import {actionsPromotion} from "@features/unAuthentication/promotion/redux/reducer";
+import {useSelector} from "react-redux";
+import {RootState} from "@store/allReducers";
+import {FilmProps} from "@features/unAuthentication/home/design";
 
 type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
 
+interface VoucherProps {
+    "id": string,
+    "promotion_id": string,
+    "reference": string,
+    "title": string,
+    "value": number,
+    "type": number,
+    "status": number
+}
+
 export interface PromotionItemProps {
-    id: number
-    image: string
+    id: string,
+    image: string,
+    "title": string,
+    "description": string,
+    "date_begin": string,
+    "date_end": string,
+    "type": number,
+    "status": number,
+    "vouchers": VoucherProps[]
 }
 
 const BACKGROUND_HEIGHT = deviceHeight / 1.6;
@@ -30,19 +51,18 @@ const BACKDROP_HEIGHT = deviceHeight * 0.7;
 export const PromotionScreen = ({navigation, route}: MoreProps) => {
 
     const scrollHorizontalX = useRef<any>(new Animated.Value(0)).current;
-    let data: PromotionItemProps[] = [{
-        id: 1,
-        image: 'https://www.cgv.vn/media/wysiwyg/Newsoffer2/May18/Keyart_350x495.jpg'
-    }, {
-        id: 2,
-        image: 'https://thegioidienanh.vn/stores/news_dataimages/thanhtan/072017/12/15/2752_Promotion_Ha_Tinh_POSM_A4.jpg'
-    }, {
-        id: 3, image: 'https://cdn.chanhtuoi.com/uploads/2015/05/cgv-tang-coinbank-Avengers-mien-phi.jpg'
-    }, {
-        id: 4,
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBaFa2HbWkziCUVIl81KVljzNRb4Cfs7eYXg&usqp=CAU'
-    }];
-    const [dataSource, setDataSource] = useState<PromotionItemProps[]>(data);
+    const [dataSource, setDataSource] = useState<PromotionItemProps[]>([]);
+    let URL_DOMAIN = useSelector(
+        (state: RootState) => state.app?.appUrl
+    );
+
+    useEffect(() => {
+        dispatch(actionsPromotion.getListPromotion(`${URL_DOMAIN}promotions`, (result) => {
+            if (result?.data?.data) {
+                setDataSource(result?.data?.data)
+            }
+        }));
+    }, []);
 
     const handleOnPressBanner = (item: PromotionItemProps) => {
         NavigationService.push(APP_SCREEN.PROMOTION_DETAILS, {item})
@@ -56,12 +76,10 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
                     bounces={false}
                     keyExtractor={(item) => item.key + '-backdrop'}
                     removeClippedSubviews={false}
-                    // horizontal
-                    contentContainerStyle={{width: deviceWidth, height: BACKDROP_HEIGHT}}
                     renderItem={({item, index}) => {
-                        if (!item.image) {
-                            return null;
-                        }
+                        // if (!item.image) {
+                        //     return null;
+                        // }
                         const inputRange = [
                             (index - 1) * ITEM_SIZE,
                             index * ITEM_SIZE,
@@ -85,11 +103,10 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
                             >
                                 <Img
                                     resizeMode={'cover'}
-                                    source={{uri: item.image}}
+                                    source={{uri: item.image ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBaFa2HbWkziCUVIl81KVljzNRb4Cfs7eYXg&usqp=CAU'}}
                                     style={{
                                         width: deviceWidth,
                                         height: BACKDROP_HEIGHT,
-                                        position: 'absolute',
                                     }}
                                 />
                             </Animated.View>
@@ -197,7 +214,7 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
                                                 }}
                                                 resizeMode={'cover'}
                                                 source={handleImage({
-                                                    uri: item.image
+                                                    uri: item.image ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBaFa2HbWkziCUVIl81KVljzNRb4Cfs7eYXg&usqp=CAU'
                                                 })}
                                             />
                                         </Animated.View>

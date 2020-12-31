@@ -238,7 +238,8 @@ export enum SLICE_NAME {
     LOGIN = 'LOGIN',
     REGISTER = 'REGISTER',
     HOME = 'HOME',
-    TOAST = 'TOAST'
+    TOAST = 'TOAST',
+    PROMOTION = 'PROMOTION'
 }
 
 export interface tabItem {

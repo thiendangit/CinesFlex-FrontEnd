@@ -33,3 +33,17 @@ export function* getListOrderProduct(action: Action) {
         }
     }
 }
+
+export function* searchProductByName(action: Action) {
+    if (actionsHome.searchProductByName.match(action)) {
+        yield put(onLoadApp());
+        const {onSucceeded, url, body} = action.payload;
+        yield put(onLoadAppEnd());
+        const response = yield ServiceSaga.Post(url, body);
+        if (response) {
+            if (onCheckType(onSucceeded, 'function')) {
+                yield call(onSucceeded, response);
+            }
+        }
+    }
+}

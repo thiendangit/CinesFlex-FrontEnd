@@ -114,6 +114,14 @@ const bookTicket = createAction(Action.BOOK_TICKET, (url: string, body: any, onS
     }
 }));
 
+const applyPromotionCode = createAction(Action.APPLY_CODE, (url: string, body: any, onSucceeded: (response: any) => void) => ({
+    payload: {
+        url,
+        body,
+        onSucceeded
+    }
+}));
+
 export const actionsCinemas = {
     ...cinemasSlice.actions,
     getDataCinemas,
@@ -121,6 +129,7 @@ export const actionsCinemas = {
     getListShowTimeByCinemas,
     getListSeatByScreen,
     getListProducts,
-    bookTicket
+    bookTicket,
+    applyPromotionCode
 };
 export const cinemasReducer = cinemasSlice.reducer;

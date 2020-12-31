@@ -61,6 +61,9 @@ const FormEditComponent = React.forwardRef(({onSubmit, activeTintBorderColor}: F
     const URL_DOMAIN = useSelector(
         (state: { app: AppState }) => state?.app?.appUrl
     );
+    const profile = useSelector(
+        (state: { app: AppState }) => state?.app?.profile
+    );
 
     const customRuleString = (name: string, minLength = 2, maxLength = 50, validate?: (val: any) => any) => {
         return {
@@ -149,6 +152,7 @@ const FormEditComponent = React.forwardRef(({onSubmit, activeTintBorderColor}: F
                         containerStyle={[styles().textInputContainer, {marginTop: verticalScale(10)}]}
                         name={'name'} label={'Name'}
                         nameTrigger={'name'}
+                        defaultValue={profile?.name}
                         activeTintBorderColor={activeTintBorderColor}
                     />
                     <ErrorMessage
@@ -161,6 +165,7 @@ const FormEditComponent = React.forwardRef(({onSubmit, activeTintBorderColor}: F
                         containerStyle={[styles().textInputContainer, {marginTop: verticalScale(10)}]}
                         name={'email'} label={'Email'}
                         nameTrigger={'email'}
+                        defaultValue={profile?.email}
                         activeTintBorderColor={activeTintBorderColor}
                     />
                     <ErrorMessage
@@ -173,6 +178,7 @@ const FormEditComponent = React.forwardRef(({onSubmit, activeTintBorderColor}: F
                         containerStyle={[styles().textInputContainer, {marginTop: verticalScale(10)}]}
                         name={'phone'} label={'Phone'}
                         nameTrigger={'phone'}
+                        defaultValue={profile?.phone}
                         keyboardType={'numeric'}
                         activeTintBorderColor={activeTintBorderColor}
                     />

@@ -5,9 +5,9 @@ import isEqual from 'react-fast-compare';
 import {RootStackParamList, APP_SCREEN} from '@navigation/screenTypes';
 import {Block, Button, Img, ListView, Screen, Text} from "@components"
 import {ColorsCustom} from "@theme/color";
-import {Animated} from "react-native";
+import {Alert, Animated} from "react-native";
 import SwitchSelector from "react-native-switch-selector";
-import {Constants, dispatch, scale, verticalScale} from "@common";
+import {Constants, dispatch, onChangeAlias, scale, toast, verticalScale} from "@common";
 import {deviceWidth} from "@utils";
 import {FontSizeDefault} from "@theme/fontSize";
 import {_renderListFilm, _renderListFilmHorizontal} from './components';
@@ -105,8 +105,16 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
 
     //handle submit search
     const onSubmitSearch = (text: string) => {
+        let textForSearch = onChangeAlias(text);
         //call api search
-        alert(`call api search ${text}`)
+        dispatch(actionsHome.searchProductByName(`${URL_DOMAIN}movies/search`, {name: textForSearch}, (result) => {
+            if (result?.data?.data) {
+                toast(result.data.message, 2000);
+                setDataFilmSearch(result.data.data);
+            } else {
+                toast(result?.data?.message, 2000)
+            }
+        }))
     };
 
     //handle on change type of layout

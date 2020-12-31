@@ -5,7 +5,8 @@ import {RegisterSaga} from "@features/unAuthentication/register/saga";
 import {HomeSaga} from "@features/unAuthentication/home/saga";
 import {CinemasSaga} from "@features/unAuthentication/cinemas/saga";
 import {EditSaga} from "@features/authentication/editProfile/saga";
+import {PromotionSaga} from "@features/unAuthentication/promotion/saga";
 
 export const rootSaga = function* rootSaga() {
-    yield all([appSaga(), LoginSaga(), RegisterSaga(), HomeSaga(), CinemasSaga(), EditSaga()]);
+    yield all([appSaga(), LoginSaga(), RegisterSaga(), HomeSaga(), CinemasSaga(), EditSaga(), PromotionSaga()]);
 };

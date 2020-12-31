@@ -1,0 +1,1 @@
+export const GET_LIST_PROMOTION = 'GET_LIST_PROMOTION';

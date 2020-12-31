@@ -38,6 +38,10 @@ export const formatDateToDDMM = (date: string) => {
     return moment(date).format('DD/MM')
 };
 
+export const formatDateToDDMMYYYY = (date: string) => {
+    return moment(date).format('DD/MM/YYYY')
+};
+
 export const formatMinusToHours = (minus: number) => {
     let hours = Math.floor(minus / 60);
     let minutes = minus % 60;

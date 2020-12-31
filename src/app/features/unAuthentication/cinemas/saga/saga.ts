@@ -83,3 +83,17 @@ export function* bookTicket(action: Action) {
         }
     }
 }
+
+export function* applyPromotionCode(action: Action) {
+    if (actionsCinemas.applyPromotionCode.match(action)) {
+        const {onSucceeded, url, body} = action.payload;
+        yield put(onLoadApp());
+        const response = yield ServiceSaga.Post(url, body);
+        yield put(onLoadAppEnd());
+        if (response) {
+            if (onCheckType(onSucceeded, 'function')) {
+                yield call(onSucceeded, response);
+            }
+        }
+    }
+}

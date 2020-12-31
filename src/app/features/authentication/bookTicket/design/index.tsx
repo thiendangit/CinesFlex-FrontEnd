@@ -50,6 +50,25 @@ interface BookTicketParamProps {
     },
 }
 
+interface PromotionProps {
+    "id": string,
+    "promotion_id": string,
+    "reference": string,
+    "title": string,
+    "value": number,
+    "type": number,
+    "status": number,
+    "promotion": {
+        "id": string,
+        "title": string,
+        "description": string,
+        "date_begin": string,
+        "date_end": string,
+        "type": number,
+        "status": number
+    }
+}
+
 type BookTicketProps = StackScreenProps<RootStackParamList, APP_SCREEN.BOOK_TICKET> | BookTicketParamProps;
 
 export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
@@ -65,12 +84,14 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
     const [dataChair, setDataChair] = useState<ChairItemChoose[] | []>([]);
     const [showTime, setShowTime] = useState<ShowTimeProps[] | any>([]);
     const [showTimeSub, setShowTimeSub] = useState<ShowTimeProps[] | any>([]);
+    const [promotionInfo, setPromotionInfo] = useState<PromotionProps | null>(null);
+    const [promotionText, setPromotionText] = useState<string>('');
     const modalCorn = useRef<ModalBoxRef>();
     const modalBeverages = useRef<ModalBoxRef>();
     const modalPayment = useRef<ModalBoxRef>();
     const [dataCorn, setDataCorn] = useState<ProductItem[] | []>([]);
     const [dataBeverage, setDataBeverage] = useState<ProductItem[] | []>([]);
-    const [showTimeSelected, setShowTimeSelected] = useState<string>('');
+    const [showTimeSelected, setShowTimeSelected] = useState<ShowTimeProps | null>(null);
     let URL_DOMAIN = useSelector(
         (state: RootState) => state.app?.appUrl
     );
@@ -110,7 +131,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 });
                 setShowTime(dataSource);
                 setShowTimeSub(dataSource[0]?.show_times);
-                setShowTimeSelected(dataSource[0]?.show_times[0].id ?? '');
+                setShowTimeSelected(dataSource[0]?.show_times[0] ?? '');
             }
         }))
     }, [token]);
@@ -150,7 +171,16 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
 
 
     const onPressApplyPromotionCode = () => {
-        alert('Apply Code!!')
+        if (promotionText === '') return;
+        dispatch(actionsCinemas.applyPromotionCode(`${URL_DOMAIN}vouchers/apply`, {code: promotionText}, (result) => {
+            console.log({result});
+            if (result?.data?.data) {
+                toast(result.data.message, 2000);
+                setPromotionInfo(result.data.data);
+            } else {
+                toast(result?.data?.message, 2000)
+            }
+        }))
     };
 
     const onPressBuy = () => {
@@ -191,9 +221,10 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
         });
         // call api book ticket
         dispatch(actionsCinemas.bookTicket(`${URL_DOMAIN}orders/booking-ticket`, {
-            show_time: showTimeSelected,
+            show_time: showTimeSelected ? showTimeSelected.id ?? '' : '',
             seat_ids,
-            products: products
+            products: products ?? null,
+            voucher_id: promotionInfo?.id ?? ''
         }, (result) => {
             if (result && result?.data?.data) {
                 modalPayment.current?.hide();
@@ -250,7 +281,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
         dataSources
             .filter((item) => (item.is_selected ?? false))
             .map((item) => {
-                totalPrice = totalPrice + 50000
+                totalPrice = totalPrice + (showTimeSelected ? showTimeSelected.price ?? 0 : 0)
             });
         //total price of corn
         dataCorns
@@ -264,6 +295,9 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
             .map((item) => {
                 totalPrice = totalPrice + parseInt(String(parseInt(String(item.quality ?? '0')) * parseInt(item.price)))
             });
+        if (promotionInfo) {
+            totalPrice = totalPrice / (promotionInfo.value * 100)
+        }
         // return
         return totalPrice;
     };
@@ -375,7 +409,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                     }))
                 }
             });
-            setShowTimeSelected(item?.id);
+            setShowTimeSelected(item);
             setShowTimeSub(dataSource[index]?.show_times);
         }
     };
@@ -398,7 +432,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                         item.is_Selected = false
                     });
                     setDataChair(dataSource);
-                    setShowTimeSelected(item?.id)
+                    setShowTimeSelected(item)
                 }
             }))
         }
@@ -458,8 +492,11 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 <Block justifyContent={'center'} alignItems={'center'} marginTop={scale(15)} direction={'row'}>
                     <Input label={'Promotion Code'} name={'text'}
                            typeInput={'outline'}
+                           onTextChange={(name, value) => {
+                               setPromotionText(value ?? '')
+                           }}
                            activeTintBorderColor={ColorsCustom.blue}
-                           containerStyle={{width: deviceWidth - scale(50), height: scale(scale(30))}}/>
+                           containerStyle={{width: deviceWidth - scale(50), height: scale(35)}}/>
                     <Icon icon={'send'} style={{height: scale(15), width: scale(15)}}
                           onPress={onPressApplyPromotionCode}
                           containerStyle={{marginLeft: scale(10)}}/>
