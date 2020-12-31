@@ -40,8 +40,7 @@ export const EditProfileScreen = ({}: EditProps) => {
     const [t] = useTranslation();
 
     function editApi(data: FormValueEditPage) {
-        console.log({data});
-        // dispatch(actionsLogin.onLoginStart());
+        dispatch(actionsLogin.onLoginStart());
         let body = JSON.stringify({
             email: data.email.toLowerCase(),
             phone: data.phone,
