@@ -5,7 +5,7 @@ import isEqual from 'react-fast-compare';
 import {RootStackParamList, APP_SCREEN} from '@navigation/screenTypes';
 import {Block, Button, Img, ListView, Screen, Text} from "@components"
 import {ColorsCustom} from "@theme/color";
-import {Alert, Animated} from "react-native";
+import {Alert, Animated, Platform} from "react-native";
 import SwitchSelector from "react-native-switch-selector";
 import {Constants, dispatch, onChangeAlias, scale, toast, verticalScale} from "@common";
 import {deviceWidth} from "@utils";
@@ -183,7 +183,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
 
     const _renderHeaderView = () => {
         return (
-            <Block direction={'row'}>
+            <Block direction={'row'} marginTop={Platform.OS === 'android' ? scale(30) : 0}>
                 <Block height={verticalScale(35)}/>
                 <SearchBarAnimation text={textSearch}
                                     placeHolder={'Search film'}
