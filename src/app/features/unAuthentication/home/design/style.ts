@@ -17,7 +17,7 @@ export const styles = (theme?: AppTheme) =>
             flex: 1,
             backgroundColor: 'white',
             // alignSelf: 'center',
-            height: deviceHeight / 2 + scale(50*2),
+            height: deviceHeight / 2 + scale(50 * 2),
         },
         container: {
             flex: 1,
@@ -29,7 +29,7 @@ export const styles = (theme?: AppTheme) =>
             fontWeight: "bold",
             color: ColorsCustom.blue,
             marginLeft: scale(10),
-            marginTop: scale(2)
+            marginTop: scale(10)
         },
         header: {
             justifyContent: 'center'

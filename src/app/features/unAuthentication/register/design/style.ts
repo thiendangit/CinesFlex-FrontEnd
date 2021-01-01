@@ -14,7 +14,7 @@ export const styles = (theme?: AppTheme) =>
             fontWeight: 'bold',
             fontSize: FontSizeDefault.FONT_25,
             marginLeft: scale(55),
-            top: verticalScale(32)
+            // top: verticalScale(32)
         },
         footerView: {
             flexDirection: 'row',
@@ -41,13 +41,13 @@ export const styles = (theme?: AppTheme) =>
             tintColor: ColorsCustom.lightWhite
         },
         imageContainer: {
-            height: deviceWidth / 2.5,
+            height: verticalScale(220),
             alignItems: 'center',
-            marginLeft: scale(5),
-            marginTop: scale(50),
+            // marginLeft: scale(5),
+            // marginTop: scale(50),
             justifyContent: 'center',
-            width: deviceWidth / 2.5,
-            borderRadius: deviceWidth / 2.5 / 2,
+            width: deviceWidth,
+            // borderRadius: deviceWidth / 2.5 / 2,
             backgroundColor: 'white',
             alignSelf: 'center',
             shadowColor: "#000",

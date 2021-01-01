@@ -47,7 +47,7 @@ const OrderHistoryScreen: React.FC<Props> = (props): React.ReactElement => {
         dispatch(actionsHome.getListOrderProduct(`${URL_DOMAIN}orders/fetch-history`, (result) => {
             console.log({result});
             if (result?.data?.data) {
-                let dataSource: OrderProps[] = result?.data?.data[0]?.orders;
+                let dataSource: OrderProps[] = result?.data?.data;
                 setOrderDataSource(dataSource)
             }
         }))

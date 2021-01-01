@@ -17,6 +17,7 @@ import {actionsPromotion} from "@features/unAuthentication/promotion/redux/reduc
 import {useSelector} from "react-redux";
 import {RootState} from "@store/allReducers";
 import {FilmProps} from "@features/unAuthentication/home/design";
+import {URL_IMAGE} from "@networking";
 
 type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
 
@@ -32,7 +33,11 @@ interface VoucherProps {
 
 export interface PromotionItemProps {
     id: string,
-    image: string,
+    images: {
+        id: string
+        updated_at: string
+        url: string
+    }[],
     "title": string,
     "description": string,
     "date_begin": string,
@@ -58,6 +63,7 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
 
     useEffect(() => {
         dispatch(actionsPromotion.getListPromotion(`${URL_DOMAIN}promotions`, (result) => {
+            console.log({result});
             if (result?.data?.data) {
                 setDataSource(result?.data?.data)
             }
@@ -103,7 +109,7 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
                             >
                                 <Img
                                     resizeMode={'cover'}
-                                    source={{uri: item.image ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBaFa2HbWkziCUVIl81KVljzNRb4Cfs7eYXg&usqp=CAU'}}
+                                    source={{uri: `${URL_IMAGE}${item.images[0].url}` ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBaFa2HbWkziCUVIl81KVljzNRb4Cfs7eYXg&usqp=CAU'}}
                                     style={{
                                         width: deviceWidth,
                                         height: BACKDROP_HEIGHT,
@@ -214,7 +220,7 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
                                                 }}
                                                 resizeMode={'cover'}
                                                 source={handleImage({
-                                                    uri: item.image ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBaFa2HbWkziCUVIl81KVljzNRb4Cfs7eYXg&usqp=CAU'
+                                                    uri: `${URL_IMAGE}${item.images[0].url}` ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBaFa2HbWkziCUVIl81KVljzNRb4Cfs7eYXg&usqp=CAU'
                                                 })}
                                             />
                                         </Animated.View>

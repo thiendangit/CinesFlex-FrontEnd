@@ -13,6 +13,7 @@ import LinearGradient from "react-native-linear-gradient";
 import {FontSizeDefault} from "@theme/fontSize";
 import {ColorsCustom} from "@theme/color";
 import {SharedElement} from 'react-navigation-shared-element';
+import {URL_IMAGE} from "@networking";
 
 interface leftTabOption {
     title: string
@@ -59,7 +60,7 @@ export const PromotionDetailsScreen = (props: Props) => {
                     >
                         <Img
                             resizeMode={'cover'}
-                            source={{uri: item.image ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBaFa2HbWkziCUVIl81KVljzNRb4Cfs7eYXg&usqp=CAU'}}
+                            source={{uri:  `${URL_IMAGE}${item.images[0].url}` ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBaFa2HbWkziCUVIl81KVljzNRb4Cfs7eYXg&usqp=CAU'}}
                             style={{
                                 width: deviceWidth,
                                 height: BACKDROP_HEIGHT,
@@ -85,7 +86,7 @@ export const PromotionDetailsScreen = (props: Props) => {
                     marginTop: scale(5),
                     paddingHorizontal: scale(10),
                 }}>
-                    {formatDateToDDMMYYYY(item.date_end)}
+                    To : {formatDateToDDMMYYYY(item.date_end)}
                 </Text>
                 <Text style={{
                     fontSize: FontSizeDefault.FONT_14,
