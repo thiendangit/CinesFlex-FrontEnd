@@ -16,7 +16,7 @@ import {
     Text
 } from "@components"
 import {Alert, ScrollView} from "react-native";
-import {dispatch, formatMoney, scale, toast, useSelector, verticalScale} from "@common";
+import {dispatch, formatMoney, handleCheckTimeWithCurrentTime, scale, toast, useSelector, verticalScale} from "@common";
 import {ColorsCustom} from "@theme/color";
 import {ChairItemChoose, ProductItem, ShowTimeProps} from "@config/type";
 import {AppState} from "@app_redux/type";
@@ -37,6 +37,7 @@ import {RegionProps} from "@features/unAuthentication/cinemas/design";
 import {CinemasProps} from "@features/unAuthentication/cinemasDetails/design";
 import {actionsCinemas} from "@features/unAuthentication/cinemas/redux/reducer";
 import {RootState} from "@store/allReducers";
+import {onLoadAppEnd} from "@app_redux/reducer"
 
 type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
 
@@ -111,27 +112,33 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 dataSource.map((item: any, index: number) => {
                     if (index === 0) {
                         item.is_Selected = true;
-                        dataSource[0].show_times[0].is_Selected = true;
-                        dispatch(actionsCinemas.getListSeatByScreen(`${URL_DOMAIN}seats/get-list-by-screen`, {
-                            "screen_id": dataSource[index]?.show_times[0].screen_id ?? '',
-                        }, (result) => {
-                            if (result && result?.data?.data) {
-                                let dataSource = Object.assign([], result?.data?.data);
-                                dataSource.map((item: any, index: number) => {
-                                    item.is_Selected = false
-                                });
-                                setDataChair(dataSource);
+                        dataSource[0]?.show_times.map((item_sub: ShowTimeProps, index_sub: any) => {
+                            if (!handleCheckTimeWithCurrentTime(item_sub.show_time)) {
+                                dataSource[0].show_times[index_sub].is_Selected = true;
+                                setShowTimeSelected(dataSource[0]?.show_times[index_sub]);
+                                dispatch(actionsCinemas.getListSeatByScreen(`${URL_DOMAIN}seats/get-list-by-screen`, {
+                                    "screen_id": dataSource[index]?.show_times[0].screen_id ?? '',
+                                }, (result) => {
+                                    if (result && result?.data?.data) {
+                                        let dataSource = Object.assign([], result?.data?.data);
+                                        dataSource.map((item: any, index: number) => {
+                                            item.is_Selected = false
+                                        });
+                                        setDataChair(dataSource);
+                                    }
+                                }));
+                                return
                             }
-                        }))
+                        });
                     } else {
                         dataSource[index]?.show_times?.map((item: ShowTimeProps, index: number) => {
                             item.is_Selected = false
                         });
                     }
                 });
+                dispatch(onLoadAppEnd());
                 setShowTime(dataSource);
                 setShowTimeSub(dataSource[0]?.show_times);
-                setShowTimeSelected(dataSource[0]?.show_times[0] ?? '');
             }
         }))
     }, [token]);
@@ -226,6 +233,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
             products: products ?? null,
             voucher_id: promotionInfo?.id ?? ''
         }, (result) => {
+            console.log({result});
             if (result && result?.data?.data) {
                 modalPayment.current?.hide();
                 setTimeout(() => {
@@ -235,7 +243,11 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                     }, 200)
                 }, 200)
             } else {
-                Alert.alert(result?.data?.message)
+                if (result?.data?.message) {
+                    Alert.alert(result?.data?.message)
+                } else {
+                    Alert.alert(result?.msg)
+                }
             }
         }))
     };
@@ -296,7 +308,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 totalPrice = totalPrice + parseInt(String(parseInt(String(item.quality ?? '0')) * parseInt(item.price)))
             });
         if (promotionInfo) {
-            totalPrice = totalPrice / (promotionInfo.value * 100)
+            totalPrice -= totalPrice * (promotionInfo.value / 100)
         }
         // return
         return totalPrice;
@@ -416,25 +428,29 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
 
     // handle OnPress Time
     const onPressTime = (item: ShowTimeProps, index: string) => {
-        let dataSource = Object.assign([], showTimeSub);
-        if (!item.is_Selected) {
-            dataSource.map((item: any, index: number) => {
-                return item.is_Selected = false
-            });
-            dataSource[index].is_Selected = true;
-            setShowTimeSub(dataSource);
-            dispatch(actionsCinemas.getListSeatByScreen(`${URL_DOMAIN}seats/get-list-by-screen`, {
-                "screen_id": item?.screen_id ?? '',
-            }, (result) => {
-                if (result && result?.data?.data) {
-                    let dataSource = Object.assign([], result?.data?.data);
-                    dataSource.map((item: any, index: number) => {
-                        item.is_Selected = false
-                    });
-                    setDataChair(dataSource);
-                    setShowTimeSelected(item)
-                }
-            }))
+        if (handleCheckTimeWithCurrentTime(item?.show_time) && item.day === showTime[0].day) {
+            toast('Film is showed at this time')
+        } else {
+            let dataSource = Object.assign([], showTimeSub);
+            if (!item.is_Selected) {
+                dataSource.map((item: any, index: number) => {
+                    return item.is_Selected = false
+                });
+                dataSource[index].is_Selected = true;
+                setShowTimeSub(dataSource);
+                dispatch(actionsCinemas.getListSeatByScreen(`${URL_DOMAIN}seats/get-list-by-screen`, {
+                    "screen_id": item?.screen_id ?? '',
+                }, (result) => {
+                    if (result && result?.data?.data) {
+                        let dataSource = Object.assign([], result?.data?.data);
+                        dataSource.map((item: any, index: number) => {
+                            item.is_Selected = false
+                        });
+                        setDataChair(dataSource);
+                        setShowTimeSelected(item)
+                    }
+                }))
+            }
         }
     };
 

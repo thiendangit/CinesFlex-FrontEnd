@@ -5,20 +5,36 @@ import {deviceWidth} from "@utils";
 import {FontSizeDefault} from "@theme/fontSize";
 import {AppTheme} from "@config/type";
 
-export const styles = (theme? : AppTheme) =>
+export const styles = (theme?: AppTheme) =>
     StyleSheet.create({
         text: {
             color: theme?.colors.text,
         },
         imageContainer: {
-            width: deviceWidth,
-            height: verticalScale(220),
+            height: deviceWidth / 2.5,
+            alignItems: 'center',
+            marginLeft: scale(5),
+            marginTop: scale(20),
+            justifyContent: 'center',
+            alignSelf: 'center',
+            width: deviceWidth / 2.5,
+            borderRadius: deviceWidth / 2.5 / 2,
+            backgroundColor: 'white',
+            shadowColor: "#000",
+            shadowOffset: {
+                width: 0,
+                height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            //android
+            elevation: 5,
         },
         signInLabel: {
             fontWeight: 'bold',
             fontSize: FontSizeDefault.FONT_25,
-            marginLeft: scale(35),
-            bottom: verticalScale(25)
+            marginLeft: scale(55),
+            marginTop: scale(37)
         },
         footerView: {
             flexDirection: 'row',

@@ -5,7 +5,7 @@ import isEqual from 'react-fast-compare';
 import {RootStackParamList, APP_SCREEN} from '@navigation/screenTypes';
 import {Block, Button, Img, ListView, Screen, Text} from "@components"
 import {ColorsCustom} from "@theme/color";
-import {Alert, Animated, Platform} from "react-native";
+import {Alert, Animated, Platform, RefreshControl, ScrollView} from "react-native";
 import SwitchSelector from "react-native-switch-selector";
 import {Constants, dispatch, onChangeAlias, scale, toast, verticalScale} from "@common";
 import {deviceWidth} from "@utils";
@@ -60,6 +60,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
     const [dataFilmComing, setDataFilmComing] = useState<FilmProps[] | []>([]);
     const [dataFilmSearch, setDataFilmSearch] = useState<FilmProps[] | []>([]);
     const [isFocusSearch, setIsFocusSearch] = useState<boolean>(false);
+    const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
     const [textSearch, setTextSearch] = useState<string>('');
     const scrollRef = useRef<any>();
     const searchRef = useRef<any>();
@@ -79,6 +80,9 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
     //fetch data home page here
     useEffect(() => {
         dispatch(actionsHome.getDataHomePage(`${URL_DOMAIN}movies`, (result) => {
+            if (isRefreshing) {
+                setIsRefreshing(false)
+            }
             if (result?.data?.data) {
                 setDataFilmNow(result.data.data.filter((item: FilmProps) => {
                     return item?.type === 1
@@ -88,7 +92,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
                 }))
             }
         }))
-    }, []);
+    }, [isRefreshing]);
 
     const onScroll = (event: any) => {
         // console.log(event.nativeEvent.contentOffset.x)
@@ -232,7 +236,9 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
     const contentViewHorizontal = () => {
         return (
             <Block marginTop={10} flex={1}>
-                <Screen scroll>
+                <ScrollView refreshControl={
+                    <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh}/>
+                }>
                     <Text style={styles().headerTitle}>
                         {'In Theater Now'.toUpperCase()}
                     </Text>
@@ -278,9 +284,13 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
                                        }}
                         // ListFooterComponent={_footerView}
                     />
-                </Screen>
+                </ScrollView>
             </Block>
         )
+    };
+
+    const onRefresh = () => {
+        setIsRefreshing(true)
     };
 
     // Vertical list
@@ -303,6 +313,9 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
                               data={dataFilmNow}
                               showsVerticalScrollIndicator={false}
                               renderItem={_renderItem}
+                              refreshControl={
+                                  <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh}/>
+                              }
                               keyExtractor={(item, index) => index.toString()}
                               contentContainerStyle={{marginTop: verticalScale(10)}}
                               ListFooterComponent={_footerView}

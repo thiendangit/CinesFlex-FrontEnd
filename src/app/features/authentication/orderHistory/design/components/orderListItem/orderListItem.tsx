@@ -3,16 +3,16 @@ import {Block, Button, Img, Text} from "@components";
 import {StyleSheet, TouchableOpacity} from "react-native";
 import {formatMinusToHours, formatMoney, handleImage, scale, verticalScale} from "@common";
 import {ColorsCustom} from "@theme/color";
-import {SpacingDefault} from "@theme/spacing";
 import {deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
 import {FontSizeDefault} from "@theme/fontSize";
 import {URL_IMAGE} from "@networking";
+import {OrderDetail, OrderProps} from "@features/authentication/orderHistory/design";
 
 interface OrderListItemProps {
-    item: any,
+    item: OrderProps,
     index: string,
-    onPressItem: (item: any) => void
+    onPressItem: (item: OrderProps) => void
 }
 
 let CONTAINER_HEIGHT = deviceWidth / 5;
@@ -23,19 +23,19 @@ export const orderListItem = ({item, index, onPressItem}: OrderListItemProps) =>
     return (
         <Button style={[styles.container, index == '0' ? {
             marginTop: scale(15)
-        } : null]}>
+        } : null]} activeOpacity={1}>
             <Button onPress={() => onPressItem(item)} style={[styles.container_item]} activeOpacity={1}>
                 <Img style={styles.filmImage}
                      containerStyle={styles.imageContainer}
                      source={handleImage({
-                         uri: 'https://quangcaongoaitroi.com/wp-content/uploads/2020/02/quang-cao-tai-rap-chieu-phim-5.jpg'
+                         uri: `${URL_IMAGE}${item?.movie?.detail?.images[0]?.url}` ?? 'https://quangcaongoaitroi.com/wp-content/uploads/2020/02/quang-cao-tai-rap-chieu-phim-5.jpg'
                      })}/>
                 <Block block alignSelf={"flex-start"} style={styles.rightViewContainer}>
-                    <Text fontSize={"FONT_20"} fontWeight={'600'} marginTop={scale(2)} color={ColorsCustom.blue}>Spider
-                        Man Return Home</Text>
+                    <Text fontSize={"FONT_20"} fontWeight={'600'} marginTop={scale(2)}
+                          color={ColorsCustom.blue}>{item.movie.name}</Text>
                     <Block direction={'row'} marginTop={scale(5)}>
                         {
-                            item?.detail?.categories.map((item: any, index: number) => {
+                            item?.movie?.detail?.categories.map((item: any, index: number) => {
                                 return (
                                     <Text marginLeft={scale(5)}
                                           color={ColorsCustom.grey}
@@ -53,16 +53,18 @@ export const orderListItem = ({item, index, onPressItem}: OrderListItemProps) =>
                         </Text>
                         <Block>
                             <Text fontWeight={'600'} color={ColorsCustom.grey}>
-                                {formatMinusToHours(item?.detail?.duration_min)}
+                                {formatMinusToHours(item?.movie?.detail?.duration_min)}
                             </Text>
                         </Block>
                     </Block>
-                    <Block direction={'row'} marginTop={scale(5)}>
+                    <Block direction={'row'} marginTop={scale(5)} style={{flexWrap: 'wrap'}}>
                         {
-                            [1, 2, 3, 4].map((item: any, index: number) => {
+                            item.details.filter((item) => {
+                                return item?.type === 2
+                            }).map((item: any, index: number) => {
                                 return (
                                     <Block style={styles.chairContainer}>
-                                        <Text color={ColorsCustom.grey} fontWeight={'400'}>A1</Text>
+                                        <Text color={ColorsCustom.grey} fontWeight={'400'}>{item?.seat}</Text>
                                     </Block>
                                 )
                             })
@@ -74,17 +76,19 @@ export const orderListItem = ({item, index, onPressItem}: OrderListItemProps) =>
                 <Text>
                     Code :
                     <Text fontWeight={'bold'}>
-                        {' '}1231234
+                        {' '}{item?.reference}
                     </Text>
                 </Text>
                 <Text>
-                    10:11 AM
+                    {item?.show_time?.show_time}
                 </Text>
                 <Text>
-                    Otc 6 , 2020
+                    {item?.show_time?.date}
                 </Text>
             </Block>
-            {[1, 2, 3].map(() => {
+            {item.details.filter((item) => {
+                return item?.type === 1
+            }).map((item: OrderDetail, index: number) => {
                 return (
                     <Block style={styles.container_product_item}>
                         <Img style={{
@@ -93,25 +97,25 @@ export const orderListItem = ({item, index, onPressItem}: OrderListItemProps) =>
                         }}
                              containerStyle={styles.imageProduct}
                              source={handleImage({
-                                 uri: 'https://quangcaongoaitroi.com/wp-content/uploads/2020/02/quang-cao-tai-rap-chieu-phim-5.jpg'
+                                 uri: `${URL_IMAGE}${item.order_detailable.images[0].url}` ?? 'https://quangcaongoaitroi.com/wp-content/uploads/2020/02/quang-cao-tai-rap-chieu-phim-5.jpg'
                              })}/>
                         <Block block alignSelf={"flex-start"} style={styles.rightViewContainer}>
                             <Text fontSize={"FONT_15"}
-                            >Corn sieu ngon</Text>
+                            >{item.order_detailable.name}</Text>
                             <Block direction={'row'} marginTop={scale(5)}>
                                 <Text paddingHorizontal={scale(5)}
                                       color={ColorsCustom.grey}
                                       fontWeight={'400'}>
-                                    x2
+                                    x{item?.quantity}
                                 </Text>
                             </Block>
                         </Block>
                         <Block block direction={'row'} alignItems={'center'}>
                             <Text fontWeight={'600'} color={ColorsCustom.grey}>
-                                SubTotal :
+                                SubTotal:
                             </Text>
                             <Text fontWeight={'600'} color={ColorsCustom.grey}>
-                                {formatMoney(100000)}
+                                {formatMoney(item?.total)}
                             </Text>
                         </Block>
                     </Block>
@@ -123,7 +127,7 @@ export const orderListItem = ({item, index, onPressItem}: OrderListItemProps) =>
                     Total :
                 </Text>
                 <Text fontWeight={'600'} style={{fontSize: FontSizeDefault.FONT_20}} color={ColorsCustom.light_red}>
-                    {' '}{formatMoney(1000000)}
+                    {' '}{formatMoney(item?.total_paid)}
                 </Text>
             </Block>
         </Button>
@@ -188,7 +192,7 @@ const styles = StyleSheet.create({
         color: ColorsCustom.grey
     },
     rightViewContainer: {
-        marginLeft: scale(20),
+        marginLeft: scale(10),
     },
     rightViewContainer_1: {
         marginLeft: scale(2),
@@ -216,7 +220,8 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: scale(5)
+        marginLeft: scale(5),
+        marginTop: scale(3)
     },
     ticketContainer: {
         backgroundColor: '#d4d4d4',

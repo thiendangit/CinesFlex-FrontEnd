@@ -6,7 +6,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList, APP_SCREEN} from '@navigation/screenTypes';
 import isEqual from 'react-fast-compare';
 import {NavigationService} from "@navigation/navigationService";
-import {styles} from "@features/unAuthentication/register/design/style";
+import {styles} from "@features/authentication/editProfile/design/style";
 import {ColorsCustom} from "@theme/color";
 import {images} from "@assets/image";
 import {useTranslation} from "react-i18next";

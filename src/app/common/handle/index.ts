@@ -34,6 +34,16 @@ export const handleCheckTimeWithCurrentTime = (date: string): boolean => {
     return beginningTime.isBefore(endTime)
 };
 
+//return false if film is showed
+export const handleCheckDayTimeWithCurrentTime = (date: string): boolean => {
+    let beginningTime = moment(date, 'HH:mm a');
+    let currentTime = moment()
+        .utcOffset('+07:00')
+        .format('HH:mm a');
+    let endTime = moment(currentTime, 'HH:mm a');
+    return beginningTime.isBefore(endTime)
+};
+
 export const formatDateToDDMM = (date: string) => {
     return moment(date).format('DD/MM')
 };

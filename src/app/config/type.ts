@@ -313,6 +313,7 @@ export interface ShowTimeProps {
     type: number,
     show_times: any,
     is_Selected?: boolean,
-    price: number
+    price: number,
+    date? : string
 }
 
