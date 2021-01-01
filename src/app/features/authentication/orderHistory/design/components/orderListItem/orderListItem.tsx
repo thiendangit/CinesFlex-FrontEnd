@@ -1,7 +1,14 @@
 import React, {memo} from "react";
 import {Block, Button, Img, Text} from "@components";
-import {StyleSheet, TouchableOpacity} from "react-native";
-import {formatMinusToHours, formatMoney, handleImage, scale, verticalScale} from "@common";
+import {StyleSheet} from "react-native";
+import {
+    formatDateToHHmm,
+    formatMinusToHours,
+    formatMoney,
+    handleImage,
+    scale,
+    verticalScale
+} from "@common";
 import {ColorsCustom} from "@theme/color";
 import {deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
@@ -80,7 +87,7 @@ export const orderListItem = ({item, index, onPressItem}: OrderListItemProps) =>
                     </Text>
                 </Text>
                 <Text>
-                    {item?.show_time?.show_time}
+                    {formatDateToHHmm(item?.show_time?.show_time)}
                 </Text>
                 <Text>
                     {item?.show_time?.date}

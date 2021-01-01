@@ -112,7 +112,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 dataSource.map((item: any, index: number) => {
                     if (index === 0) {
                         item.is_Selected = true;
-                        dataSource[0]?.show_times.map((item_sub: ShowTimeProps, index_sub: any) => {
+                        dataSource[0]?.show_times?.map((item_sub: ShowTimeProps, index_sub: any) => {
                             if (!handleCheckTimeWithCurrentTime(item_sub.show_time)) {
                                 dataSource[0].show_times[index_sub].is_Selected = true;
                                 setShowTimeSelected(dataSource[0]?.show_times[index_sub]);

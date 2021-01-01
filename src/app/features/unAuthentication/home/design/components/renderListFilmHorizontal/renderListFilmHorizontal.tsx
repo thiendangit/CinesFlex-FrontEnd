@@ -41,7 +41,7 @@ const ListFilmHorizontal = ({item, index, onPressItem, translateX, isComing}: Li
                     />
                 </Button>
                 <Block style={[styles().SubContainer, isComing ? {width: scale(70)} : null]}>
-                    <Button style={styles().buttonSub}>
+                    <Button style={[styles().buttonSub,!isComing && {backgroundColor : ColorsCustom.yellow}]}>
                         <Text style={styles().textRate}>
                             {isComing ? formatDateToDDMM(item?.date_begin) : item?.detail?.rating}
                         </Text>

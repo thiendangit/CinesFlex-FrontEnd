@@ -48,6 +48,10 @@ export const formatDateToDDMM = (date: string) => {
     return moment(date).format('DD/MM')
 };
 
+export const formatDateToHHmm = (date: string) => {
+    return moment(date).format('HH:mm')
+};
+
 export const formatDateToDDMMYYYY = (date: string) => {
     return moment(date).format('DD/MM/YYYY')
 };
