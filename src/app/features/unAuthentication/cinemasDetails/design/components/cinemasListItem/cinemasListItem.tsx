@@ -23,6 +23,7 @@ let DOT_SIZE = scale(20);
 
 
 export const cinemasListItem = ({item, index, onPressItem, film}: subTabItemProps) => {
+    console.log({item});
     return (
         <Button key={index.toString()} onPress={() => onPressItem(item)} activeOpacity={1}
                 style={[styles.container, index == '0' ? {
@@ -34,7 +35,7 @@ export const cinemasListItem = ({item, index, onPressItem, film}: subTabItemProp
             }}
                  containerStyle={styles.imageContainer}
                  source={handleImage({
-                     uri: item.image ?? 'https://quangcaongoaitroi.com/wp-content/u' +
+                     uri: item?.images ? item.images[0].url : 'https://quangcaongoaitroi.com/wp-content/u' +
                          'ploads/2020/02/quang-cao-tai-rap-chieu-phim-5.jpg'
                  })}/>
             <Block block alignSelf={"flex-start"} style={styles.rightViewContainer}>

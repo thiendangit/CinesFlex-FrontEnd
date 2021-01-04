@@ -8,7 +8,7 @@ export function* onLogin(action: Action) {
     if (actionsLogin.onLogin.match(action)) {
         const {body, onSucceeded, url} = action.payload;
         yield put(actionsLogin.onLoginStart());
-        const response = yield ServiceSaga.Post(url, body);
+        const response = yield  ServiceSaga.Post(url, body);
         yield put(actionsLogin.onLoginEnd());
         if (response) {
             if (onCheckType(onSucceeded, 'function')) {

@@ -31,7 +31,9 @@ export interface CinemasProps {
     show_times: ShowTimeProps[]
     status: number
     type: number,
-    image: string
+    images: {
+        url: string
+    }[]
 }
 
 type CinemasDetailsProps = StackScreenProps<RootStackParamList, APP_SCREEN.FILM_DETAILS> | CinemasDetailsParamProps;
