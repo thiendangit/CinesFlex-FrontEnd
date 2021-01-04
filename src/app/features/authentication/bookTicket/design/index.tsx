@@ -407,7 +407,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
             setShowTime(dataSource);
             setDataChair([]);
             dataSource[index]?.show_times?.map((item_sub: ShowTimeProps, index_sub: number) => {
-                if (item.is_Selected) {
+                if (item.is_Selected && !handleCheckTimeWithCurrentTime(item_sub?.show_time)) {
                     dispatch(actionsCinemas.getListSeatByScreen(`${URL_DOMAIN}seats/get-list-by-screen`, {
                         "screen_id": item_sub?.screen_id ?? '',
                     }, (result) => {
