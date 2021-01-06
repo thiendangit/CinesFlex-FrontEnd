@@ -19,7 +19,8 @@ interface InputProps {
     disabledBorderColor?: string,
     containerStyle?: StyleProp<ViewStyle>
     rightChildren?: () => any,
-    secureTextEntry?: boolean
+    secureTextEntry?: boolean,
+    disabled?: boolean
     keyboardType?: KeyboardType,
     typeInput?: "flat" | "outline",
     defaultValue?: string
@@ -32,7 +33,7 @@ const InputComponent = forwardRef<any, InputProps>(
          disabledLabelColor, activeTintBorderColor, activeTintLabelColor,
          unActiveTintBorderColor, unActiveTintLabelColor, disabledBorderColor,
          containerStyle, rightChildren, secureTextEntry,
-         typeInput, keyboardType, defaultValue, onTextChange, ...rest
+         typeInput, keyboardType, defaultValue,disabled, onTextChange, ...rest
      }, ref) => {
         return (
             <Block>
@@ -42,6 +43,7 @@ const InputComponent = forwardRef<any, InputProps>(
                     nameTrigger={nameTrigger}
                     error={error?.message !== undefined}
                     label={label}
+                    disabled={disabled}
                     name={name}
                     onTextChange={onTextChange}
                     defaultValue={defaultValue}

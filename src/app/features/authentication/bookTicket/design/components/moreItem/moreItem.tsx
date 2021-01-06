@@ -19,7 +19,6 @@ interface MoreItemProps {
 
 export const MoreItem = (props: MoreItemProps) => {
 
-
     const onPressPlus = () => {
         props.onPressPlus()
     };

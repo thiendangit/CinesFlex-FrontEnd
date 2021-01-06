@@ -29,6 +29,7 @@ import {
 import {APP_SCREEN} from "@navigation/screenTypes";
 import {createSharedElementStackNavigator} from "react-navigation-shared-element";
 import {EditProfileScreen} from "@features/authentication/editProfile/design";
+import CoinPurseListScreen from "@features/authentication/coin_purse/design";
 
 const {StatusBarManager} = NativeModules;
 
@@ -148,6 +149,7 @@ const AuthNavigator = () => {
             <Stack.Screen name={APP_SCREEN.FILM_DETAILS} component={FilmDetailsScreen} options={homeOptions}/>
             <Stack.Screen name={APP_SCREEN.CINEMAS} component={CinemasScreen} options={homeOptions}/>
             <Stack.Screen name={APP_SCREEN.CINEMAS_DETAILS} component={CinemasDetailsScreen} options={homeOptions}/>
+            <Stack.Screen name={APP_SCREEN.COIN_PURSE} component={CoinPurseListScreen} options={homeOptions}/>
             <Stack.Screen name={APP_SCREEN.BOOK_TICKET} component={BookTicketScreen} options={homeOptions}/>
             <Stack.Screen name={APP_SCREEN.BOOK_TICKET_RESULT} component={BookTicketResultScreen}
                           options={homeOptions}/>

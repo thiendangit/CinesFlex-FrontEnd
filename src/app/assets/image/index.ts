@@ -38,6 +38,7 @@ export const images = {
     card2: require("./cards/card2.png"),
     card3: require("./cards/card3.png"),
     card4: require("./cards/card4.png"),
+    header: require("./top_header/bitmap.png"),
 };
 
 export type ImageTypes = keyof typeof images;

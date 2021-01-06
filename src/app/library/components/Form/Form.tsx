@@ -30,11 +30,11 @@ const FormComponent = ({
                                 returnKeyType:
                                     i + 1 < Inputs.current.length ? 'default' : 'send',
                                 ...child.props,
-                                ref: (e: TextInput) => {
+                                refs: (e: TextInput) => {
                                     Inputs.current[i] = e;
                                 },
                                 key: i,
-                                trigger: trigger,
+                                // trigger: trigger,
                                 onSetValueHookForm: setValue,
                                 keyName: child.props.name,
                                 onSubmitEditing: () => {

@@ -4,18 +4,14 @@ import {StackScreenProps} from '@react-navigation/stack';
 import isEqual from 'react-fast-compare';
 import {RootStackParamList, APP_SCREEN} from '@navigation/screenTypes';
 import {
-    Block,
-    Button,
-    Header, Icon,
+    Block, Icon,
     IconBack,
     Img,
-    ListView,
-    ModalBox,
     ModalBoxRef,
     Screen,
     Text
 } from "@components"
-import {Alert, ScrollView} from "react-native";
+import {Alert, ScrollView, TouchableOpacity} from "react-native";
 import {dispatch, formatMoney, handleCheckTimeWithCurrentTime, scale, toast, useSelector, verticalScale} from "@common";
 import {ColorsCustom} from "@theme/color";
 import {ChairItemChoose, ProductItem, ShowTimeProps} from "@config/type";
@@ -25,11 +21,9 @@ import {timeItem as _timeItem} from '../design/components'
 import {NavigationService} from "@navigation/navigationService";
 import {images} from "@assets/image";
 import {deviceWidth} from "@utils";
-import {chairs, dataBevSample, dataCornSample} from "@features/authentication/bookTicket/design/dataSample/data";
 import {_ButtonBuy} from "@features/unAuthentication/cinemasDetails/design/components/buttonBuy/buttonBuy";
 import {_ticketItem} from "@features/authentication/bookTicket/design/components/ticketItem/timeItem";
 import {_buttonChooseMore} from "@features/authentication/bookTicket/design/components/buttonChooseMore/buttonChooseMore";
-import {FontSizeDefault} from "@theme/fontSize";
 import {Input} from "@features/unAuthentication/login/design/components/Input";
 import {styles} from "@features/authentication/bookTicket/design/style";
 import {FilmProps} from "@features/unAuthentication/home/design";
@@ -38,6 +32,7 @@ import {CinemasProps} from "@features/unAuthentication/cinemasDetails/design";
 import {actionsCinemas} from "@features/unAuthentication/cinemas/redux/reducer";
 import {RootState} from "@store/allReducers";
 import {onLoadAppEnd} from "@app_redux/reducer"
+import {icons} from "@assets/icon";
 
 type MoreProps = StackScreenProps<RootStackParamList, APP_SCREEN.HOME>;
 
@@ -96,6 +91,30 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
     let URL_DOMAIN = useSelector(
         (state: RootState) => state.app?.appUrl
     );
+
+    let OPTION_NOTES = [
+        {
+            id: 1,
+            color: ColorsCustom.lightWhite,
+            text: 'Is available'
+        },
+        {
+            id: 2,
+            color: ColorsCustom.lightGrey,
+            text: 'Is reserved'
+        },
+        {
+            id: 3,
+            color: ColorsCustom.red,
+            text: 'Is VIP',
+            image: true
+        },
+        {
+            id: 4,
+            color: ColorsCustom.darkOrange,
+            text: 'Your choose'
+        }
+    ];
 
     useEffect(() => {
         // push to login if user not logged in
@@ -233,13 +252,15 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
             products: products ?? null,
             voucher_id: promotionInfo?.id ?? ''
         }, (result) => {
-            console.log({result});
             if (result && result?.data?.data) {
                 modalPayment.current?.hide();
                 setTimeout(() => {
                     toast(result.data.message);
                     setTimeout(() => {
-                        NavigationService.navigate(APP_SCREEN.BOOK_TICKET_RESULT, {text: "Book ticket success! Please take your phone with book code for take a ticket"})
+                        NavigationService.navigate(APP_SCREEN.BOOK_TICKET_RESULT, {
+                            data: result?.data?.data,
+                            text: "Book ticket success! Please take your phone with book code for take a ticket"
+                        })
                     }, 200)
                 }, 200)
             } else {
@@ -376,14 +397,30 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 <Block direction={'row'}>
                     {filterByLine.map(item => {
                         return (
-                            <Button onPress={() => onPressChair(item)}
-                                    style={[styles().chairContainer, {
-                                        backgroundColor: item.type === 2 ? ColorsCustom.product.TextLight : item.is_selected ? ColorsCustom.darkOrange : 'white',
-                                    }]}>
+                            <TouchableOpacity onPress={() => onPressChair(item)}
+                                              style={[styles().chairContainer, {
+                                                  backgroundColor: item.status === 2 ? ColorsCustom.product.TextLight : item.is_selected ? ColorsCustom.darkOrange : 'white',
+                                              }]}>
                                 <Text>
                                     {item.name}
                                 </Text>
-                            </Button>
+                                {item.type === 2 ? <TouchableOpacity
+                                    onPress={() => onPressChair(item)}
+                                    style={{
+                                        position: 'absolute',
+                                        right: -scale(15 / 3),
+                                        bottom: -scale(15 / 3)
+                                    }}>
+                                    {/*// @ts-ignore*/}
+                                    <Img style={{
+                                        height: scale(15),
+                                        width: scale(15)
+                                    }}
+                                         source={icons.vip}
+                                         resizeMode={'contain'}>
+                                    </Img>
+                                </TouchableOpacity> : null}
+                            </TouchableOpacity>
                         )
                     })}
                 </Block>
@@ -392,6 +429,53 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
         return (
             <Block>
                 {dataTemp}
+            </Block>
+        )
+    };
+
+    const _renderNoteForChair = () => {
+        return (
+            <Block style={{
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: deviceWidth - scale(20),
+            }}>
+                {
+                    OPTION_NOTES.map((item, index) => {
+                        return (
+                            <Block alignItems={'center'}
+                                   marginTop={scale(10)}
+                                   justifyContent={'center'}
+                                   alignSelf={'center'} block
+                                   direction={'row'}>
+                                {!item.image ? <Block height={scale(7)} width={scale(7)} style={{
+                                        borderRadius: scale(5),
+                                        backgroundColor: item.color,
+                                        shadowColor: "#000",
+                                        shadowOffset: {
+                                            width: 0,
+                                            height: 2,
+                                        },
+                                        shadowOpacity: 0.25,
+                                        shadowRadius: 3.84,
+
+                                        elevation: 5,
+                                    }}>
+                                    </Block> :
+                                    <Img style={{
+                                        height: scale(10),
+                                        width: scale(10)
+                                    }}
+                                         source={icons.vip}
+                                         resizeMode={'contain'}/>}
+                                <Text marginLeft={scale(10)} fontSize={"FONT_11"}>
+                                    {item.text}
+                                </Text>
+                            </Block>
+                        )
+                    })
+                }
             </Block>
         )
     };
@@ -412,11 +496,11 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                         "screen_id": item_sub?.screen_id ?? '',
                     }, (result) => {
                         if (result && result?.data?.data) {
-                            let dataSource = Object.assign([], result?.data?.data);
-                            dataSource.map((item_sub_s: any, index_sub_s: number) => {
+                            let dataSource_sub = Object.assign([], result?.data?.data);
+                            dataSource_sub.map((item_sub_s: any, index_sub_s: number) => {
                                 item_sub_s.is_Selected = false
                             });
-                            setDataChair(dataSource);
+                            setDataChair(dataSource_sub);
                         }
                     }))
                 }
@@ -467,7 +551,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 </Block>
                 <Block>
                     <ScrollView horizontal style={{marginTop: scale(15)}}
-                                contentContainerStyle={{marginLeft: scale(15)}}
+                                contentContainerStyle={{marginLeft: scale(15), paddingRight: scale(25)}}
                                 showsHorizontalScrollIndicator={false}>
                         {showTime.map((item: ShowTimeProps, index: number) => {
                             return (
@@ -495,6 +579,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 {/*render chair*/}
                 <Block alignItems={'center'}>
                     {_renderChairItem(dataChair)}
+                    {_renderNoteForChair()}
                 </Block>
                 {/*render button choose chair*/}
                 <Block direction={'row'} justifyContent={'center'} marginTop={scale(20)}>
@@ -512,13 +597,25 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                                setPromotionText(value ?? '')
                            }}
                            activeTintBorderColor={ColorsCustom.blue}
-                           containerStyle={{width: deviceWidth - scale(50), height: scale(35)}}/>
+                           containerStyle={{width: deviceWidth - scale(50), height: scale(40)}}/>
                     <Icon icon={'send'} style={{height: scale(15), width: scale(15)}}
                           onPress={onPressApplyPromotionCode}
                           containerStyle={{marginLeft: scale(10)}}/>
                 </Block>
+                {/*render % promotion*/}
+                {
+                    promotionInfo ? <Text style={{color: ColorsCustom.red, marginLeft: scale(15), marginTop: scale(5)}}>
+                        You get a discount {promotionInfo?.value} %
+                    </Text> : null
+                }
+                {
+                    <Text style={{color: ColorsCustom.blue, marginLeft: scale(15), marginTop: scale(15)}}>
+                        You can save 5% on coin wallet after payment
+                        : {formatMoney(handlePriceTicket(dataChair, dataCorn, dataBeverage) * 0.05, 'Coin')}
+                    </Text>
+                }
                 <Block direction={'row'} marginLeft={scale(10)} alignItems={'center'}
-                       justifyContent={'space-between'} marginTop={scale(20)}>
+                       justifyContent={'space-between'} marginTop={scale(10)}>
                     <Block>
                         <_ticketItem numberTicket={handleQualityTicket(dataChair)} onPressItem={onPressTicket}/>
                     </Block>

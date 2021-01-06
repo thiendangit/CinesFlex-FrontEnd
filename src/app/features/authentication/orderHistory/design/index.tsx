@@ -68,7 +68,7 @@ const OrderHistoryScreen: React.FC<Props> = (props): React.ReactElement => {
     useLayoutEffect(() => {
         dispatch(actionsHome.getListOrderProduct(`${URL_DOMAIN}orders/fetch-history`, (result) => {
             if (result?.data?.data) {
-                if(refreshing){
+                if (refreshing) {
                     setRefreshing(false);
                 }
                 let dataSource: OrderProps[] = result?.data?.data;
@@ -90,7 +90,7 @@ const OrderHistoryScreen: React.FC<Props> = (props): React.ReactElement => {
     };
 
     const _renderItem = ({item, index}: any) => {
-        return <_orderListItem item={item} index={index} onPressItem={onPressItem}/>
+        return <_orderListItem item={item} key={index.toString()} index={index} onPressItem={onPressItem}/>
     };
 
     return (
@@ -104,7 +104,7 @@ const OrderHistoryScreen: React.FC<Props> = (props): React.ReactElement => {
                               </Text>
                           }}
                           refreshControl={
-                              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                              <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
                           }
                           horizontal={false}
                           showsVerticalScrollIndicator={false}

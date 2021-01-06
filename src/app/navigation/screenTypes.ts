@@ -22,7 +22,8 @@ export enum APP_SCREEN {
     CURRENT_SEE = 'CURRENT_SEE',
     LOGOUT = 'LOGOUT',
     PROMOTION_DETAILS = 'PROMOTION_DETAILS',
-    EDIT_PROFILE = 'EDIT_PROFILE'
+    EDIT_PROFILE = 'EDIT_PROFILE',
+    COIN_PURSE = 'COIN_PURSE',
 }
 
 export type RootStackParamList = {

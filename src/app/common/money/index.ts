@@ -1,6 +1,7 @@
+// @ts-ignore
 import * as accounting from 'accounting';
 
-export const formatMoney = function (money : string | number, symbol= '$') {
+export const formatMoney = function (money : string | number, symbol= 'VNĐ') {
     if (parseInt(<string>money) !== parseFloat(<string>money)) {
         return accounting.formatMoney(money, {
             symbol,

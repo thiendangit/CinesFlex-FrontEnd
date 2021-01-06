@@ -77,6 +77,7 @@ export const styles = (theme?: AppTheme) =>
             width: deviceWidth / 11,
             borderRadius: scale(10),
             alignItems: 'center',
+            justifyContent : 'center',
             backgroundColor: ColorsCustom.product.ViewBorder,
             shadowColor: "#000",
             shadowOffset: {

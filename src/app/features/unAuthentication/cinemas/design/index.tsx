@@ -87,7 +87,7 @@ export const CinemasScreen: React.FC<CinemasProps> = (props) => {
                     {buttonChooseRegion("TP. HCM", images.building, ColorsCustom.light_red, () => onPressButtonRegion(1))}
                 </Block>
             </Screen>
-            <IconBack onPress={_onGoBack}/>
+            <IconBack onPress={_onGoBack} containerStyle={{marginTop: scale(10)}}/>
         </Block>
     )
 };

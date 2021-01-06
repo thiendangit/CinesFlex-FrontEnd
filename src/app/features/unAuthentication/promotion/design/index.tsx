@@ -80,7 +80,7 @@ export const PromotionScreen = ({navigation, route}: MoreProps) => {
                 <FlatList
                     data={item}
                     bounces={false}
-                    keyExtractor={(item) => item.key + '-backdrop'}
+                    keyExtractor={(item) => item.id + '-backdrop'}
                     removeClippedSubviews={false}
                     renderItem={({item, index}) => {
                         // if (!item.image) {

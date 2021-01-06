@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {styles} from './style'
 import {Block, IconBack, ListView, Text} from "@components";
-import {dispatch, handleCheckTimeWithCurrentTime, verticalScale} from "@common";
+import {dispatch, handleCheckTimeWithCurrentTime, scale, verticalScale} from "@common";
 import {_cinemasListItem} from "./components";
 import {NavigationService} from "@navigation/navigationService";
 import {APP_SCREEN, RootStackParamList} from "@navigation/screenTypes";

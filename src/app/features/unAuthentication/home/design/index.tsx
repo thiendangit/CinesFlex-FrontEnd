@@ -138,8 +138,9 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
     //render item  for list vertical (type 1 )
     const _renderItem = ({item, index, isComing}: any) => {
         return (
-            <SharedElement id={`item.${item.id}.photo`}>
-                <_renderListFilm isComing={isComing} index={index} item={item} onPressItem={onPressItem}/>
+            <SharedElement id={`item.${item.id}.photo`} key={index.toString()}>
+                <_renderListFilm isComing={isComing} key={index.toString()} index={index} item={item}
+                                 onPressItem={onPressItem}/>
             </SharedElement>
         )
     };
@@ -157,7 +158,8 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
         });
         return (
             <SharedElement id={`item.${item.id}.photo`}>
-                <_renderListFilmHorizontal translateX={translateX} index={index} item={item} onPressItem={onPressItem}/>
+                <_renderListFilmHorizontal translateX={translateX} key={index.toString()} index={index} item={item}
+                                           onPressItem={onPressItem}/>
             </SharedElement>
         )
     };
@@ -174,7 +176,7 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
             outputRange: [-deviceWidth * 0.7, 0, deviceWidth * 0.7]
         });
         return (
-            <_renderListFilmHorizontal isComing translateX={translateX} index={index} item={item}
+            <_renderListFilmHorizontal isComing translateX={translateX} key={index.toString()} index={index} item={item}
                                        onPressItem={onPressItem}/>
         )
     };

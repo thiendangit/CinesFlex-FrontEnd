@@ -61,4 +61,10 @@ export const styles = StyleSheet.create({
         color: ColorsCustom.lightWhite,
         fontSize: FontSizeDefault.FONT_16
     },
+    code : {
+        color: ColorsCustom.grey,
+        width : deviceWidth/1.3,
+        textAlign : 'center',
+        fontSize: FontSizeDefault.FONT_18
+    }
 });

@@ -47,6 +47,7 @@ export const orderListItem = ({item, index, onPressItem}: OrderListItemProps) =>
                                     <Text marginLeft={scale(5)}
                                           color={ColorsCustom.grey}
                                           fontWeight={'400'}
+                                          key={index.toString()}
                                     >
                                         {item?.title}
                                     </Text>
@@ -70,7 +71,7 @@ export const orderListItem = ({item, index, onPressItem}: OrderListItemProps) =>
                                 return item?.type === 2
                             }).map((item: any, index: number) => {
                                 return (
-                                    <Block style={styles.chairContainer}>
+                                    <Block style={styles.chairContainer} key={index.toString()}>
                                         <Text color={ColorsCustom.grey} fontWeight={'400'}>{item?.seat}</Text>
                                     </Block>
                                 )
@@ -82,7 +83,7 @@ export const orderListItem = ({item, index, onPressItem}: OrderListItemProps) =>
             <Block style={styles.ticketContainer}>
                 <Text>
                     Code :
-                    <Text fontWeight={'bold'}>
+                    <Text fontWeight={'bold'} fontSize={"FONT_18"}>
                         {' '}{item?.reference}
                     </Text>
                 </Text>
@@ -97,7 +98,7 @@ export const orderListItem = ({item, index, onPressItem}: OrderListItemProps) =>
                 return item?.type === 1
             }).map((item: OrderDetail, index: number) => {
                 return (
-                    <Block style={styles.container_product_item}>
+                    <Block style={styles.container_product_item} key={index.toString()}>
                         <Img style={{
                             flex: 1,
                             borderRadius: scale(5),
@@ -137,6 +138,14 @@ export const orderListItem = ({item, index, onPressItem}: OrderListItemProps) =>
                     {' '}{formatMoney(item?.total_paid)}
                 </Text>
             </Block>
+            <Text style={{
+                position: 'absolute',
+                left: scale(16 / 2),
+                top: scale(-16 / 2),
+                fontSize: FontSizeDefault.FONT_16
+            }}>
+                #{index}
+            </Text>
         </Button>
     )
 };
@@ -232,7 +241,7 @@ const styles = StyleSheet.create({
     },
     ticketContainer: {
         backgroundColor: '#d4d4d4',
-        height: scale(20),
+        height: scale(40),
         width: deviceWidth,
         marginVertical: scale(5),
         flexDirection: 'row',

@@ -69,7 +69,14 @@ const UserProfileScreen = (props: any): React.ReactElement => {
             image: icons.seeCurrent,
             text: 'Current See',
             detail: APP_SCREEN.CURRENT_SEE
-        }, {
+        },
+        {
+            id: 3,
+            image: icons.coin,
+            text: 'Coin Purse CinesFlex',
+            detail: APP_SCREEN.COIN_PURSE
+        },
+        {
             id: 4,
             image: icons.logout,
             text: 'Log Out',

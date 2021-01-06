@@ -4,7 +4,7 @@ import isEqual from 'react-fast-compare';
 import {Form, Img, Text, Button, Block} from '@components';
 import {ValidationMap} from '@library/components/Form/Form.props';
 import {useForm} from 'react-hook-form';
-import {onCheckType, verticalScale} from '@common';
+import {onCheckType, scale, verticalScale} from '@common';
 import {styles} from "@features/unAuthentication/login/design/components/FormLogin/style";
 import {images} from "@assets/image";
 import {useTranslation} from "react-i18next";
@@ -15,6 +15,7 @@ import {Input} from "@features/unAuthentication/login/design/components/Input";
 import validator from "validator"
 import {useSelector} from "react-redux";
 import {AppState} from "@app_redux/type";
+import {ColorsCustom} from "@theme/color";
 
 export type FormValueEditPage = {
     email: string;
@@ -162,9 +163,16 @@ const FormEditComponent = React.forwardRef(({onSubmit, activeTintBorderColor}: F
                             <Text style={styles().textError}>{message}</Text>}
                     />
                     <Input
-                        containerStyle={[styles().textInputContainer, {marginTop: verticalScale(10)}]}
+                        containerStyle={[styles().textInputContainer, {
+                            marginTop: verticalScale(10),
+                            backgroundColor: ColorsCustom.light_red,
+                            borderRadius: scale(6),
+                            height: verticalScale(35),
+                            paddingHorizontal: scale(2)
+                        }]}
                         name={'email'} label={'Email'}
                         nameTrigger={'email'}
+                        disabled={true}
                         defaultValue={profile?.email}
                         activeTintBorderColor={activeTintBorderColor}
                     />

@@ -19,6 +19,8 @@ export const icons = {
   order: require('./source/order.png'),
   seeCurrent: require('./source/seeCurrent.png'),
   trash: require('./source/trash.png'),
+  coin: require('./source/coin.png'),
+  vip: require('./source/vip.png'),
 };
 
 export type IconTypes = keyof typeof icons;

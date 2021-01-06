@@ -11,7 +11,17 @@ import isEqual from "react-fast-compare";
 export interface Props {
     route: {
         params: {
-            text: string
+            text: string,
+            data: {
+                booker_id: string
+                id: string
+                paid: string
+                reference: string
+                status: number
+                total_paid: number
+                type: number
+                voucher_id: ""
+            }
         }
     },
 }
@@ -20,6 +30,7 @@ const BookTicketResultScreen: React.FC<Props> = (props): React.ReactElement => {
     const [t] = useTranslation();
 
     let text = props.route.params?.text ?? '';
+    let data = props.route.params?.data ?? '';
 
     const onPressButtonHome = () => {
         NavigationService.popToTop()
@@ -39,6 +50,9 @@ const BookTicketResultScreen: React.FC<Props> = (props): React.ReactElement => {
             </Text>
             <Text style={[styles.text, {marginTop: verticalScale(5)}]}>
                 {text}
+            </Text>
+            <Text style={[styles.code, {marginTop: verticalScale(5)}]}>
+                Your code : {data?.reference}
             </Text>
             <Button
                 onPress={onPressButtonHome}

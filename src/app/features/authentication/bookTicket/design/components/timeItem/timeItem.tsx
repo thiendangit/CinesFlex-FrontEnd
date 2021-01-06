@@ -32,7 +32,7 @@ export const TimeItem = ({item, index, onPressItem}: TimeItemProps) => {
 const styles = StyleSheet.create({
     container: {
         height: deviceWidth / 6,
-        width: deviceWidth / 3.5,
+        width: deviceWidth / 3.2,
         borderRadius: scale(20),
         marginVertical: scale(5),
         marginHorizontal: scale(10),
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     dayOfWeed: {
+        fontSize: FontSizeDefault.FONT_12,
         color: ColorsCustom.grey,
     }
 });
