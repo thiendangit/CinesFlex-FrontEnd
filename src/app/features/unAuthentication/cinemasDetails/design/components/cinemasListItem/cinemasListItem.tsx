@@ -3,7 +3,6 @@ import {Block, Button, Img, Text} from "@components";
 import {StyleSheet, TouchableOpacity} from "react-native";
 import {handleCheckTimeWithCurrentTime, handleImage, scale, verticalScale} from "@common";
 import {ColorsCustom} from "@theme/color";
-import {SpacingDefault} from "@theme/spacing";
 import {deviceWidth} from "@utils";
 import isEqual from "react-fast-compare";
 import {FontSizeDefault} from "@theme/fontSize";
@@ -25,6 +24,13 @@ let DOT_SIZE = scale(20);
 
 export const cinemasListItem = ({item, index, onPressItem, film}: subTabItemProps) => {
     console.log({item});
+    let show_time = item.show_times;
+    let seen = new Set();
+    show_time = show_time.filter(el => {
+        const duplicate = seen.has(el.show_time);
+        seen.add(el.show_time);
+        return !duplicate;
+    });
     return (
         <Button key={index.toString()} onPress={() => onPressItem(item)} activeOpacity={1}
                 style={[styles.container, index == '0' ? {
@@ -56,7 +62,7 @@ export const cinemasListItem = ({item, index, onPressItem, film}: subTabItemProp
                 {
                     film ? <Block direction={'row'} flexWrap={'wrap'}>
                         {
-                            item?.show_times.map((item, index) => {
+                            show_time.map((item, index) => {
                                 return (
                                     <TouchableOpacity
                                         activeOpacity={1}

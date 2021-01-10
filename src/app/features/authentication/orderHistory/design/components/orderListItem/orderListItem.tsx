@@ -27,6 +27,7 @@ let CONTAINER_WIDTH = deviceWidth / 1.05;
 
 
 export const orderListItem = ({item, index, onPressItem}: OrderListItemProps) => {
+    console.log({item})
     return (
         <Button style={[styles.container, index == '0' ? {
             marginTop: scale(15)

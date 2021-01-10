@@ -133,10 +133,10 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                     if (index === 0) {
                         item.is_Selected = true;
                         dataSource[0]?.show_times?.map((item_sub: ShowTimeProps, index_sub: any) => {
-                            if (handleCheckTimeWithCurrentTime(dataSource[0]?.show_times[index_sub]) && !flag) {
+                            if (!handleCheckTimeWithCurrentTime(dataSource[0]?.show_times[index_sub].show_time) && !flag) {
                                 dataSource[0].show_times[index_sub].is_Selected = true;
                                 setShowTimeSelected(dataSource[0]?.show_times[index_sub]);
-                                flag=true;
+                                flag = true;
                                 dispatch(actionsCinemas.getListSeatByScreen(`${URL_DOMAIN}seats/get-list-by-screen`, {
                                     "screen_id": dataSource[0]?.show_times[index_sub].screen_id ?? '',
                                 }, (result) => {
@@ -149,7 +149,6 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                                     }
                                 }));
                             }
-                            return
                         });
                     } else {
                         dataSource[index]?.show_times?.map((item: ShowTimeProps, index: number) => {
@@ -159,7 +158,14 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 });
                 dispatch(onLoadAppEnd());
                 setShowTime(dataSource);
-                setShowTimeSub(dataSource[0]?.show_times);
+                let seen = new Set();
+                let showTimeReal: ShowTimeProps[] = dataSource[0].show_times;
+                const filteredArr = showTimeReal.filter(el => {
+                    const duplicate = seen.has(el.show_time);
+                    seen.add(el.show_time);
+                    return !duplicate;
+                });
+                setShowTimeSub(filteredArr);
             }
         }))
     }, [token]);
@@ -513,7 +519,14 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 }
             });
             setShowTimeSelected(item);
-            setShowTimeSub(dataSource[index]?.show_times);
+            let seen = new Set();
+            let showTimeReal: ShowTimeProps[] = dataSource[index]?.show_times;
+            const filteredArr = showTimeReal.filter(el => {
+                const duplicate = seen.has(el.show_time);
+                seen.add(el.show_time);
+                return !duplicate;
+            });
+            setShowTimeSub(filteredArr);
         }
     };
 
@@ -570,7 +583,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 {/*render list show time sub*/}
                 <Block justifyContent={'center'}>
                     <ScrollView horizontal style={{marginTop: scale(5)}}
-                                contentContainerStyle={{marginLeft: scale(15)}}
+                                contentContainerStyle={{marginLeft: scale(15), marginRight : scale(20)}}
                                 showsHorizontalScrollIndicator={false}>
                         {showTimeSub && showTimeSub.map((item: ShowTimeProps, index: number) => {
                             return (

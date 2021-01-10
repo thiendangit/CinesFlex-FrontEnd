@@ -49,7 +49,7 @@ export const formatDateToDDMM = (date: string) => {
 };
 
 export const formatDateToHHmm = (date: string) => {
-    return moment(date).format('HH:mm')
+    return date.substring(11, 16)
 };
 
 export const formatDateToDDMMYYYY = (date: string) => {

@@ -32,12 +32,6 @@ const UserProfileScreen = (props: any): React.ReactElement => {
 
     const dispatch = useDispatch();
     const onPressLogout = async () => {
-        try {
-            await GoogleSignin.revokeAccess();
-            await GoogleSignin.signOut();
-        } catch (error) {
-            console.error(error);
-        }
         dispatch(onLogout());
         dispatch(actionsCinemas.onLogout());
         NavigationService.reset(APP_SCREEN.LOGIN)

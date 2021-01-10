@@ -92,10 +92,27 @@ export const LoginScreen: React.FC<Props> = (props): React.ReactElement => {
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
             //call api
-            let body = {};
-            // dispatch(actionsLogin.sendEmailInfo(`${URL_DOMAIN}`, body, (result) => {
-            //
-            // }))
+            let body = JSON.stringify({
+                email: "",
+                password: ""
+            });
+            dispatch(actionsLogin.onLoginStart());
+            dispatch(actionsLogin.onLogin(`${URL_DOMAIN}${ApiConstants.LOGIN}`, body, async (result) => {
+                console.log({result});
+                if (result?.data?.success) {
+                    toast('Login Success');
+                    dispatch(onSetToken(result?.data?.data?.token));
+                    dispatch(onSetAppProfile({...result.data?.data?.user}));
+                    NavigationService.reset(APP_SCREEN.USER_PROFILE)
+                } else {
+                    dispatch(actionsLogin.onLoginEnd());
+                    if (result?.data) {
+                        toast(`${result?.data?.message}`, 2000);
+                    } else {
+                        toast(`${result?.msg}`, 2000);
+                    }
+                }
+            }));
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 // user cancelled the login flow
