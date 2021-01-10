@@ -42,5 +42,12 @@ export const styles = StyleSheet.create({
         shadowRadius: 3.84,
 
         elevation: 5,
+    },
+    buttonMyGift: {
+        position: 'absolute',
+        height: scale(40),
+        right: scale(5),
+        top: 5,
+        width: scale(40)
     }
 });

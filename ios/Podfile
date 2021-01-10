@@ -12,6 +12,9 @@ target 'CinesFlex' do
 
   pod 'RNSharedElement', :path => '../node_modules/react-native-shared-element'
 
+  pod 'Firebase/Analytics'
+  pod 'GoogleSignIn', '~> 5.0.2'
+
   target 'CinesFlexTests' do
     inherit! :complete
     # Pods for testing

@@ -9,6 +9,7 @@ import isEqual from "react-fast-compare";
 import {FontSizeDefault} from "@theme/fontSize";
 import {CinemasProps} from "@features/unAuthentication/cinemasDetails/design";
 import {FilmProps} from "@features/unAuthentication/home/design";
+import {URL_IMAGE} from "@networking";
 
 interface subTabItemProps {
     item: CinemasProps,
@@ -34,8 +35,9 @@ export const cinemasListItem = ({item, index, onPressItem, film}: subTabItemProp
                 borderRadius: scale(5)
             }}
                  containerStyle={styles.imageContainer}
+                 resizeMode={'cover'}
                  source={handleImage({
-                     uri: item?.images ? item.images[0].url : 'https://quangcaongoaitroi.com/wp-content/u' +
+                     uri: item?.images ? `${URL_IMAGE}${item.images[0].url}` : 'https://quangcaongoaitroi.com/wp-content/u' +
                          'ploads/2020/02/quang-cao-tai-rap-chieu-phim-5.jpg'
                  })}/>
             <Block block alignSelf={"flex-start"} style={styles.rightViewContainer}>

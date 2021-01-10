@@ -118,6 +118,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
 
     useEffect(() => {
         // push to login if user not logged in
+        let flag = false;
         if (!token) {
             NavigationService.navigate(APP_SCREEN.LOGIN)
         }
@@ -132,11 +133,12 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                     if (index === 0) {
                         item.is_Selected = true;
                         dataSource[0]?.show_times?.map((item_sub: ShowTimeProps, index_sub: any) => {
-                            if (!handleCheckTimeWithCurrentTime(item_sub.show_time)) {
+                            if (handleCheckTimeWithCurrentTime(dataSource[0]?.show_times[index_sub]) && !flag) {
                                 dataSource[0].show_times[index_sub].is_Selected = true;
                                 setShowTimeSelected(dataSource[0]?.show_times[index_sub]);
+                                flag=true;
                                 dispatch(actionsCinemas.getListSeatByScreen(`${URL_DOMAIN}seats/get-list-by-screen`, {
-                                    "screen_id": dataSource[index]?.show_times[0].screen_id ?? '',
+                                    "screen_id": dataSource[0]?.show_times[index_sub].screen_id ?? '',
                                 }, (result) => {
                                     if (result && result?.data?.data) {
                                         let dataSource = Object.assign([], result?.data?.data);
@@ -146,8 +148,8 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                                         setDataChair(dataSource);
                                     }
                                 }));
-                                return
                             }
+                            return
                         });
                     } else {
                         dataSource[index]?.show_times?.map((item: ShowTimeProps, index: number) => {
@@ -246,12 +248,17 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
             })
         });
         // call api book ticket
+        console.log(showTimeSelected!.id,
+            seat_ids,
+            products,
+            promotionInfo?.id ?? '');
         dispatch(actionsCinemas.bookTicket(`${URL_DOMAIN}orders/booking-ticket`, {
             show_time: showTimeSelected ? showTimeSelected.id ?? '' : '',
             seat_ids,
             products: products ?? null,
             voucher_id: promotionInfo?.id ?? ''
         }, (result) => {
+            console.log({result});
             if (result && result?.data?.data) {
                 modalPayment.current?.hide();
                 setTimeout(() => {
@@ -368,7 +375,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
     // handle on press choose chair
     const onPressChair = (item: ChairItemChoose) => {
         {
-            if (item.type !== 2) {
+            if (item.status !== 2) {
                 let dataCopy: ChairItemChoose[] = Object.assign([], dataChair);
                 for (let i in dataCopy) {
                     if (dataCopy[i].name === item.name) {
@@ -611,7 +618,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 {
                     <Text style={{color: ColorsCustom.blue, marginLeft: scale(15), marginTop: scale(15)}}>
                         You can save 5% on coin wallet after payment
-                        : {formatMoney(handlePriceTicket(dataChair, dataCorn, dataBeverage) * 0.05, 'Coin')}
+                        : {formatMoney(handlePriceTicket(dataChair, dataCorn, dataBeverage) * 0.00005, 'Coin')}
                     </Text>
                 }
                 <Block direction={'row'} marginLeft={scale(10)} alignItems={'center'}

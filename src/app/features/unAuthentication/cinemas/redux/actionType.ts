@@ -5,3 +5,5 @@ export const GET_LIST_SEAT_BY_SCREEN = 'GET_LIST_SEAT_BY_SCREEN';
 export const GET_LIST_PRODUCTS = 'GET_LIST_PRODUCTS';
 export const BOOK_TICKET = 'BOOK_TICKET';
 export const APPLY_CODE = 'APPLY_CODE';
+export const GET_COIN = 'GET_COIN';
+export const GET_GIFT = 'GET_GIFT';

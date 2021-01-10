@@ -16,6 +16,7 @@ import {NavigationService} from "@navigation/navigationService";
 import {onLogout} from "@app_redux/reducer";
 import {RootState} from "@store/allReducers";
 import {actionsCinemas} from "@features/unAuthentication/cinemas/redux/reducer";
+import {GoogleSignin} from "@react-native-community/google-signin";
 
 export interface lineItemProps {
     id: number,
@@ -30,7 +31,13 @@ export interface lineItemProps {
 const UserProfileScreen = (props: any): React.ReactElement => {
 
     const dispatch = useDispatch();
-    const onPressLogout = () => {
+    const onPressLogout = async () => {
+        try {
+            await GoogleSignin.revokeAccess();
+            await GoogleSignin.signOut();
+        } catch (error) {
+            console.error(error);
+        }
         dispatch(onLogout());
         dispatch(actionsCinemas.onLogout());
         NavigationService.reset(APP_SCREEN.LOGIN)

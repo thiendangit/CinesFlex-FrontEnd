@@ -41,5 +41,12 @@ const onAfterLogin = createAction(Action.AFTER_LOGIN, (url: string, params: any,
         onSucceeded
     }
 }));
-export const actionsLogin = {...loginSlice.actions, onLogin, onAfterLogin};
+const sendEmailInfo = createAction(Action.SEND_MAIL_INFO, (url: string, params: any, onSucceeded: (response: any) => void) => ({
+    payload: {
+        url,
+        params,
+        onSucceeded
+    }
+}));
+export const actionsLogin = {...loginSlice.actions, onLogin, onAfterLogin,sendEmailInfo};
 export const loginReducer = loginSlice.reducer;

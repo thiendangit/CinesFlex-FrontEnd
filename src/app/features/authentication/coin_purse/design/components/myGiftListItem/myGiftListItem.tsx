@@ -10,17 +10,17 @@ import {URL_IMAGE} from "@networking";
 import {icons} from "@assets/icon";
 import {coinPureProps} from "@features/authentication/coin_purse/design";
 
-interface CoinPurseItemProps {
+interface MyGiftListItemProps {
     item: coinPureProps,
     index: string,
-    onPressGetItem: (item: coinPureProps) => void,
+    onPressCopyItem: (item: coinPureProps) => void,
 }
 
 let CONTAINER_HEIGHT = deviceWidth / 5;
-let CONTAINER_WIDTH = deviceWidth / 1.1;
+let CONTAINER_WIDTH = deviceWidth / 1.3;
 
 
-export const coinPurseListItem = ({item, index, onPressGetItem}: CoinPurseItemProps) => {
+export const myGiftListItem = ({item, index, onPressCopyItem}: MyGiftListItemProps) => {
     return (
         <Block style={[styles.container, index == '0' ? {
             marginTop: scale(15)
@@ -31,8 +31,7 @@ export const coinPurseListItem = ({item, index, onPressGetItem}: CoinPurseItemPr
             }}
                  containerStyle={styles.imageContainer}
                  source={handleImage({
-                     uri: `${URL_IMAGE}${item?.images[0]?.url}`
-                 })}/>
+                     uri: `${URL_IMAGE}${item?.images[0]?.url}` ?? ''})}/>
             <Block block alignSelf={"flex-start"} style={styles.rightViewContainer}>
                 <Text fontSize={"FONT_18"}
                       fontWeight={'500'}
@@ -51,19 +50,25 @@ export const coinPurseListItem = ({item, index, onPressGetItem}: CoinPurseItemPr
                     </Text>
                 </Block>
                 <Block direction={'row'} marginTop={scale(2)}>
-
                     <Text marginLeft={scale(5)}
                           key={index.toString()}
                           color={ColorsCustom.grey}
                           fontWeight={'400'}
                     >
-                        price : {item?.coin} coin
+                        code :
+                    </Text>
+                    <Text marginLeft={scale(5)}
+                          key={index.toString()}
+                          color={ColorsCustom.green}
+                          fontWeight={'600'}
+                    >
+                        {item?.reference}
                     </Text>
                 </Block>
             </Block>
             <Block style={styles.rightViewContainer_1}>
-                <Button onPress={() => onPressGetItem(item)} activeOpacity={1}>
-                    <Img source={icons.plus} tintColor={ColorsCustom.blue1} style={styles.iconTrash}/>
+                <Button onPress={() => onPressCopyItem(item)} activeOpacity={1}>
+                    <Img source={icons.copy} tintColor={ColorsCustom.blue1} style={styles.iconTrash}/>
                 </Button>
             </Block>
         </Block>
@@ -115,10 +120,10 @@ const styles = StyleSheet.create({
         fontSize: FontSizeDefault.FONT_13,
     },
     iconTrash: {
-        height: scale(20),
-        width: scale(20)
+        height: scale(30),
+        width: scale(30)
     }
 });
 
-export const _coinPurseListItem = memo(coinPurseListItem, isEqual);
+export const MyGiftListItem = memo(myGiftListItem, isEqual);
 

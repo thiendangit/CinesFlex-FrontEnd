@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "536170052681",
+    "project_id": "cinesflex",
+    "storage_bucket": "cinesflex.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:536170052681:android:4e1dd58e04293749c9d398",
+        "android_client_info": {
+          "package_name": "com.cinesflex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "536170052681-ha7rdksk5bhvhhgoc49mdiokprmab2ac.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfSdlUDN010JsDglfMML_1-6CQqeCBBJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "536170052681-ha7rdksk5bhvhhgoc49mdiokprmab2ac.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "536170052681-195r97v5df5iivcdves27m667ml10oi5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.CinesFlex"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

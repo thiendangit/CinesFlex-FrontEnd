@@ -46,6 +46,7 @@ export const currentSeeListItem = ({item, index, onPressItem, onPressDelete}: Cu
                         item?.detail?.categories.map((item: any, index: number) => {
                             return (
                                 <Text marginLeft={scale(5)}
+                                      key={index.toString()}
                                       color={ColorsCustom.grey}
                                       fontWeight={'400'}
                                 >

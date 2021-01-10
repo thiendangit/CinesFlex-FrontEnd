@@ -10,5 +10,8 @@ export function* CinemasSaga() {
     yield takeLatest(actionsCinemas.getListProducts.type, Saga.getListProducts);
     yield takeLatest(actionsCinemas.bookTicket.type, Saga.bookTicket);
     yield takeLatest(actionsCinemas.applyPromotionCode.type, Saga.applyPromotionCode);
+    yield takeLatest(actionsCinemas.fetchMyCoin.type, Saga.fetchMyCoin);
+    yield takeLatest(actionsCinemas.fetchGift.type, Saga.fetchGift);
+    yield takeLatest(actionsCinemas.createReferenceGift.type, Saga.createReferenceGift);
 }
 

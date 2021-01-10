@@ -21,6 +21,8 @@ export const icons = {
   trash: require('./source/trash.png'),
   coin: require('./source/coin.png'),
   vip: require('./source/vip.png'),
+  gift: require('./source/gift.png'),
+  copy: require('./source/copy.png'),
 };
 
 export type IconTypes = keyof typeof icons;

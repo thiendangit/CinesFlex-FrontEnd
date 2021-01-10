@@ -2,17 +2,20 @@ import * as Action from './actionType';
 import {createAction, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {SLICE_NAME} from '@config/type';
 import {FilmProps} from "@features/unAuthentication/home/design";
+import {coinPureProps} from "@features/authentication/coin_purse/design";
 
 export interface HomeState {
     isHorizontal: boolean;
     favoriteList: FilmProps[]
     currentSeeList: FilmProps[]
+    myGiftList: coinPureProps[]
 }
 
 const initialState: HomeState = {
     isHorizontal: false,
     favoriteList: [],
     currentSeeList: [],
+    myGiftList: []
 };
 
 const cinemasSlice = createSlice({
@@ -40,6 +43,15 @@ const cinemasSlice = createSlice({
             } else {
                 state.favoriteList.push(payload)
             }
+        },
+        onAddGiftToMyGiftList: (state, {payload}: PayloadAction<coinPureProps>) => {
+            let myGiftListCopy = Object.assign([], state.myGiftList);
+            if (myGiftListCopy.length > 0) {
+                myGiftListCopy.unshift(payload)
+            } else {
+                myGiftListCopy.push(payload)
+            }
+            state.myGiftList = myGiftListCopy
         },
         onAddFilmToCurrentSeeList: (state, {payload}: PayloadAction<FilmProps>) => {
             let flag = false;
@@ -122,6 +134,30 @@ const applyPromotionCode = createAction(Action.APPLY_CODE, (url: string, body: a
     }
 }));
 
+const fetchMyCoin = createAction(Action.GET_COIN, (url: string, onSucceeded: (response: any) => void) => ({
+    payload: {
+        url,
+        onSucceeded
+    }
+}));
+
+const fetchGift = createAction(Action.GET_GIFT, (url: string, onSucceeded: (response: any) => void) => ({
+    payload: {
+        url,
+        onSucceeded
+    }
+}));
+
+const createReferenceGift = createAction(Action.GET_GIFT, (url: string, body, onSucceeded: (response: any) => void) => {
+    return ({
+        payload: {
+            url,
+            body,
+            onSucceeded
+        }
+    });
+});
+
 export const actionsCinemas = {
     ...cinemasSlice.actions,
     getDataCinemas,
@@ -130,6 +166,9 @@ export const actionsCinemas = {
     getListSeatByScreen,
     getListProducts,
     bookTicket,
-    applyPromotionCode
+    applyPromotionCode,
+    fetchMyCoin,
+    fetchGift,
+    createReferenceGift
 };
 export const cinemasReducer = cinemasSlice.reducer;
