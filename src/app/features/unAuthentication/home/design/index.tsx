@@ -41,7 +41,9 @@ export interface FilmProps {
         languages: any,
         director: string,
         duration_min: number,
-        description: string
+        description: string,
+        date_begin: string
+        date_end: string
     },
     movie_id: string
     price: number

@@ -41,7 +41,7 @@ export const renderListFilm = ({item, index, onPressItem, isComing}: subTabItemP
                  source={handleImage({uri: `${URL_IMAGE}${item?.detail?.images[0]?.url}` ?? ''})}
             />
             <Text style={styles().textRate}>
-                {isComing ? formatDateToDDMM(item?.date_begin) : item?.detail?.rating}
+                {isComing ? formatDateToDDMM(item?.detail.date_begin) : item?.detail?.rating}
             </Text>
         </Button>
     )

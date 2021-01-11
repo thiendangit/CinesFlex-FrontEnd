@@ -138,7 +138,7 @@ const CoinPurseListScreen: React.FC<Props> = (props): React.ReactElement => {
                                                       top: -2
                                                   }}>
                                                   <Text color={ColorsCustom.lightWhite}>
-                                                      {myGiftList.length}
+                                                      {myGiftList ? myGiftList.length : 0}
                                                   </Text>
                                               </Block>
                                           </Button>

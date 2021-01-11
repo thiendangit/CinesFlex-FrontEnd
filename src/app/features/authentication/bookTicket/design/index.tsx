@@ -160,7 +160,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
                 setShowTime(dataSource);
                 let seen = new Set();
                 let showTimeReal: ShowTimeProps[] = dataSource[0].show_times;
-                const filteredArr = showTimeReal.filter(el => {
+                const filteredArr = showTimeReal?.filter(el => {
                     const duplicate = seen.has(el.show_time);
                     seen.add(el.show_time);
                     return !duplicate;
@@ -521,7 +521,7 @@ export const BookTicketScreen: React.FC<BookTicketProps> = (props) => {
             setShowTimeSelected(item);
             let seen = new Set();
             let showTimeReal: ShowTimeProps[] = dataSource[index]?.show_times;
-            const filteredArr = showTimeReal.filter(el => {
+            const filteredArr = showTimeReal?.filter(el => {
                 const duplicate = seen.has(el.show_time);
                 seen.add(el.show_time);
                 return !duplicate;

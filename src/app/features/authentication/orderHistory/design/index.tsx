@@ -67,6 +67,7 @@ const OrderHistoryScreen: React.FC<Props> = (props): React.ReactElement => {
     );
     useLayoutEffect(() => {
         dispatch(actionsHome.getListOrderProduct(`${URL_DOMAIN}orders/fetch-history`, (result) => {
+            console.log({result});
             if (result?.data?.data) {
                 if (refreshing) {
                     setRefreshing(false);
