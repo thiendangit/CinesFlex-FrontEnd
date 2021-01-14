@@ -269,6 +269,7 @@ export interface ChairItemChoose {
     status: number
     type: number
     is_selected: boolean,
+    fee_percent : number
 }
 
 export interface ProductItem {
@@ -314,6 +315,7 @@ export interface ShowTimeProps {
     show_times: any,
     is_Selected?: boolean,
     price: number,
-    date? : string
+    date? : string,
+    fee_percent : number
 }
 

@@ -59,8 +59,9 @@ export const ButtonBuy = ({
                  tintColor={ColorsCustom.lightWhite}
                  source={handleImage(image)}/>
             <Text color={ColorsCustom.lightWhite} style={{
-                fontSize: FontSizeDefault.FONT_22,
-                marginLeft: scale(10)
+                fontSize: FontSizeDefault.FONT_20,
+                marginLeft: scale(10),
+                flexWrap : "wrap"
             }}>
                 {text} {totalPrice && formatMoney(totalPrice)}
             </Text>

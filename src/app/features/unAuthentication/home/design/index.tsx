@@ -5,7 +5,7 @@ import isEqual from 'react-fast-compare';
 import {RootStackParamList, APP_SCREEN} from '@navigation/screenTypes';
 import {Block, Button, Img, ListView, Screen, Text} from "@components"
 import {ColorsCustom} from "@theme/color";
-import {Alert, Animated, Platform, RefreshControl, ScrollView} from "react-native";
+import {Alert, Animated, Platform, RefreshControl, ScrollView, View} from "react-native";
 import SwitchSelector from "react-native-switch-selector";
 import {Constants, dispatch, onChangeAlias, scale, toast, verticalScale} from "@common";
 import {deviceWidth} from "@utils";
@@ -346,6 +346,15 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
         )
     };
 
+    const fetchdata = () => {
+        let a = 1;
+    let b = "strig";
+    return {a,b}
+    };
+
+    const {a,b} : {a: number, b : string} = fetchdata();
+
+
     //search list
     const contentViewForSearch = () => {
         return (
@@ -358,6 +367,11 @@ export const HomeScreen = ({navigation, route}: HomeProps) => {
                               data={dataFilmSearch}
                               showsVerticalScrollIndicator={false}
                               renderItem={_renderItem}
+                              ListEmptyComponent={() => {
+                                  return (
+                                      <View/>
+                                  )
+                              }}
                               keyExtractor={(item, index) => index.toString()}
                               contentContainerStyle={{marginTop: verticalScale(10)}}
                               ListFooterComponent={_footerView}

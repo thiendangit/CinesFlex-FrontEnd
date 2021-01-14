@@ -42,6 +42,7 @@ const CoinPurseListScreen: React.FC<Props> = (props): React.ReactElement => {
     const myPromotionRef = useRef<ModalBoxRef>();
     const [coin, setCoin] = useState<{ point: number }>({point: 0});
     const [gift, setGift] = useState<coinPureProps[] | []>([]);
+    const [refreshing, setRefreshing] = useState<boolean>(false);
     let {myGiftList} = useSelector(
         (state: RootState) => state.cinemas
     );
@@ -57,25 +58,41 @@ const CoinPurseListScreen: React.FC<Props> = (props): React.ReactElement => {
         if (coin.point >= item.coin) {
             let body = {
                 "gift_id": item.id
-            }
-            dispatch(actionsCinemas.createReferenceGift(`${URL_DOMAIN}gifts/get-gift`, body, (result) => {
-                console.log({result});
-                if (result?.data?.data) {
-                    item.reference = result.data.data.reference;
-                    dispatch(actionsCinemas.onAddGiftToMyGiftList(item));
-                    dispatch(actionsCinemas.fetchMyCoin(`${URL_DOMAIN}users/get-profile`, (result_coin) => {
-                        if (result_coin?.data?.data) {
-                            setCoin(result_coin.data.data)
+            };
+            Alert.alert(
+                "Confirm",
+                "Do you want to get this voucher?",
+                [
+                    {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                    },
+                    {
+                        text: "OK", onPress: () => {
+                            dispatch(actionsCinemas.createReferenceGift(`${URL_DOMAIN}gifts/get-gift`, body, (result) => {
+                                console.log({result});
+                                if (result?.data?.data) {
+                                    item.reference = result.data.data.reference;
+                                    dispatch(actionsCinemas.onAddGiftToMyGiftList(item));
+                                    dispatch(actionsCinemas.fetchMyCoin(`${URL_DOMAIN}users/get-profile`, (result_coin) => {
+                                        if (result_coin?.data?.data) {
+                                            setCoin(result_coin.data.data)
+                                        }
+                                    }))
+                                }
+                            }));
                         }
-                    }))
-                }
-            }));
+                    }
+                ],
+                {cancelable: false}
+            );
         } else {
             toast("your coin is not enough for this gift")
         }
     };
 
-    useEffect(() => {
+    const fetchData = () => {
         dispatch(actionsCinemas.fetchMyCoin(`${URL_DOMAIN}users/get-profile`, (result_coin) => {
             if (result_coin && result_coin?.data?.data) {
                 setCoin(result_coin.data.data);
@@ -85,11 +102,17 @@ const CoinPurseListScreen: React.FC<Props> = (props): React.ReactElement => {
             if (result_gift && result_gift?.data?.data) {
                 setGift(result_gift.data.data);
             }
-        }))
+            setRefreshing(false)
+        }));
+    };
+
+    useEffect(() => {
+        fetchData()
     }, []);
 
     const _renderItem = ({item, index}: any) => {
-        return <_coinPurseListItem item={item} index={index} key={index.toString()} onPressGetItem={onPressItem}/>
+        return <_coinPurseListItem item={item} index={index} key={index.toString() + '123'}
+                                   onPressGetItem={onPressItem}/>
     };
 
     return (
@@ -98,8 +121,13 @@ const CoinPurseListScreen: React.FC<Props> = (props): React.ReactElement => {
                 height: deviceHeight / 3.5,
                 width: deviceWidth,
             }} backgroundImage={images.header}/>
-            <Screen>
+            <Block block>
                 <ListView style={styles.listContainer}
+                          onRefreshing={() => {
+                              setRefreshing(true);
+                              fetchData()
+                          }}
+                          refreshing={refreshing}
                           data={gift}
                           ListHeaderComponent={() => {
                               return <>
@@ -157,7 +185,7 @@ const CoinPurseListScreen: React.FC<Props> = (props): React.ReactElement => {
                               paddingBottom: verticalScale(deviceHeight / 3.5 / 4 + scale(10))
                           }}
                 />
-            </Screen>
+            </Block>
             <_modalMyPromotion ref={myPromotionRef}/>
             <IconBack containerStyle={{marginTop: verticalScale(20)}} onPress={onPressBack}/>
         </Block>

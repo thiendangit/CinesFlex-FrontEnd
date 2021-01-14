@@ -4,6 +4,7 @@ import equals from 'react-fast-compare';
 import {ListViewProps} from './ListView.props';
 import {Block, Text} from "@library/components";
 import {scale} from "@common";
+import {ColorsCustom} from "@theme/color";
 
 const ListViewComponent = (props: ListViewProps & FlatListProps<any>) => {
     const {
@@ -27,7 +28,10 @@ const ListViewComponent = (props: ListViewProps & FlatListProps<any>) => {
         <FlatList
             refreshControl={
                 canRefresh ? (
-                    <RefreshControl refreshing={refreshing} onRefresh={refresh}/>
+                    <RefreshControl refreshing={refreshing}
+                                    tintColor={ColorsCustom.lime_green}
+                                    colors={["#9Bd35A", "#689F38"]}
+                                    onRefresh={refresh}/>
                 ) : undefined
             }
             onEndReached={loadMore}
